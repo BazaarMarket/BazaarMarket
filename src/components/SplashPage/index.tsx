@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Flex, Text, Heading, Image, Link } from '@chakra-ui/react';
 import { MinterButton /* , MinterLink */ } from '../common';
-import logo from './logo.svg';
+import logo from '../../components/common/assets/logo.svg';
 import { useSelector, useDispatch } from '../../reducer';
 import { connectWallet } from '../../reducer/async/wallet';
 
@@ -26,10 +26,10 @@ export default function SplashPage() {
       flexDir="column"
       bg="#ffffff"
     >
-      <Flex flexDir="column" align="center" maxW="600px" pt={20}>
-        <Image src={logo} maxW="85%" pb={40} />
+      
+      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20}>
         <Heading color="brand.darkGray" size="xl" pb={8}>
-          Create NFTs on Tezos
+          Carbon-Offset NFTs on Tezos
         </Heading>
         <Heading
           color="brand.darkGray"

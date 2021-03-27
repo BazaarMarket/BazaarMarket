@@ -9,12 +9,15 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Spacer
 } from '@chakra-ui/react';
 import { ChevronDown, Package, Plus } from 'react-feather';
-import headerLogo from './assets/header-logo.svg';
+import headerLogo from './assets/logo.svg';
 import { useSelector, useDispatch } from '../../reducer';
+import { connectWallet } from '../../reducer/async/wallet';
 import { disconnectWallet } from '../../reducer/async/wallet';
+import { MinterButton /* , MinterLink */ } from '../common';
 
 interface HeaderLinkProps {
   to: string;
@@ -35,17 +38,17 @@ function HeaderLink(props: HeaderLinkProps) {
       borderRadius="10px"
       alignItems="center"
       fontWeight="600"
-      px={3}
-      py={2}
-      ml={4}
-      bg={selected ? 'gray.700' : 'none'}
-      color={selected ? 'gray.400' : 'gray.200'}
+      //px={3}
+      //py={2}
+      mr={4}
+      //bg={selected ? 'brand.blue' : 'white'}
+      //color={selected ? 'white' : 'brand.blue'}
       display="flex"
       transition="none"
       _hover={{
         textDecor: 'none',
-        bg: 'gray.700',
-        color: selected ? 'gray.400' : 'gray.100'
+        //bg: 'gray.700',
+        //color: selected ? 'gray.400' : 'gray.100'
       }}
     >
       {props.children}
@@ -56,14 +59,11 @@ function HeaderLink(props: HeaderLinkProps) {
 function WalletInfo(props: { tzPublicKey: string }) {
   return (
     <>
-      <Box borderRadius="100%" width={10} height={10} bg="brand.darkGray" p={1}>
+      <Box borderRadius="100%" width="50px" height="50px" bg="white" borderWidth="2px" borderColor="brand.darkGray" p={1}>
         <Image
           src={`https://services.tzkt.io/v1/avatars2/${props.tzPublicKey}`}
         />
       </Box>
-      <Text fontFamily="mono" ml={4} mr={2}>
-        {props.tzPublicKey}
-      </Text>
     </>
   );
 }
@@ -73,23 +73,40 @@ function WalletDisplay() {
   const system = useSelector(s => s.system);
   const dispatch = useDispatch();
   if (system.status !== 'WalletConnected') {
-    return null;
+    return (
+      <>
+      <Link>
+          <MinterButton
+            variant="secondaryActionLined"
+            
+            onClick={e => {
+              e.preventDefault();
+              dispatch(connectWallet());
+            }}
+          >
+            <Text m={2} fontWeight="bold">Login</Text>
+          </MinterButton>
+      </Link>
+    </>
+    );
   }
   return (
     <>
-      <WalletInfo tzPublicKey={system.tzPublicKey} />
-      <Menu placement="bottom-start">
+      <Menu>
         <MenuButton>
-          <ChevronDown />
+          <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
         <MenuList color="brand.black">
+          <MenuItem>
+            My Account
+          </MenuItem>
           <MenuItem
             onClick={async () => {
               await dispatch(disconnectWallet());
-              setLocation('/');
+              setLocation('/collections');
             }}
           >
-            Disconnect
+            Logout
           </MenuItem>
         </MenuList>
       </Menu>
@@ -99,44 +116,80 @@ function WalletDisplay() {
 
 export function Header() {
   const [location, setLocation] = useLocation();
-  if (location === '/' || location === '') {
+  /*if (location === '/' || location === '') {
     return null;
-  }
+  }*/
   return (
     <Flex
       width="100%"
-      bg="brand.black"
-      paddingX={4}
-      paddingY={3}
-      alignItems="center"
-      justifyContent="space-between"
+      bg="white"
+      paddingX={10}
+      paddingY={6}
     >
-      <Flex flex="1" alignItems="center" color="brand.lightGray">
-        <WalletDisplay />
-      </Flex>
       <Image
-        maxW="38px"
+        maxW="200px"
         src={headerLogo}
         onClick={e => {
           e.preventDefault();
           setLocation('/collections');
         }}
         cursor="pointer"
+        align="right"
       />
-      <Flex flex="1" justify="flex-end">
+
+      <Flex width="100%" alignSelf="right">
+        
+        <Spacer />
+        
+        <HeaderLink to="/marketplace">
+          <Text m={2}>Marketplace</Text>
+        </HeaderLink>
+
+        <Menu>
+          <MenuButton href="/about">
+            <HeaderLink to="/about">
+              <Text m={2}>About</Text>
+            </HeaderLink>
+          </MenuButton>
+          
+          <MenuList color="brand.black">
+            <MenuItem align="center">
+              <HeaderLink to="/about">
+                <Text m={2}>About Us</Text>
+              </HeaderLink>
+            </MenuItem>
+            
+            <MenuItem>
+              <HeaderLink to="/about">
+                <Text m={2}>Our Model</Text>
+              </HeaderLink>
+            </MenuItem>
+            
+            <MenuItem>
+              <HeaderLink to="/about">
+                <Text m={2}>FAQ</Text>
+              </HeaderLink>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+       
+        
         <HeaderLink to="/collections">
-          <Box color="brand.turquoise">
-            <Package size={16} strokeWidth="3" />
-          </Box>
-          <Text ml={2}>Collections</Text>
+          <Text m={2}>My NFTs</Text>
         </HeaderLink>
+        
         <HeaderLink to="/create">
-          <Box color="brand.blue">
-            <Plus size={16} strokeWidth="3" />
+          <Box color="brand.blue" mr="2" pl="2">
+            <Plus size={30} strokeWidth="3" />
           </Box>
-          <Text ml={2}>New Asset</Text>
         </HeaderLink>
+      
       </Flex>
+      
+      <Flex flex="1" alignSelf="right" color="brand.blue">
+        <WalletDisplay />
+      </Flex>
+    
     </Flex>
   );
 }
