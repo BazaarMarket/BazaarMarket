@@ -65,36 +65,36 @@ const Button = {
       }
     },
     secondaryAction: {
-      bg: 'brand.turquoise',
+      bg: 'brand.blue',
       color: 'brand.background',
-      borderColor: 'brand.turquoise',
+      borderColor: 'brand.blue',
       borderRadius: '2px',
       borderWidth: '1px',
       transition: 'none',
       _active: {
         opacity: '0.5',
-        bg: 'brand.turquoise'
+        bg: 'brand.blue'
       },
       _hover: {
-        bg: 'brand.turquoise',
+        bg: 'brand.blue',
         color: 'brand.background',
         opacity: '0.8'
       }
     },
     secondaryActionLined: {
-      bg: 'none',
-      borderColor: 'brand.turquoise',
-      borderRadius: '2px',
-      borderWidth: '1px',
-      color: 'brand.turquoise',
+      bg: 'brand.blue',
+      borderColor: 'brand.darkGray',
+      borderRadius: '20px',
+      borderWidth: '3px',
+      color: 'white',
       transition: 'none',
       _active: {
         opacity: '0.8',
-        bg: 'brand.turquoise'
+        bg: 'brand.blue'
       },
       _hover: {
-        bg: 'brand.turquoise',
-        color: 'brand.background'
+        bg: 'brand.darkGray'//,
+        //color: 'brand.darkGray'
       }
     },
     cancelAction: {
@@ -184,14 +184,16 @@ const theme = extendTheme({
     brand: {
       black: '#1D2227',
       background: '#1C2228',
-      darkGray: '#3B4650',
+      darkGray: '#282B30',
       gray: '#AEBBC9',
       lightGray: '#ABBBCB',
       brightGray: '#F2F4F7',
-      blue: '#005DFF',
+      red: '#EB586F',
+      yellow: '#FACB43',
+      green: '#27B278',
+      blue: '#4AA0D5',
       lightBlue: '#D3DEF5',
-      turquoise: '#00FFBE',
-      red: '#FF4161'
+      turquoise: '#00FFBE'
     }
   },
   components: {
@@ -201,9 +203,9 @@ const theme = extendTheme({
       variants: {
         outline: {
           field: {
-            borderRadius: '1px',
+            borderRadius: '2px',
             _focus: {
-              boxShadow: '0px 0px 0px 4px rgba(15, 97, 255, 0.1)'
+              boxShadow: '0px 0px 0px 4px rgba(0, 0, 0, 1)'
             }
           }
         }
@@ -241,9 +243,9 @@ const theme = extendTheme({
     }
   },
   fonts: {
-    body: "'Roboto', sans-serif",
-    heading: "'Roboto', sans-serif",
-    mono: "'Roboto Mono', monospace"
+    body: "'Helvetica', sans-serif",
+    heading: "'Helvetica', sans-serif",
+    mono: "'Helvetica', monospace"
   },
   fontWeights: {
     normal: 400,

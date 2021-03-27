@@ -24,22 +24,22 @@ export default function SplashPage() {
       w="100%"
       flex="1"
       flexDir="column"
-      bg="brand.background"
+      bg="#ffffff"
     >
       <Flex flexDir="column" align="center" maxW="600px" pt={20}>
-        <Image src={logo} maxW="200px" pb={40} />
-        <Heading color="white" size="xl" pb={8}>
+        <Image src={logo} maxW="85%" pb={40} />
+        <Heading color="brand.darkGray" size="xl" pb={8}>
           Create NFTs on Tezos
         </Heading>
         <Heading
-          color="white"
+          color="brand.darkGray"
           size="md"
           textAlign="center"
+          fontFamily="Helvetica"
           pb={12}
           opacity=".8"
         >
-          Create and mint a new non-fungible token by using our simple
-          interface. Just connect your Tezos account.
+          Create and mint non-fungible tokens guilt-free.
         </Heading>
         <Flex minW="400px" justify="center" pb={20}>
           <MinterButton
@@ -67,21 +67,21 @@ export default function SplashPage() {
       </Flex>
       <Flex
         width="100%"
-        bg="brand.darkGray"
-        color="brand.lightGray"
-        fontFamily="mono"
+        bg="white"
+        color="brand.darkGray"
+        fontFamily="Helvetica"
         paddingX={10}
         paddingY={4}
         justifyContent="space-between"
       >
         <Text fontSize="xs">
-          OpenMinter Version v{process.env.REACT_APP_VERSION}
+          Bazaar NFT Marketplace {process.env.REACT_APP_VERSION}
         </Text>
         <Flex>
           <Link
             fontSize="xs"
             textDecor="underline"
-            href="https://github.com/tqtezos/minter"
+            href="https://github.com/FacioErgoSum/bazaar-nfts-minter"
           >
             GitHub
           </Link>
