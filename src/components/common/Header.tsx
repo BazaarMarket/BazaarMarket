@@ -59,8 +59,8 @@ function HeaderLink(props: HeaderLinkProps) {
 function WalletInfo(props: { tzPublicKey: string }) {
   return (
     <>
-      <Box borderRadius="100%" width="50px" height="50px" bg="white" borderWidth="2px" borderColor="brand.darkGray" p={1}>
-        <Image
+      <Box borderRadius="100%" width="50px" height="50px" bg="white" borderWidth="1px" borderColor="lightGray">
+        <Image borderRadius="100%"
           src={`https://services.tzkt.io/v1/avatars2/${props.tzPublicKey}`}
         />
       </Box>
@@ -125,6 +125,8 @@ export function Header() {
       bg="white"
       paddingX={10}
       paddingY={6}
+      borderBottomColor="lightGray" 
+      borderBottomWidth="1px"
     >
       <Image
         maxW="200px"

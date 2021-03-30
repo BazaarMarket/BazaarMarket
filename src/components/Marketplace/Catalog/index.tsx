@@ -1,18 +1,86 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Text, Flex, Heading, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { Wind } from 'react-feather';
+import { Box, Container, Text, Flex, Heading, SimpleGrid, Spinner, Input, InputRightElement, InputGroup, Button } from '@chakra-ui/react';
+import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from 'react-feather';
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
 import FeaturedToken from './FeaturedToken';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 export default function Catalog() {
   const { system, marketplace: state } = useSelector(s => s);
   const dispatch = useDispatch();
 
+  const [show, setShow] = React.useState(false)
+  const handleClick = () => setShow(!show)
+
   useEffect(() => {
     dispatch(getMarketplaceNftsQuery(state.marketplace.address));
   }, [ state.marketplace.address, dispatch ]);
+
+  function ShowFilters() {
+    
+    if (show){
+      return (
+        <Flex alignSelf="center">
+              <Button 
+                leftIcon={
+                <Box fontSize="12px" fontWeight="bold" width="30px">
+                  <Text float="left">A</Text>
+                  <Text float="right">Z</Text>
+                  <Box>
+                    <ArrowRight size="1em"/>
+                  </Box>
+                  
+                </Box>}
+                bg="white" 
+                borderColor="lightGray" 
+                borderWidth="1px" 
+                borderRadius="3px" 
+                fontWeight="normal"
+                m="5px" 
+                mb="25px" 
+                height="1em" 
+                p="15px" >
+                Name 
+              </Button>
+              <Button 
+                leftIcon={<ArrowDown size="1em"/>}
+                bg="white" 
+                borderColor="lightGray" 
+                borderWidth="1px" 
+                borderRadius="3px" 
+                fontWeight="normal"
+                m="5px" 
+                mb="25px" 
+                height="1em" 
+                p="15px" >
+                Price
+              </Button>
+              <Button 
+                leftIcon={<Sliders size="1em"/>}
+                bg="white" 
+                borderColor="lightGray" 
+                borderWidth="1px" 
+                borderRadius="3px" 
+                fontWeight="normal"
+                m="5px" 
+                mb="25px" 
+                height="1em" 
+                p="15px" >
+                Category 
+              </Button>
+        </Flex>
+      );
+    }
+    return(
+      <>
+        <Flex mb="25px">
+        </Flex>
+      </>
+    );
+  }
 
   let tokens = state.marketplace.tokens;
   if (tokens === null) {
@@ -30,11 +98,30 @@ export default function Catalog() {
       justify="start"
       flexDir="column"
     >
-      {state.marketplace.loaded && tokens.length > 0 ? (
-        <Box>
-          <FeaturedToken network={system.config.network} {...tokens[0]} />
+      <Flex  alignSelf="center" mt="20px" mb="25px">
+        <Box borderColor="lightGray" borderWidth="1px" borderRadius="50px" width="500px" p="5px" pl="10px" bg="white"> 
+          <Box float="left" pt="3px">
+            <Search color="lightGray"/>
+          </Box>
+          <Box float="left" pt="4px">
+            <InputGroup>
+              <Input variant="unstyled" placeholder="Search NFTs..." ml="10px" color="lightGray" width="440px"/>
+              <InputRightElement width="4.5rem" float="right">
+                <Button h="1.5rem" size="sm" onClick={handleClick} float="right" mb="20px" borderRadius="100px">
+                  {show ? "Clear" : 
+                    <Flex pr="2px">
+                      <Box p="2px">
+                        <Filter size="1em"/>
+                      </Box>
+                      Filters
+                    </Flex>}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </Box>
         </Box>
-      ) : null}
+      </Flex>
+      <ShowFilters />
       <Container maxW="80em">
         <Flex
           flex="1"

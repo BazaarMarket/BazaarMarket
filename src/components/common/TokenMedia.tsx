@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Image } from '@chakra-ui/react';
+import { Flex, Image, Tag } from '@chakra-ui/react';
 import { FiHelpCircle } from 'react-icons/fi';
 
 function MediaNotFound() {
@@ -44,12 +44,12 @@ export function TokenMedia(props: { src: string }) {
 
   if (/^image\/.*/.test(obj.type)) {
     return (
-      <Image
+        <Image
         src={props.src}
         objectFit="contain"
         flex="1"
         onError={() => setErrored(true)}
-      />
+        />      
     );
   }
 
