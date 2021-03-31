@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'wouter';
 import SplashPage from '../SplashPage';
+import AboutPage from '../About';
 import CreateNonFungiblePage from '../CreateNonFungiblePage';
 import CollectionsCatalog from '../Collections/Catalog';
 import CollectionsTokenDetail from '../Collections/TokenDetail';
@@ -43,6 +44,9 @@ export default function App() {
           </Route>
           <Route path="/marketplace">
             <MarketplaceCatalog />
+          </Route>
+          <Route path="/about">
+            <AboutPage />
           </Route>
           <Route path="/collection/:contractAddress/token/:tokenId">
             {({ contractAddress, tokenId }) => (
