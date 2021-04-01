@@ -18,7 +18,7 @@ export function MinterButton(
 ) {
   const { size, variant, ...rest } = props;
   const styles = useStyleConfig('Button', { size, variant });
-  return <Button sx={styles} {...rest} />;
+  return <Button sx={styles} {...rest} borderWidth="0px" />;
 }
 
 export function MinterLink(
@@ -26,7 +26,7 @@ export function MinterLink(
 ) {
   const { size, variant, ...rest } = props;
   const styles = useStyleConfig('Link', { size, variant });
-  return <Link sx={styles} {...rest} />;
+  return <Link sx={styles} {...rest} borderWidth="0px"/>;
 }
 
 export function MinterMenuButton(
@@ -34,7 +34,7 @@ export function MinterMenuButton(
 ) {
   const { variant, ...rest } = props;
   const styles = useStyleConfig('MenuButton', { variant });
-  return <MenuButton sx={styles} {...rest} />;
+  return <MenuButton sx={styles} {...rest} borderWidth="0px"/>;
 }
 
 export function MinterMenuItem(

@@ -7,9 +7,6 @@ import { useSelector, useDispatch } from '../../reducer';
 import { connectWallet } from '../../reducer/async/wallet';
 
 export default function AboutPage() {
-  const [, setLocation] = useLocation();
-  const system = useSelector(s => s.system);
-  const dispatch = useDispatch();
 
   return (
     <Flex

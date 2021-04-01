@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image, Link } from '@chakra-ui/react';
+import { Flex, Text, Heading, Image, Link, MenuButton, Button } from '@chakra-ui/react';
 import { MinterButton /* , MinterLink */ } from '../common';
 import logo from '../../components/common/assets/logo.svg';
 import { useSelector, useDispatch } from '../../reducer';
@@ -24,7 +24,7 @@ export default function SplashPage() {
       w="100%"
       flex="1"
       flexDir="column"
-      bg="#ffffff"
+      bg="#f5f5f5"
     >
       
       <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20}>
@@ -41,28 +41,12 @@ export default function SplashPage() {
         >
           Create and mint non-fungible tokens guilt-free.
         </Heading>
+        <Button href="/about">
+            <Link to="/about">
+              <Text m={2}>Learn More</Text>
+            </Link>
+          </Button>
         <Flex minW="400px" justify="center" pb={20}>
-          <MinterButton
-            variant="secondaryActionLined"
-            onClick={e => {
-              e.preventDefault();
-              dispatch(connectWallet());
-            }}
-          >
-            Connect your wallet
-          </MinterButton>
-          {/* <MinterLink */}
-          {/*   variant="primaryAction" */}
-          {/*   marginLeft={4} */}
-          {/*   flex="1" */}
-          {/*   href="/create-non-fungible" */}
-          {/*   onClick={e => { */}
-          {/*     e.preventDefault(); */}
-          {/*     setLocation('/create-non-fungible'); */}
-          {/*   }} */}
-          {/* > */}
-          {/*   Create */}
-          {/* </MinterLink> */}
         </Flex>
       </Flex>
       <Flex

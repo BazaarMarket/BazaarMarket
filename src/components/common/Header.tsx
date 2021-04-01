@@ -12,7 +12,7 @@ import {
   MenuItem,
   Spacer
 } from '@chakra-ui/react';
-import { ChevronDown, Package, Plus } from 'react-feather';
+import { ChevronDown, Package, Plus, GitHub, ExternalLink } from 'react-feather';
 import headerLogo from './assets/logo.svg';
 import { useSelector, useDispatch } from '../../reducer';
 import { connectWallet } from '../../reducer/async/wallet';
@@ -175,10 +175,16 @@ export function Header() {
           </MenuList>
         </Menu>
        
+        <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="8px" mt="5px">
+          Discord 
+          <Flex p="2px" float="right">
+            <ExternalLink size="10px"/>
+          </Flex>
+        </Link>   
         
-        <HeaderLink to="/collections">
-          <Text m={2}>My NFTs</Text>
-        </HeaderLink>
+        <Link href="https://github.com/FacioErgoSum/bazaar-nfts-minter" isExternal pl="20px" pr="20px" pt="8px" size="30px" stroke="100">
+          <GitHub/>
+        </Link>       
         
         <HeaderLink to="/create">
           <Box color="brand.blue" mr="2" pl="2">
