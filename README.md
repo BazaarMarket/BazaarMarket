@@ -1,20 +1,19 @@
-![Bazaar header](/docs/assets/bazaarhead.png)
+![Bazaar header](/docs/assets/BazaarBannerWClovers.png)
 
 [![](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE) [![](https://img.shields.io/badge/version-v0.4.2-orange)](https://github.com/tqtezos/minter)
 
-## OpenMinter
+## Bazaar Marketplace
 
-OpenMinter is dApp framework for enabling the creation and collection
-of non-fungible tokens (NFTs) on Tezos. The dApp enables anyone to
-create an NFT by filling in just a few fields, create new collection
-contracts, see their NFTs across contracts, and enable marketplace
-capabilities to trade them.
+Bazaar Marketplace is the first NFT Marketplace powered by carbon-offset
+smart contracts. It is built with Open Minter, an open source dApp for 
+minting NFTs. This enables anyone to their create NFTs guilt free!
 
 ### Notice
 
-This software is in beta. At the moment, the [smart contracts](https://github.com/tqtezos/minter-sdk)
-that OpenMinter uses have **not** been formally audited. Please
-use this software at your own risk.
+This software has not been released yet. Currently we are working
+on developing and auditing our carbon-offset smart contracts.
+
+More updates to come.
 
 ### Quickstart
 
