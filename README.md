@@ -1,4 +1,4 @@
-![OpenMinter header](/docs/assets/minterhead.png)
+![Bazaar header](/docs/assets/bazaarhead.png)
 
 [![](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE) [![](https://img.shields.io/badge/version-v0.4.2-orange)](https://github.com/tqtezos/minter)
 
