@@ -103,7 +103,7 @@ function WalletDisplay() {
           <MenuItem
             onClick={async () => {
               await dispatch(disconnectWallet());
-              setLocation('/collections');
+              setLocation('/');
             }}
           >
             Logout
@@ -128,15 +128,16 @@ export function Header() {
       borderBottomColor="lightGray" 
       borderBottomWidth="1px"
     >
+      
       <Image
         maxW="200px"
         src={headerLogo}
-        onClick={e => {
-          e.preventDefault();
-          setLocation('/collections');
-        }}
         cursor="pointer"
         align="right"
+        onClick={ function() {
+          window.location.href = '/';
+          }
+        }
       />
 
       <Flex width="100%" alignSelf="right">
@@ -146,34 +147,10 @@ export function Header() {
         <HeaderLink to="/marketplace">
           <Text m={2}>Marketplace</Text>
         </HeaderLink>
-
-        <Menu>
-          <MenuButton href="/about">
-            <HeaderLink to="/about">
-              <Text m={2}>About</Text>
-            </HeaderLink>
-          </MenuButton>
-          
-          <MenuList color="brand.black">
-            <MenuItem align="center">
-              <HeaderLink to="/about">
-                <Text m={2}>About Us</Text>
-              </HeaderLink>
-            </MenuItem>
             
-            <MenuItem>
-              <HeaderLink to="/about">
-                <Text m={2}>Our Model</Text>
-              </HeaderLink>
-            </MenuItem>
-            
-            <MenuItem>
-              <HeaderLink to="/about">
-                <Text m={2}>FAQ</Text>
-              </HeaderLink>
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <HeaderLink to="/about">
+          <Text m={2}>About</Text>
+        </HeaderLink>
        
         <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="8px" mt="5px">
           Discord 
@@ -182,7 +159,7 @@ export function Header() {
           </Flex>
         </Link>   
         
-        <Link href="https://github.com/FacioErgoSum/bazaar-nfts-minter" isExternal pl="20px" pr="20px" pt="8px" size="30px" stroke="100">
+        <Link href="https://github.com/FacioErgoSum/Bazaar-Marketplace" isExternal pl="20px" pr="20px" mt="14px" size="30px" stroke="100">
           <GitHub/>
         </Link>       
         

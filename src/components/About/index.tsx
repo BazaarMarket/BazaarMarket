@@ -20,7 +20,7 @@ export default function AboutPage() {
       
       <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20}>
         <Heading color="brand.darkGray" size="xl" pb={8}>
-          Carbon-Offset NFTs on Tezos
+          This is the about page.
         </Heading>
         <Heading
           color="brand.darkGray"
@@ -30,30 +30,8 @@ export default function AboutPage() {
           pb={12}
           opacity=".8"
         >
-          Create and mint non-fungible tokens guilt-free.
+          More info coming soon.
         </Heading>
-      </Flex>
-      <Flex
-        width="100%"
-        bg="white"
-        color="brand.darkGray"
-        fontFamily="Helvetica"
-        paddingX={10}
-        paddingY={4}
-        justifyContent="space-between"
-      >
-        <Text fontSize="xs">
-          Bazaar NFT Marketplace {process.env.REACT_APP_VERSION}
-        </Text>
-        <Flex>
-          <Link
-            fontSize="xs"
-            textDecor="underline"
-            href="https://github.com/FacioErgoSum/bazaar-nfts-minter"
-          >
-            GitHub
-          </Link>
-        </Flex>
       </Flex>
     </Flex>
   );

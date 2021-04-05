@@ -13,7 +13,7 @@ export default function SplashPage() {
 
   useEffect(() => {
     if (system.status === 'WalletConnected') {
-      setLocation('/collections');
+      setLocation('/');
     }
   }, [system.status, setLocation]);
 
@@ -24,10 +24,9 @@ export default function SplashPage() {
       w="100%"
       flex="1"
       flexDir="column"
-      bg="#f5f5f5"
-    >
-      
-      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20}>
+      bgImage="src(https://bit.ly/sage-adebayo)">
+
+      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={10}>
         <Heading color="brand.darkGray" size="xl" pb={8}>
           Carbon-Offset NFTs on Tezos
         </Heading>
@@ -41,35 +40,16 @@ export default function SplashPage() {
         >
           Create and mint non-fungible tokens guilt-free.
         </Heading>
-        <Button href="/about">
-            <Link to="/about">
+          <Button href="/about">
               <Text m={2}>Learn More</Text>
-            </Link>
           </Button>
-        <Flex minW="400px" justify="center" pb={20}>
+        <Flex minW="400px" justify="center" pb={10}>
         </Flex>
       </Flex>
-      <Flex
-        width="100%"
-        bg="white"
-        color="brand.darkGray"
-        fontFamily="Helvetica"
-        paddingX={10}
-        paddingY={4}
-        justifyContent="space-between"
-      >
-        <Text fontSize="xs">
-          Bazaar NFT Marketplace {process.env.REACT_APP_VERSION}
-        </Text>
-        <Flex>
-          <Link
-            fontSize="xs"
-            textDecor="underline"
-            href="https://github.com/FacioErgoSum/bazaar-nfts-minter"
-          >
-            GitHub
-          </Link>
-        </Flex>
+      <Flex bg="brand.darkGray" width="100%" flexDir="column" pt={30} pb={30}>
+        <Heading color="white" align="center">
+          Coming Soon!
+        </Heading>
       </Flex>
     </Flex>
   );
