@@ -4,7 +4,6 @@ import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from '
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
-import FeaturedToken from './FeaturedToken';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 

@@ -97,7 +97,10 @@ function WalletDisplay() {
           <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
         <MenuList color="brand.black">
-          <MenuItem>
+          <MenuItem
+            onClick={() => {
+              setLocation('/collections');
+            }}>
             My Account
           </MenuItem>
           <MenuItem

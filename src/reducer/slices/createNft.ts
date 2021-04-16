@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createNoSubstitutionTemplateLiteral } from 'typescript';
 import { NftMetadataAttribute } from '../../lib/nfts/queries';
 import { readFileAsDataUrlAction } from '../async/actions';
 
@@ -15,6 +16,7 @@ export const steps: Step[] = [
 interface Fields {
   name: string | null;
   description: string | null;
+  carbonOffset: string | 0;
 }
 
 export enum CreateStatus {
@@ -53,7 +55,8 @@ export const initialState: CreateNftState = {
   uploadedArtifact: null,
   fields: {
     name: null,
-    description: null
+    description: null,
+    carbonOffset: 0
   },
   attributes: [],
   collectionAddress: null,

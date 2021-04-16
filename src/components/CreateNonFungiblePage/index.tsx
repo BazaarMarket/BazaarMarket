@@ -189,7 +189,7 @@ export default function CreateNonFungiblePage() {
           align="center"
           justify="center"
         >
-          <Text color="brand.lightGray">(Artwork TBD)</Text>
+          <Text color="brand.darkGray">(Artwork TBD)</Text>
         </Flex>
       ) : (
         <Flex

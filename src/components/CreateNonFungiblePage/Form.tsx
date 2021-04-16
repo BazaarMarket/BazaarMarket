@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Divider,
@@ -7,10 +7,16 @@ import {
   FormLabel,
   Heading,
   Input,
+  Switch,
   Text,
-  Textarea
+  Textarea,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { Plus, X } from 'react-feather';
+import { Columns, Plus, X } from 'react-feather';
 import { MinterButton } from '../common';
 
 import { useSelector, useDispatch } from '../../reducer';
@@ -21,14 +27,67 @@ import {
   updateMetadataRowName,
   updateMetadataRowValue
 } from '../../reducer/slices/createNft';
+import { faYenSign } from '@fortawesome/free-solid-svg-icons';
 
 const DESCRIPTION_PLACEHOLDER =
   'e.g. “This is an exclusive japanese comic illustration. Once you purchase it you will be able to get the t-shirt”';
 
+const AMOUNT_PLACEHOLDER = "Please enter carbon-offset amount in XTZ"
+
 export default function Form() {
   const state = useSelector(s => s.createNft);
   const dispatch = useDispatch();
-  const { name, description } = state.fields;
+  const { name, description, carbonOffset } = state.fields;
+
+  const [show, setShow] = React.useState(false)
+  const handleChange = () => {
+    setShow(!show);
+    dispatch(updateField({ name: 'carbonOffset', value: "0" }));
+  }
+  function CarbonOffset() {
+    var val: string = "0.00";
+    const format = (val: string) => val + ` ꜩ`
+    const parse = (val: string) => val.replace(/^\$/, "")
+
+    const [value, setValue] = React.useState("1.00")
+    
+  function UpdateOffset(val: string){
+    setValue(parse(val));
+    dispatch(updateField({ name: 'carbonOffset', value: val }));
+  }
+
+    if (show){
+      return (
+        <FormControl display="flex" alignItems="center" width="100%">
+            <FormLabel htmlFor="carbon-offset" mb="0" padding="10px">
+              Carbon Offset?
+            </FormLabel>
+            <Switch id="carbon-offset" mr="20px" isChecked={true} onChange={handleChange}/>
+            <NumberInput 
+              onChange={(valueString) => UpdateOffset(valueString)}
+              value={(Number(carbonOffset) + ` ꜩ`)}
+              max={50}
+              min={1}
+              >
+              <NumberInputField/>
+              <NumberInputStepper>
+                <NumberIncrementStepper/>
+                <NumberDecrementStepper/>
+              </NumberInputStepper>
+            </NumberInput>
+        </FormControl>
+      );
+    }
+    return(
+      <FormControl display="flex" alignItems="center">
+        <FormLabel htmlFor="carbon-offset" mb="0" padding="10px">
+          Carbon Offset?
+        </FormLabel>
+        <Switch id="carbon-offset" mr="20px" isChecked={false} onChange={handleChange}/>
+      </FormControl>
+    );
+  }
+
   return (
     <>
       <Heading size="md" paddingBottom={6}>
@@ -64,6 +123,7 @@ export default function Form() {
           }
         />
       </FormControl>
+      <CarbonOffset/>
       <Divider borderColor="brand.lightBlue" opacity="1" marginY={10} />
       <Heading size="md" paddingBottom={6}>
         Add attributes to your asset
