@@ -96,20 +96,31 @@ function WalletDisplay() {
         <MenuButton>
           <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
-        <MenuList color="brand.black">
+        <MenuList>
           <MenuItem
+            color="brand.black"
             onClick={() => {
-              setLocation('/collections');
+              setLocation('/account');
             }}>
             My Account
           </MenuItem>
           <MenuItem
+            color="brand.black"
+            onClick={() => {
+              setLocation('/collections');
+            }}>
+            Collections
+          </MenuItem>
+          <MenuItem
+            color="brand.red"
             onClick={async () => {
               await dispatch(disconnectWallet());
               setLocation('/');
             }}
           >
-            Logout
+            <Text color="brand.red">
+              Logout
+            </Text>
           </MenuItem>
         </MenuList>
       </Menu>

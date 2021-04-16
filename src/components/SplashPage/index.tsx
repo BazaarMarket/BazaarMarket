@@ -53,9 +53,9 @@ export default function SplashPage() {
         >
           Create and mint non-fungible tokens guilt-free.
         </Heading>
-        <Button onClick={() => setLocation("/about")}>
+        <MinterButton backgroundColor="brand.blue" color="white" onClick={() => setLocation("/about")}>
           <Text m={2}>Learn More</Text>
-        </Button>
+        </MinterButton>  
       </Flex>
       <Flex height="700px" bg="brand.darkGray" width="100%" flexDir="column" align="center" pt={30} pb={30}>
         <Heading color="white" align="center" mt="50px">
@@ -112,9 +112,9 @@ export default function SplashPage() {
           )}
         </Flex>
       </Container>
-          <Button align="center" p="10px" mt="25px" width="150px" onClick={() => setLocation("/marketplace")}>
-              <Text m={2}>Browse Market</Text>
-          </Button>
+        <MinterButton p="10px" mt="25px" onClick={() => setLocation("/marketplace")}>
+          <Text m={2}>Browse Market</Text>
+        </MinterButton>          
       </Flex>
       <Flex bgColor="white" height="500px">
                   <Heading color="brand.darkGray" padding="75px">
