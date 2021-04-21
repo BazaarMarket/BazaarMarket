@@ -89,7 +89,7 @@ export default function Catalog() {
   return (
     <Flex
       w="100%"
-      h="100%"
+      minHeight="90vh"
       bg="brand.brightGray"
       px={10}
       pt={6}
@@ -158,7 +158,7 @@ export default function Catalog() {
             ) : (
               <>
                 <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
-                  {tokens.slice(1).map(token => {
+                  {tokens.slice(0).map(token => {
                     return (
                       <TokenCard
                         key={`${token.address}-${token.id}`}

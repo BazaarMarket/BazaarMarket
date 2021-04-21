@@ -104,9 +104,9 @@ function WalletDisplay() {
 export function AccountPage() {
   const [location, setLocation] = useLocation();  
   return (
-    <>
+    <Flex minHeight="90vh" pt="25vh">
       <WalletDisplay /> 
-    </>
+    </Flex>
   );
 }
 

@@ -149,7 +149,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   }
 
   return (
-    <Flex flex="1" width="100%" minHeight="0">
+    <Flex flex="1" width="100%" minHeight="90vh">
       <Flex flexDir="column" w="50%" h="100%" overflowY="scroll">
         <Flex py={8} px={8}>
           <MinterButton
@@ -167,7 +167,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
         </Flex>
         <Flex align="center" justify="center" flex="1" px={16}>
           <AspectRatio
-            ratio={1}
+            ratio={4/3}
             width="100%"
             borderRadius="3px"
             boxShadow="0 0 5px rgba(0,0,0,.15)"

@@ -18,7 +18,7 @@ export default function AboutPage() {
       bg="#ffffff"
     >
       
-      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20}>
+      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20} height="90vh">
         <Heading color="brand.darkGray" size="xl" pb={8}>
           This is the about page.
         </Heading>

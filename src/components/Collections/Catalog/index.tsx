@@ -48,7 +48,7 @@ export default function Catalog() {
   const collection = state.collections[selectedCollection];
 
   return (
-    <Flex flex="1" w="100%" minHeight="0" height="1100px">
+    <Flex flex="1" w="100%" minHeight="90vh">
       <Flex w="250px" h="100%" flexDir="column" overflowY="scroll">
         <Sidebar />
       </Flex>
