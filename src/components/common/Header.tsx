@@ -168,7 +168,7 @@ export function Header() {
           <Text m={2}>Marketplace</Text>
         </HeaderLink>
         
-        <HeaderLink to="/marketplace">
+        <HeaderLink to="/drops">
           <Text m={2}>Drops</Text>
         </HeaderLink>
 
