@@ -59,7 +59,7 @@ function HeaderLink(props: HeaderLinkProps) {
 function WalletInfo(props: { tzPublicKey: string }) {
   return (
     <>
-      <Box borderRadius="100%" width="50px" height="50px" bg="white" borderWidth="1px" borderColor="lightGray">
+      <Box borderRadius="100%" width="50px" height="50px" bg="white">
         <Image borderRadius="100%"
           src={`https://services.tzkt.io/v1/avatars2/${props.tzPublicKey}`}
         />
@@ -76,15 +76,16 @@ function WalletDisplay() {
     return (
       <>
       <Link>
-          <MinterButton
-            variant="secondaryActionLined"
-            
+          <MinterButton            
+            backgroundColor="brand.blue"
+            color="white"
+            m="5px"
             onClick={e => {
               e.preventDefault();
               dispatch(connectWallet());
             }}
           >
-            <Text m={2} fontWeight="bold">Login</Text>
+            <Text m={2} fontSize="20px" fontWeight="bold">Login</Text>
           </MinterButton>
       </Link>
     </>
@@ -92,21 +93,41 @@ function WalletDisplay() {
   }
   return (
     <>
+      <HeaderLink to="/create">
+        <Box color="brand.blue" mr="2" pl="2">
+          <Plus size={30} strokeWidth="3" />
+        </Box>
+      </HeaderLink>
+      
       <Menu>
         <MenuButton>
           <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
-        <MenuList color="brand.black">
-          <MenuItem>
+        <MenuList>
+          <MenuItem
+            color="brand.black"
+            onClick={() => {
+              setLocation('/account');
+            }}>
             My Account
           </MenuItem>
           <MenuItem
+            color="brand.black"
+            onClick={() => {
+              setLocation('/collections');
+            }}>
+            Collections
+          </MenuItem>
+          <MenuItem
+            color="brand.red"
             onClick={async () => {
               await dispatch(disconnectWallet());
               setLocation('/');
             }}
           >
-            Logout
+            <Text color="brand.red">
+              Logout
+            </Text>
           </MenuItem>
         </MenuList>
       </Menu>
@@ -125,12 +146,11 @@ export function Header() {
       bg="white"
       paddingX={10}
       paddingY={6}
-      borderBottomColor="lightGray" 
-      borderBottomWidth="1px"
+      height="10vh"
     >
       
       <Image
-        maxW="200px"
+        width="200px"
         src={headerLogo}
         cursor="pointer"
         align="right"
@@ -147,12 +167,16 @@ export function Header() {
         <HeaderLink to="/marketplace">
           <Text m={2}>Marketplace</Text>
         </HeaderLink>
-            
+        
+        <HeaderLink to="/marketplace">
+          <Text m={2}>Drops</Text>
+        </HeaderLink>
+
         <HeaderLink to="/about">
           <Text m={2}>About</Text>
         </HeaderLink>
-       
-        <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="8px" mt="5px">
+
+        <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="6px" mt="5px">
           Discord 
           <Flex p="2px" float="right">
             <ExternalLink size="10px"/>
@@ -161,13 +185,7 @@ export function Header() {
         
         <Link href="https://github.com/FacioErgoSum/Bazaar-Marketplace" isExternal pl="20px" pr="20px" mt="14px" size="30px" stroke="100">
           <GitHub/>
-        </Link>       
-        
-        <HeaderLink to="/create">
-          <Box color="brand.blue" mr="2" pl="2">
-            <Plus size={30} strokeWidth="3" />
-          </Box>
-        </HeaderLink>
+        </Link>
       
       </Flex>
       

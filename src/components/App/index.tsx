@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { Switch, Route } from 'wouter';
 import SplashPage from '../SplashPage';
 import AboutPage from '../About';
+import AccountPage from '../Account';
 import CreateNonFungiblePage from '../CreateNonFungiblePage';
 import CollectionsCatalog from '../Collections/Catalog';
 import CollectionsTokenDetail from '../Collections/TokenDetail';
 import MarketplaceCatalog from '../Marketplace/Catalog';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import { Flex } from '@chakra-ui/react';
 import Notifications from '../common/Notifications';
 import { useSelector, useDispatch } from '../../reducer';
@@ -36,6 +38,9 @@ export default function App() {
           <Route path="/">
             <SplashPage />
           </Route>
+          <Route path="/account">
+            <AccountPage />
+          </Route>
           <Route path="/create">
             <CreateNonFungiblePage />
           </Route>
@@ -57,6 +62,7 @@ export default function App() {
             )}
           </Route>
         </Switch>
+        <Footer/>
         <Notifications />
       </Flex>
     </Flex>

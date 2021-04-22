@@ -76,8 +76,8 @@ export default function CreateNonFungiblePage() {
   const stepIsValid = validateCreateNftStep(state);
 
   return (
-    <Flex flex="1" width="100%" minHeight="0">
-      <Flex w="50%" h="100%" flexDir="column" overflowY="scroll">
+    <Flex flex="1" width="100%" height="100vh">
+      <Flex w="50%" flexDir="column" overflowY="scroll" height="90vh">
         <Flex
           w="100%"
           px={8}
@@ -189,7 +189,7 @@ export default function CreateNonFungiblePage() {
           align="center"
           justify="center"
         >
-          <Text color="brand.lightGray">(Artwork TBD)</Text>
+          <Text color="brand.darkGray">(Artwork TBD)</Text>
         </Flex>
       ) : (
         <Flex

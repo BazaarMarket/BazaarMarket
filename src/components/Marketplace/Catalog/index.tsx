@@ -4,7 +4,6 @@ import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from '
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
-import FeaturedToken from './FeaturedToken';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
@@ -90,7 +89,7 @@ export default function Catalog() {
   return (
     <Flex
       w="100%"
-      h="100%"
+      minHeight="90vh"
       bg="brand.brightGray"
       px={10}
       pt={6}
@@ -159,7 +158,7 @@ export default function Catalog() {
             ) : (
               <>
                 <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
-                  {tokens.slice(1).map(token => {
+                  {tokens.slice(0).map(token => {
                     return (
                       <TokenCard
                         key={`${token.address}-${token.id}`}

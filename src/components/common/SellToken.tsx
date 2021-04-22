@@ -103,8 +103,16 @@ export function SellTokenButton(props: SellTokenButtonProps) {
   };
 
   return (
-    <>
-      <MinterButton variant="primaryAction" onClick={onOpen}>List for sale</MinterButton>
+    <>    
+      <MinterButton 
+      backgroundColor="brand.green"
+      color="white" 
+      fontSize="20px" 
+      width="150px" 
+      onClick={onOpen}
+      >
+        Sell
+      </MinterButton>
 
       <Modal
         isOpen={isOpen}

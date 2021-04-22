@@ -34,7 +34,7 @@ export function MinterMenuButton(
 ) {
   const { variant, ...rest } = props;
   const styles = useStyleConfig('MenuButton', { variant });
-  return <MenuButton sx={styles} {...rest} borderWidth="0px"/>;
+  return <MenuButton sx={styles} {...rest} borderWidth="0px" borderRadius="25px"/>;
 }
 
 export function MinterMenuItem(
@@ -42,5 +42,5 @@ export function MinterMenuItem(
 ) {
   const { variant, ...rest } = props;
   const styles = useStyleConfig('MenuItem', { variant });
-  return <MenuItem sx={styles} {...rest} />;
+  return <MenuItem sx={styles} {...rest} borderRadius="25px"/>;
 }
