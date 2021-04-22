@@ -18,16 +18,17 @@ export default function Preview() {
   const name = useSelector(s => s.createNft.fields.name);
   const description = useSelector(s => s.createNft.fields.description);
   const carbonOffset = useSelector(s => s.createNft.fields.carbonOffset);
+  const carbonOffsetAttribute = useSelector(s => s.createNft.fields.carbonOffset);
   
   function CarbonOffset() {
-    if(carbonOffset > 0) {
+    if(carbonOffset !== "0" && carbonOffset !== null) {
       return (
       <>
         <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.green">
           <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
           <TagLabel>
             Carbon Offset: &nbsp;
-            {carbonOffset ? carbonOffset : ' '}
+            {carbonOffsetAttribute ? carbonOffsetAttribute : ' '}
             &nbsp; ꜩ
           </TagLabel>
         </Tag>

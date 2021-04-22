@@ -29,6 +29,7 @@ export interface Nft {
   metadata: NftMetadata;
   sale?: NftSale;
   address?: string;
+  carbonOffset: string;
 }
 
 const contractCache: Record<string, any> = {};
@@ -72,7 +73,8 @@ export async function getMarketplaceNfts(
           description: metadata.description,
           artifactUri: metadata.artifactUri,
           metadata: metadata,
-          sale: sale
+          sale: sale,
+          carbonOffset: metadata.carbonOffset
         };
       }
     )
@@ -88,6 +90,7 @@ export class NftMetadata {
     | boolean;
   ''?: string;
   name?: string;
+  carbonOffset?: string;
   minter?: string;
   symbol?: string;
   decimals?: number;
@@ -117,6 +120,7 @@ export class NftMetadata {
   constructor(
     root?: string,
     name?: string,
+    carbonOffset?: string,
     minter?: string,
     symbol?: string,
     decimals?: number,
@@ -145,6 +149,7 @@ export class NftMetadata {
   ) {
     this[''] = root;
     this.name = name;
+    this.carbonOffset = carbonOffset;
     this.minter = minter;
     this.symbol = symbol;
     this.decimals = decimals;
@@ -282,7 +287,8 @@ export async function getContractNfts(
           description: metadata.description,
           artifactUri: metadata.artifactUri,
           metadata: metadata,
-          sale
+          sale,
+          carbonOffset: metadata.carbonOffset
         };
       }
     )

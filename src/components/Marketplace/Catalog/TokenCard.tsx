@@ -3,7 +3,18 @@ import { Token } from '../../../reducer/slices/collections';
 import { useLocation } from 'wouter';
 import { ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
 import { AspectRatio, Box, Flex, Text, Heading, Image } from '@chakra-ui/react';
-import { NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper} from '@chakra-ui/react';
+import { 
+  NumberInput, 
+  NumberInputField, 
+  NumberInputStepper, 
+  NumberIncrementStepper, 
+  NumberDecrementStepper, 
+  Tag,
+  TagLabel,
+  TagLeftIcon,
+  TagRightIcon,
+  TagCloseButton } from '@chakra-ui/react';
+  import { Columns, Plus, X, ArrowDownCircle } from 'react-feather';
 import { TokenMedia } from '../../common/TokenMedia';
 import VerificationCheck from '../../common/assets/VerifiedTag.png';
 
@@ -14,9 +25,17 @@ interface TokenCardProps extends Token {
 export default function TokenCard(props: TokenCardProps) {
   const [, setLocation] = useLocation();
   let priceValue: any = 0;
+  let auctionType: any = "forSale";
+  var verifiedUsers: string[] = ["2YnvZ", "HXV1m"];
+  var verifiedUser: boolean = false;
 
   function VerifiedNFT() {
-    if (props.sale?.seller.substr(-5) == "JwSno"){
+    for(var i: number = 0; i <= verifiedUsers.length; i++){
+      if (props.metadata.minter && props.metadata.minter?.substr(-5) == verifiedUsers[i]){
+        verifiedUser = true;
+      }
+    }
+    if(verifiedUser){
       return (
         <Flex>
           <Image src={VerificationCheck} width="35px" position="absolute" top="15px" left="15px"/>
@@ -24,14 +43,36 @@ export default function TokenCard(props: TokenCardProps) {
       );
     }
     return (
-      null
+      <></>
     );
   }
 
-  function PricePoint(){
+  function CarbonOffset() {
+    if(props.carbonOffset != "0" && props.carbonOffset != null) {
+      return (
+      <>
+        <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" width="75%">
+          <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
+          <TagLabel>
+            Carbon Offset: &nbsp;
+            {props.carbonOffset ? props.carbonOffset : ' '}
+            &nbsp; ꜩ
+          </TagLabel>
+        </Tag>
+      </>
+      );
+    } else {
+      return (
+        <></>
+      );
+    }
+  }
+
+  function SaleType(){
     int: priceValue = props.sale?.price;
+    string: auctionType = props.sale?.type;
     
-    if(priceValue > 10) {
+    if(auctionType !== "fixedPrice") {
       return(
         <Flex
           p={2}  
@@ -63,7 +104,7 @@ export default function TokenCard(props: TokenCardProps) {
         borderColor="brand.lightGray"
         justify="space-between"
       >
-        <Text fontSize="md">Current Price</Text>
+        <Text fontSize="md">Price:</Text>
         <Text fontSize="md" fontWeight="600">{props.sale?.price} ꜩ</Text>
       </Flex>
     );
@@ -107,9 +148,10 @@ export default function TokenCard(props: TokenCardProps) {
         flexDir="column"
       >
         <Heading size="sm">{props.title}</Heading>
-        <Text fontSize="sm">Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
+        <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
+        <CarbonOffset/>
       </Flex>
-      <PricePoint />
+      <SaleType />
     </Flex>
   );
 }
