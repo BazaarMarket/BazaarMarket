@@ -39,9 +39,9 @@ We believe that Bazaar Market is the next big thing for Tezos NFTs, and we'd lov
 
 ## Tell me more about decentralized governance!
 
-Bazaar Market's governance token is called bDAO. bDAO is a FA2 fungible asset, that was created using HomebaseDAO. It is a RegistryDAO, which means it can regulate the distribution of both FA2 and XTZ tokens.
+Bazaar Market's governance token is called bDAO. bDAO is a FA2 fungible asset, that was created using FA2 Bakery. The DAO was created using BaseDAO; it is a RegistryDAO, which means it can regulate the distribution of both FA2 and XTZ tokens.
 
->This allows the Community to control the creation and sale of Bazaar Tokens (or BATOs), which is Bazaar's custom NFT. It also regulates how Quorum members get paid. 
+>This allows the Community to control the creation and sale of Bazaar Tokens (or BATOs), which is Bazaar's custom NFT. It also regulates how fees are distributed amongst Community Members (bDAO holders). 
 
 It also has the built-in capability for voting, making updates to the DAO, and regulating the dispersion of *Green Pool* funds. bDAO has governance both on and off-chain, which allows it to be flexible enough to decentralize a public marketplace like Bazaar. Lastly, it gives the community power to vote on ***Community Initiatives***, such as curating charity drops, and our special future ***Social Experiments™***
 
@@ -54,7 +54,7 @@ It also has the built-in capability for voting, making updates to the DAO, and r
  -  Quorum: 333,333 bDAO (2/3 Majority)
  -  Staking Minimum: 10,000 bDAO
  - Voting Period: 5 Days
- - Profit Distribution: 50% Quorum Members, 30% BATO Holders, 10% Treasury, 10% Development
+ - Profit Distribution: 50% Community Members (bDAO Holders), 30% Website Users, 10% Treasury, 10% Development
 
 ## What steps are next?
 
