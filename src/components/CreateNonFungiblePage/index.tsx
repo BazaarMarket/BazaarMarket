@@ -103,7 +103,7 @@ export default function CreateNonFungiblePage() {
   const stepIsValid = validateCreateNftStep(state);
 
   return (
-    <Flex flex="1" width="100%" minHeight="0">
+    <Flex flex="1" width="100%" minHeight="90vh">
       <Flex w="100%" h="100%" flexDir="column" align="center">
         <Flex
           w="100%"
