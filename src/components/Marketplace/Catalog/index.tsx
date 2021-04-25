@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { Box, Container, Text, Flex, Heading, SimpleGrid, Spinner, Input, InputRightElement, InputGroup, Button } from '@chakra-ui/react';
 import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from 'react-feather';
 import { useSelector, useDispatch } from '../../../reducer';
-import { getMarketplaceNftsQuery } from '../../../reducer/async/queries';
+import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
+import FeaturedToken from './FeaturedToken';
+import { VisibilityTrigger } from '../../common/VisibilityTrigger';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,6 +19,12 @@ export default function Catalog() {
   useEffect(() => {
     dispatch(getMarketplaceNftsQuery(state.marketplace.address));
   }, [ state.marketplace.address, dispatch ]);
+
+  const loadMore = () => {
+    dispatch(loadMoreMarketplaceNftsQuery({}));
+  };
+
+  let tokens = state.marketplace.tokens?.filter(x=>x.token).map(x=>x.token!) ?? [];
 
   function ShowFilters() {
     
@@ -112,15 +120,10 @@ export default function Catalog() {
     );
   }
 
-  let tokens = state.marketplace.tokens;
-  if (tokens === null) {
-    tokens = [];
-  }
-
   return (
     <Flex
       w="100%"
-      minHeight="90vh"
+      minH="90vh"
       bg="brand.brightGray"
       px={10}
       pt={6}
@@ -128,11 +131,12 @@ export default function Catalog() {
       justify="start"
       flexDir="column"
     >
-      <Container maxW="80em" mt="5vh">
+      <Container maxW="80em">
         <Flex
           flex="1"
           w="100%"
           flexDir="column"
+          mt="5vh"
         >
           {!state.marketplace.loaded ? (
             <Flex flexDir="column" align="center" flex="1" pt={20}>
@@ -165,15 +169,18 @@ export default function Catalog() {
             ) : (
               <>
                 <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
-                  {tokens.slice(0).map(token => {
-                    return (
-                      <TokenCard
-                        key={`${token.address}-${token.id}`}
-                        network={system.config.network}
-                        {...token}
-                      />
-                    )
-                  })}
+                  <>
+                    {tokens.slice(0).map(token => {
+                      return (
+                        <TokenCard
+                          key={`${token.address}-${token.id}`}
+                          config={system.config}
+                          {...token}
+                        />
+                      );
+                    })}
+                    <VisibilityTrigger key={state.marketplace.tokens?.length + ':' + tokens.length} onVisible={loadMore} allowedDistanceToViewport={600}/>
+                  </>
                 </SimpleGrid>
               </>
           )}

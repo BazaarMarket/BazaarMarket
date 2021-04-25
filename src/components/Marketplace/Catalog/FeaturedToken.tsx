@@ -1,9 +1,8 @@
 import React from 'react';
 import { Token } from '../../../reducer/slices/collections';
 import { useLocation } from 'wouter';
-import { ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
+import { IpfsGatewayConfig } from '../../../lib/util/ipfs';
 import {
-  AspectRatio,
   Box,
   Container,
   Flex,
@@ -16,22 +15,27 @@ import { MinterButton } from '../../common';
 import { TokenMedia } from '../../common/TokenMedia';
 
 interface FeaturedTokenProps extends Token {
-  network: string;
+  config: IpfsGatewayConfig;
 }
 
 export default function FeaturedToken(props: FeaturedTokenProps) {
   const [, setLocation] = useLocation();
   return (
-    <Container maxW="65em" py={10}>
-      <Stack direction={{ base: 'column', md: 'row' }} spacing="24px" mb={10}>
-        <AspectRatio maxW="400px" ratio={3 / 2} width="100%">
+    <Container maxW="100%" py={10} px={0}>
+      <Stack width="100%" direction={{ base: 'column', md: 'row' }} spacing="24px" mb={10} display="flex" flexDir="row" flexWrap="wrap" justifyContent="center" alignItems="center">
+        <Flex pr={[0, 10]} borderRight={["unset", "2px solid #666"]} justifyContent="center">
           <TokenMedia
-            src={ipfsUriToGatewayUrl(props.network, props.artifactUri)}
+            maxW="90%"
+            class="featured"
+            {...props}
           />
-        </AspectRatio>
-        <Box>
+        </Flex>
+        <Box pl={[0, 10]} marginLeft="0 !important">
           <Flex flexDir="column" h="100%" w="100%">
-            <Heading size="md" mt={4}>
+            <Heading size="md" mt={4} fontSize="2.5rem">
+              {props.title}
+            </Heading>
+            <Heading size="sm" my={4} color="brand.darkGray">
               {props.title}
             </Heading>
             <Heading size="sm" my={4} color="brand.darkGray">

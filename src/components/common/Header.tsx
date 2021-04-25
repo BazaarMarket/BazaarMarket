@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useLocation } from 'wouter';
 import {
   Box,
@@ -10,21 +10,64 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Spacer
+  Spacer,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
+  Heading
 } from '@chakra-ui/react';
-import { ChevronDown, Package, Plus, GitHub, ExternalLink } from 'react-feather';
-import headerLogo from './assets/logo.svg';
+import { ChevronDown, Package, Plus, GitHub, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
+import { RiStore2Line } from 'react-icons/ri';
+import { MdCollections } from 'react-icons/md';
 import { useSelector, useDispatch } from '../../reducer';
-import { connectWallet } from '../../reducer/async/wallet';
-import { disconnectWallet } from '../../reducer/async/wallet';
-import { MinterButton /* , MinterLink */ } from '../common';
+import { connectWallet, disconnectWallet } from '../../reducer/async/wallet';
+import { MinterButton } from '../common';
+import headerLogo from './assets/logo.svg';
 
-interface HeaderLinkProps {
+interface MobileHeaderLinkProps {
+  to: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+function MobileHeaderLink(props: MobileHeaderLinkProps) {
+  const [location, setLocation] = useLocation();
+  const selected = location === props.to;
+  return (
+    <Link
+      href={props.to}
+      onClick={e => {
+        e.preventDefault();
+        setLocation(props.to);
+        if (props.onClick) {
+          props.onClick();
+        }
+      }}
+      textDecor="none"
+    >
+      <Heading
+        fontWeight={selected ? '600' : 'normal'}
+        color="brand.background"
+        mb={4}
+        pl={selected ? 4 : 0}
+        borderLeft={selected ? '5px solid' : 'none'}
+        borderColor="brand.blue"
+      >
+        {props.children}
+      </Heading>
+    </Link>
+  );
+}
+
+interface DesktopHeaderLinkProps {
   to: string;
   children: React.ReactNode;
 }
 
-function HeaderLink(props: HeaderLinkProps) {
+function DesktopHeaderLink(props: DesktopHeaderLinkProps) {
   const [location, setLocation] = useLocation();
   const selected = location === props.to;
   return (
@@ -71,6 +114,7 @@ function WalletInfo(props: { tzPublicKey: string }) {
 function WalletDisplay() {
   const [, setLocation] = useLocation();
   const system = useSelector(s => s.system);
+  const { config, tzPublicKey, wallet } = useSelector(s => s.system);
   const dispatch = useDispatch();
   if (system.status !== 'WalletConnected') {
     return (
@@ -93,23 +137,31 @@ function WalletDisplay() {
   }
   return (
     <>
-      <HeaderLink to="/create">
+      <DesktopHeaderLink to="/create">
         <Box color="brand.blue" mr="2" pl="2">
           <Plus size={30} strokeWidth="3" />
         </Box>
-      </HeaderLink>
+      </DesktopHeaderLink>
       
       <Menu>
         <MenuButton>
           <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
         <MenuList>
-          <MenuItem
-            color="brand.black"
-            onClick={() => {
-              setLocation('/account');
-            }}>
-            My Account
+          <MenuItem color="brand.black">
+            <Link
+              href={"https://tzkt.io" + '/' + system.tzPublicKey}
+              color="brand.darkGray"
+              isExternal
+              ml={2}
+            >
+              <Flex flexDir="row" mr="auto" alignContent="right">
+                <Text pr="5px">
+                  Account Info
+                </Text>
+                <ExternalLink size={16} />
+              </Flex>
+            </Link>
           </MenuItem>
           <MenuItem
             color="brand.black"
@@ -164,17 +216,17 @@ export function Header() {
         
         <Spacer />
         
-        <HeaderLink to="/marketplace">
+        <DesktopHeaderLink to="/marketplace">
           <Text m={2}>Marketplace</Text>
-        </HeaderLink>
+        </DesktopHeaderLink>
         
-        <HeaderLink to="/drops">
+        <DesktopHeaderLink to="/drops">
           <Text m={2}>Drops</Text>
-        </HeaderLink>
+        </DesktopHeaderLink>
 
-        <HeaderLink to="/about">
+        <DesktopHeaderLink to="/about">
           <Text m={2}>About</Text>
-        </HeaderLink>
+        </DesktopHeaderLink>
 
         <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="6px" mt="5px">
           Discord 

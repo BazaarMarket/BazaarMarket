@@ -1,4 +1,4 @@
-import { TezosToolkit, Context } from '@taquito/taquito';
+import { TezosToolkit, MichelCodecPacker, Context } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { MetadataProvider, DEFAULT_HANDLERS } from '@taquito/tzip16';
 import { Tzip12Module } from '@taquito/tzip12';
@@ -6,6 +6,7 @@ import CustomIpfsHttpHandler from './util/taquito-custom-ipfs-http-handler';
 import { BetterCallDev } from './service/bcd';
 import * as tzUtils from './util/tezosToolkit';
 import { DAppClientOptions, NetworkType } from '@airgap/beacon-sdk';
+import { TzKt } from './service/tzkt';
 
 export interface Config {
   rpc: string;
@@ -13,6 +14,9 @@ export interface Config {
   bcd: {
     api: string;
     gui: string;
+  };
+  tzkt: {
+    api: string;
   };
   contracts: {
     nftFaucet: string;
@@ -23,6 +27,7 @@ export interface Config {
     };
   };
   ipfsApi: string;
+  ipfsGateway: string;
 }
 
 export enum Status {
@@ -35,6 +40,7 @@ export interface SystemConfigured {
   status: Status.Configured;
   config: Config;
   betterCallDev: BetterCallDev;
+  tzkt: TzKt;
   toolkit: null;
   wallet: null;
   walletReconnectAttempted: boolean;
@@ -49,6 +55,7 @@ export interface SystemWithToolkit {
   status: Status.ToolkitConnected;
   config: Config;
   betterCallDev: BetterCallDev;
+  tzkt: TzKt;
   toolkit: TezosToolkit;
   resolveMetadata: ResolveMetadata;
   wallet: null;
@@ -60,6 +67,7 @@ export interface SystemWithWallet {
   status: Status.WalletConnected;
   config: Config;
   betterCallDev: BetterCallDev;
+  tzkt: TzKt;
   toolkit: TezosToolkit;
   resolveMetadata: ResolveMetadata;
   wallet: BeaconWallet;
@@ -82,6 +90,7 @@ export function configure(config: Config): SystemConfigured {
     status: Status.Configured,
     config: compatibilityConfig,
     betterCallDev: new BetterCallDev(compatibilityConfig),
+    tzkt: new TzKt(compatibilityConfig),
     toolkit: null,
     wallet: null,
     walletReconnectAttempted: false,
@@ -94,12 +103,11 @@ function createMetadataResolver(
   toolkit: TezosToolkit,
   contractAddress: string
 ): ResolveMetadata {
-  const ipfsGateway =
-    system.config.network === 'sandboxnet'
-      ? 'localhost:8080'
-      : 'gateway.ipfs.io';
-  const gatewayProtocol =
-    system.config.network === 'sandboxnet' ? 'http' : 'https';
+  
+  const ipfsUrl = system.config.ipfsGateway;
+  const ipfsGateway = ipfsUrl.replace(/^https?:\/\//,'');
+  const gatewayProtocol = ipfsUrl.startsWith('https') ? 'https' : 'http';
+
   const ipfsHandler = new CustomIpfsHttpHandler(ipfsGateway, gatewayProtocol);
   DEFAULT_HANDLERS.set('ipfs', ipfsHandler);
   const provider = new MetadataProvider(DEFAULT_HANDLERS);
@@ -122,6 +130,7 @@ function createMetadataResolver(
 export function connectToolkit(system: SystemConfigured): SystemWithToolkit {
   const toolkit = new TezosToolkit(system.config.rpc);
   toolkit.addExtension(new Tzip12Module());
+  toolkit.setPackerProvider(new MichelCodecPacker());
   const faucetAddress = system.config.contracts.nftFaucet;
   return {
     ...system,
@@ -158,7 +167,7 @@ function getWallet(
 ): BeaconWallet {
   if (wallet === null) {
     wallet = new BeaconWallet({
-      name: 'OpenSystem dApp',
+      name: 'Bazaar Market',
       preferredNetwork: networkType(system.config),
       eventHandlers
     });
@@ -245,6 +254,7 @@ export async function disconnectWallet(
 ): Promise<SystemWithToolkit> {
   await system.wallet.disconnect();
   const toolkit = new TezosToolkit(system.config.rpc);
+  toolkit.setPackerProvider(new MichelCodecPacker());
   toolkit.addExtension(new Tzip12Module());
   wallet = null;
   return {

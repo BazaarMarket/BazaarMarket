@@ -1,94 +1,61 @@
 import React, { useEffect } from 'react';
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Flex, Heading, Text, Link, Image } from '@chakra-ui/react';
 import { useLocation } from 'wouter';
-import { RefreshCw } from 'react-feather';
-import { MinterButton } from '../../common';
 import Sidebar from './Sidebar';
-import TokenGrid from './TokenGrid';
-
+import CollectionDisplay from './CollectionDisplay';
 import { useSelector, useDispatch } from '../../../reducer';
-import {
-  getContractNftsQuery,
-  getWalletAssetContractsQuery
-} from '../../../reducer/async/queries';
+import { getWalletAssetContractsQuery } from '../../../reducer/async/queries';
 import { selectCollection } from '../../../reducer/slices/collections';
+import { connectWallet } from '../../../reducer/async/wallet';
+import logo from '../../common/assets/splash-logo.svg';
+import { MinterButton } from '../../common';
 
 export default function Catalog() {
   const [, setLocation] = useLocation();
-  const { system, collections: state } = useSelector(s => s);
+  const system = useSelector(s => s.system);
+  const collections = useSelector(s => s.collections);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const selectedCollection = state.selectedCollection;
-    if (selectedCollection === null) {
-      dispatch(selectCollection(state.globalCollection));
-    } else {
-      dispatch(getContractNftsQuery(selectedCollection));
+    if (collections.selectedCollection === null) {
+      dispatch(selectCollection(collections.globalCollection));
     }
-  }, [
-    system.status,
-    state.selectedCollection,
-    state.globalCollection,
-    dispatch
-  ]);
+  }, [collections.selectedCollection, collections.globalCollection, dispatch]);
 
   useEffect(() => {
-    if (system.status !== 'WalletConnected') {
-      setLocation('/', { replace: true });
-    } else {
+    if (system.status === 'WalletConnected') {
       dispatch(getWalletAssetContractsQuery());
     }
   }, [system.status, setLocation, dispatch]);
 
-  const selectedCollection = state.selectedCollection;
+  const selectedCollection = collections.selectedCollection;
   if (system.status !== 'WalletConnected' || !selectedCollection) {
     return null;
   }
 
-  const collection = state.collections[selectedCollection];
-
   return (
-    <Flex flex="1" w="100%" minHeight="90vh">
-      <Flex w="250px" h="100%" flexDir="column" overflowY="scroll">
+    <Flex
+      flex="1"
+      w="100%"
+      minHeight="0"
+      flexDir={{
+        base: 'column',
+        md: 'row'
+      }}
+    >
+      <Flex
+        w="250px"
+        h="100%"
+        flexDir="column"
+        overflowY="scroll"
+        display={{
+          base: 'none',
+          md: 'flex'
+        }}
+      >
         <Sidebar />
       </Flex>
-      <Flex
-        flexDir="column"
-        h="100%"
-        w="100%"
-        px={10}
-        pt={6}
-        flex="1"
-        bg="brand.brightGray"
-        borderLeftWidth="1px"
-        borderLeftColor="brand.lightBlue"
-        overflowY="scroll"
-        justify="start"
-      >
-        <Flex w="100%" pb={6} justify="space-between" align="center">
-          <Flex flexDir="column">
-            <Heading size="lg">{collection.metadata.name || ''}</Heading>
-            <Text fontFamily="mono" color="brand.lightGray">
-              {collection.address}
-            </Text>
-          </Flex>
-          <MinterButton
-            variant="primaryActionInverted"
-            onClick={() => {
-              const selectedCollection = state.selectedCollection;
-              if (selectedCollection !== null) {
-                dispatch(getContractNftsQuery(selectedCollection));
-              }
-            }}
-          >
-            <Box color="currentcolor">
-              <RefreshCw size={16} strokeWidth="3" />
-            </Box>
-            <Text ml={2}>Refresh</Text>
-          </MinterButton>
-        </Flex>
-        <TokenGrid state={state} walletAddress={system.tzPublicKey} />
-      </Flex>
+      <CollectionDisplay address={selectedCollection} />
     </Flex>
   );
 }

@@ -6,7 +6,9 @@ import {
   getContractNfts,
   getMarketplaceNfts,
   Nft,
-  getWalletNftAssetContracts
+  getWalletNftAssetContracts,
+  MarketplaceNftLoadingData,
+  loadMarketplaceNft
 } from '../../lib/nfts/queries';
 import { ErrorKind, RejectValue } from './errors';
 
@@ -39,10 +41,11 @@ export const getContractNftsQuery = createAsyncThunk<
     const tokens = await getContractNfts(system, address);
     return { address, tokens };
   } catch (e) {
-    const c = collections.collections;
     return rejectWithValue({
       kind: ErrorKind.GetContractNftsFailed,
-      message: `Failed to retrieve contract nfts from: ${c[address]?.metadata?.name ?? address}`
+      message: `Failed to retrieve contract nfts from: ${
+        collections.collections[address]?.metadata?.name ?? address
+      }`
     });
   }
 });
@@ -65,6 +68,7 @@ export const getWalletAssetContractsQuery = createAsyncThunk<
     try {
       return await getWalletNftAssetContracts(system);
     } catch (e) {
+      console.log(e);
       return rejectWithValue({
         kind: ErrorKind.GetWalletNftAssetContractsFailed,
         message: "Failed to retrieve wallet's asset contracts"
@@ -74,18 +78,61 @@ export const getWalletAssetContractsQuery = createAsyncThunk<
 );
 
 export const getMarketplaceNftsQuery = createAsyncThunk<
-  { tokens: Nft[] },
+  { tokens: MarketplaceNftLoadingData[] },
   string,
   Opts
->('query/getMarketplaceNfts', async (address, { getState, rejectWithValue }) => {
-  const { system } = getState();
-  try {
-    const tokens = await getMarketplaceNfts(system, address);
-    return { tokens };
-  } catch (e) {
-    return rejectWithValue({
-      kind: ErrorKind.GetMarketplaceNftsFailed,
-      message: `Failed to retrieve marketplace nfts from: ${address}`
-    });
+>(
+  'query/getMarketplaceNfts',
+  async (address, { getState, rejectWithValue }) => {
+    const { system } = getState();
+    try {
+      
+      const tokens = await getMarketplaceNfts(system, address);
+
+      // Load 9 initially (1-feature + at least 2 rows)
+      for( const i in tokens.slice(0, 9)){
+        tokens[i] = await loadMarketplaceNft(system, tokens[i]);
+      }
+
+      return { tokens };
+
+    } catch (e) {
+      return rejectWithValue({
+        kind: ErrorKind.GetMarketplaceNftsFailed,
+        message: `Failed to retrieve marketplace nfts from: ${address}`
+      });
+    }
   }
-});
+);
+
+export const loadMoreMarketplaceNftsQuery = createAsyncThunk<
+  { tokens: MarketplaceNftLoadingData[] },
+  {},
+  Opts
+>(
+  'query/loadMoreMarketplaceNftsQuery',
+  async (_, { getState, rejectWithValue }) => {
+    const { system, marketplace } = getState();
+    try {
+
+      const tokens = marketplace.marketplace.tokens ?? [];
+
+      // Load 8 more (at least 2 rows)
+      const iStart = tokens.findIndex(x => !x.loaded);
+      const iEnd = iStart + 8;
+
+      // Need to rebuild the array
+      const tokensAfter = await Promise.all(tokens
+        .map(async (x,i) => i >= iStart && i < iEnd 
+          ? await loadMarketplaceNft(system, x) : x));
+
+      return { tokens: tokensAfter };
+
+    } catch (e) {
+      return rejectWithValue({
+        kind: ErrorKind.GetMarketplaceNftsFailed,
+        message: `Failed to load marketplace nfts`
+      });
+    }
+  }
+);

@@ -1,9 +1,17 @@
+
+
 import React from 'react';
 import { Token } from '../../../reducer/slices/collections';
 import { useLocation } from 'wouter';
-import { ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
-import { AspectRatio, Box, Flex, Text, Heading, Image } from '@chakra-ui/react';
+import { IpfsGatewayConfig } from '../../../lib/util/ipfs';
+import { TokenMedia } from '../../common/TokenMedia';
 import { 
+  AspectRatio, 
+  Box, 
+  Flex, 
+  Text, 
+  Heading, 
+  Image,
   NumberInput, 
   NumberInputField, 
   NumberInputStepper, 
@@ -11,16 +19,14 @@ import {
   NumberDecrementStepper, 
   Tag,
   TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton } from '@chakra-ui/react';
+  TagLeftIcon, } from '@chakra-ui/react';
   import { Columns, Plus, X, ArrowDownCircle, Codesandbox } from 'react-feather';
-import { TokenMedia } from '../../common/TokenMedia';
-import VerificationCheck from '../../common/assets/VerifiedTag.png';
 
-interface TokenCardProps extends Token {
-  network: string;
-}
+  import VerificationCheck from '../../common/assets/VerifiedTag.png';
+
+  interface TokenCardProps extends Token {
+    config: IpfsGatewayConfig,
+  }
 
 export default function TokenCard(props: TokenCardProps) {
   const [, setLocation] = useLocation();
@@ -48,14 +54,14 @@ export default function TokenCard(props: TokenCardProps) {
   }
 
   function CarbonOffset() {
-    if(props.carbonOffset != "0" && props.carbonOffset != null) {
+    if(props.title != "0" && props.title == "blep") {
       return (
       <>
         <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" width="75%">
           <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
           <TagLabel>
             Carbon Offset: &nbsp;
-            {props.carbonOffset ? props.carbonOffset : ' '}
+            {props.title ? props.title : ' '}
             &nbsp; ꜩ
           </TagLabel>
         </Tag>
@@ -159,7 +165,7 @@ export default function TokenCard(props: TokenCardProps) {
       <AspectRatio ratio={3 / 2}>
         <Box>
           <TokenMedia
-            src={ipfsUriToGatewayUrl(props.network, props.artifactUri)}
+            {...props}
           />
         </Box>
       </AspectRatio>

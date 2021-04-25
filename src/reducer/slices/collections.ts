@@ -37,7 +37,7 @@ export const initialState: CollectionsState = {
     [globalCollectionAddress]: {
       address: globalCollectionAddress,
       metadata: {
-        name: 'Bazaar'
+        name: 'Minter'
       },
       tokens: null,
       loaded: false

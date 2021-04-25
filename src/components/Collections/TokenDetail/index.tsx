@@ -12,6 +12,7 @@ import {
   Flex,
   Heading,
   Image,
+  Link,
   Menu,
   MenuList,
   Modal,
@@ -31,7 +32,7 @@ import {
   TagRightIcon,
   TagCloseButton
 } from '@chakra-ui/react';
-import { ChevronLeft, HelpCircle, MoreHorizontal, Star, ArrowDownCircle, DollarSign, Maximize2, UserCheck, Codesandbox } from 'react-feather';
+import { ChevronLeft, HelpCircle, MoreHorizontal, Star, ArrowDownCircle, DollarSign, ExternalLink, Maximize2, UserCheck, Codesandbox } from 'react-feather';
 import { MinterButton, MinterMenuButton, MinterMenuItem } from '../../common';
 import { TransferTokenModal } from '../../common/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
@@ -42,7 +43,10 @@ import {
   getContractNftsQuery,
   getNftAssetContractQuery
 } from '../../../reducer/async/queries';
+import { NftMetadata } from '../../../lib/nfts/queries';
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import { calculateSHA256Hash } from '@taquito/tzip16';
 
 function NotFound() {
   return (
@@ -97,6 +101,7 @@ function TokenImage(props: {
   id?: string;
   src: string;
   width?: string;
+  metadata: NftMetadata;
   maxWidth?: string;
   maxHeight?: string;
   height?: string;
@@ -160,6 +165,25 @@ function TokenImage(props: {
         <source src={obj.url} type={obj.type} />
       </video>
     );
+  }
+
+  if (props.metadata.formats?.length) {
+    if (props.metadata.formats[0].mimeType === 'model/gltf-binary' ||
+      props.metadata.formats[0].mimeType === 'model/gltf+json'
+    ) {
+      return (
+        <>
+          <model-viewer
+            auto-rotate
+            camera-controls
+            rotation-per-second="30deg"
+            src={obj.url}
+            class={props.id === "fullScreenAssetView" ? "fullscreen" : "individual"}
+            style={{width: props.width || '100%'}}
+          ></model-viewer>
+        </>
+      );
+    }
   }
 
   return <MediaNotFound />;
@@ -275,7 +299,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
 
           <TokenImage
             id="fullScreenAssetView"
-            src={ipfsUriToGatewayUrl(system.config.network, token.artifactUri)}
+            src={ipfsUriToGatewayUrl(system.config, token.artifactUri)}
+            metadata={token.metadata}
             width="auto"
             height="auto"
             maxWidth="90vw"
@@ -321,10 +346,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <Maximize2 color="white" size={30} strokeWidth="3" />
               </Button>
               <TokenImage
-                src={ipfsUriToGatewayUrl(
-                  system.config.network,
-                  token.artifactUri
-                )}
+                src={ipfsUriToGatewayUrl(system.config, token.artifactUri)}
+                metadata={token.metadata}
               />
             </Box>
         </Flex>
@@ -432,7 +455,18 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
               >
                 Minter
               </Text>
-              <Text>{token.metadata?.minter || 'Minter Unknown'}</Text>
+              <Link
+                href={"https://tzkt.io/" + token.metadata?.minter}
+                color="brand.darkGray"
+                isExternal
+                ml={2}
+              >
+                <Flex flexDir="row" mr="auto" alignContent="right">
+                  <Text mr="5px">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <ExternalLink size={16} />
+                </Flex>
+              </Link>
+              
               <Text
                 py={2}
                 fontSize="xs"
@@ -441,7 +475,17 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
               >
                 IPFS Hash
               </Text>
-              <Text>{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
+              <Link
+                href={"https://cloudflare-ipfs.com/ipfs/" + uriToCid(token.artifactUri)}
+                color="brand.darkGray"
+                isExternal
+                ml={2}
+              >
+                <Flex flexDir="row" mr="auto" alignContent="right">
+                  <Text mr="5px">{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
+                  <ExternalLink size={16} />
+                </Flex>
+              </Link>
             </Flex>
           </Flex>
           <Flex 
@@ -541,12 +585,12 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
             my={6}
             px={8}
           >
-            {token.carbonOffset && token.carbonOffset !== "0" ? (
+            {token.title && token.title == "blep" ? (
               <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
                 <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
                 <TagLabel>
                   Carbon Offset: &nbsp;
-                  {token.carbonOffset ? (token.carbonOffset) : ''}
+                  {token.title ? (token.title) : ''}
                   &nbsp; ꜩ
                 </TagLabel>
               </Tag>) : <></>}

@@ -7,8 +7,9 @@ import logo from '../../components/common/assets/logo.svg';
 import BackgroundImage1 from '../SplashPage/CloversLeft.png';
 import BackgroundImage2 from '../SplashPage/CloversRight.png';
 import { useSelector, useDispatch } from '../../reducer';
-import { getMarketplaceNftsQuery } from '../../reducer/async/queries';
+import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../reducer/async/queries';
 import TokenCard from '../Marketplace/Catalog/TokenCard';
+import { VisibilityTrigger } from '../common/VisibilityTrigger';
 import { connectWallet } from '../../reducer/async/wallet';
 
 export default function SplashPage() {
@@ -23,10 +24,11 @@ export default function SplashPage() {
       dispatch(getMarketplaceNftsQuery(state.marketplace.address));
     }, [ state.marketplace.address, dispatch ]);
   
-    let tokens = state.marketplace.tokens;
-    if (tokens === null) {
-      tokens = [];
-    }
+    const loadMore = () => {
+      dispatch(loadMoreMarketplaceNftsQuery({}));
+    };
+
+    let tokens = state.marketplace.tokens?.filter(x=>x.token).map(x=>x.token!) ?? [];
 
     return(
       <Flex
@@ -74,16 +76,18 @@ export default function SplashPage() {
             </Flex>
             ) : (
               <>
-                <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8} mt="4vh">
-                  {tokens.slice(0,4).map(token => {
-                    return (
-                      <TokenCard
-                        key={`${token.address}-${token.id}`}
-                        network={system.config.network}
-                        {...token}
-                      />
-                    );
-                  })}
+                <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
+                  <>
+                    {tokens.slice(0,4).map(token => {
+                      return (
+                        <TokenCard
+                          key={`${token.address}-${token.id}`}
+                          config={system.config}
+                          {...token}
+                        />
+                      );
+                    })}
+                  </>
                 </SimpleGrid>
               </>
           )}
@@ -122,9 +126,9 @@ export default function SplashPage() {
           color="white" 
           fontSize="20px" 
           width="150px" 
-          onClick={() => setLocation("/about")}
+          onClick={() => setLocation("/create")}
         >
-          <Text m={2} fontSize="20px">Learn More</Text>
+          <Text m={2} fontSize="20px">Start Minting</Text>
         </MinterButton>  
         <Image
           src={BackgroundImage1}
@@ -142,35 +146,6 @@ export default function SplashPage() {
           mt="70vh"
           position="absolute"
         />
-      </Flex>
-      <Flex
-        align="center" 
-        bg="brand.darkGray" 
-        flexDir="column" 
-        height="70vh"
-        width="100%" 
-        pb={30}
-      >
-        <Heading 
-          align="center" 
-          color="white" 
-          mt="50px"
-        >
-          Latest Tokens
-        </Heading>
-
-        <FeaturedTokens/>
-
-        <MinterButton 
-          backgroundColor="brand.blue" 
-          color="white" 
-          mb="30px" 
-          mt="20px"  
-          onClick={() => setLocation("/marketplace")}
-          p="10px"
-          >
-          <Text m={2} fontSize="20px">Browse Market</Text>
-        </MinterButton>          
       </Flex>
     </Flex>
   );

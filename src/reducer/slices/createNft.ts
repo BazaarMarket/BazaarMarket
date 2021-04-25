@@ -1,17 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createNoSubstitutionTemplateLiteral } from 'typescript';
 import { NftMetadataAttribute } from '../../lib/nfts/queries';
 import { readFileAsDataUrlAction } from '../async/actions';
 
 // State
 
-type Step = 'file_upload' | 'asset_details' | 'collection_select';
+type Step = 'file_upload' | 'asset_details' | 'collection_select' | 'confirm';
 
-export const steps: Step[] = [
-  'file_upload',
-  'asset_details',
-  'collection_select'
-];
+export const steps: Step[] = ['file_upload', 'asset_details', 'confirm'];
 
 interface Fields {
   name: string | null;
@@ -54,7 +49,7 @@ export const initialState: CreateNftState = {
   uploadedArtifact: null,
   fields: {
     name: null,
-    description: null,
+    description: null
   },
   attributes: [],
   collectionAddress: null,
@@ -101,7 +96,7 @@ const slice = createSlice({
       state.displayImageFile = null;
     },
     addMetadataRow(state) {
-      state.attributes.push({ name: null, value: null });
+      state.attributes.push({ name: '', value: '' });
     },
     updateMetadataRowName(state, action: UpdateRowNameAction) {
       if (state.attributes[action.payload.key]) {
