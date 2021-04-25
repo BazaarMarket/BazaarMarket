@@ -1,21 +1,21 @@
 {
-    "rpc": "https://rpc.tzbeta.net",
-    "network": "mainnet",
-    "bcd": {
-      "api": "https://api.better-call.dev",
-      "gui": "https://better-call.dev"
-    },
-    "tzkt": {
-      "api": "https://staging.api.mainnet.tzkt.io"
-    },
-    "contracts": {
-      "nftFaucet": "KT1PKvHNWuWDNVDtqjDha4AostLrGDu4G1jy",
-      "marketplace": {
-        "fixedPrice": {
-          "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
-        }
+  "rpc": "https://rpc.tzbeta.net",
+  "network": "mainnet",
+  "bcd": {
+    "api": "https://api.better-call.dev",
+    "gui": "https://better-call.dev"
+  },
+  "tzkt": {
+    "api": "https://staging.api.mainnet.tzkt.io"
+  },
+  "contracts": {
+    "nftFaucet": "KT1PKvHNWuWDNVDtqjDha4AostLrGDu4G1jy",
+    "marketplace": {
+      "fixedPrice": {
+        "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
       }
-    },
-    "ipfsApi": "https://minter-api.tqhosted.com",
-    "ipfsGateway": "https://ipfs.fleek.co"
-  }
+    }
+  },
+  "ipfsApi": "https://minter-api.tqhosted.com",
+  "ipfsGateway": "https://ipfs.fleek.co"
+}
