@@ -17,7 +17,7 @@ export async function createFaucetContract(
   const metadataMap = new MichelsonMap<string, string>();
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
     name,
-    description: 'An OpenMinter base collection contract.',
+    description: 'A very Bazaar collection contract.',
     interfaces: ['TZIP-012', 'TZIP-016', 'TZIP-020'],
     tokenCategory: 'collectibles'
   });
@@ -44,7 +44,7 @@ export async function createAssetContract(
 ) {
   const metadataMap = new MichelsonMap<string, string>();
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
-    description: 'An OpenMinter assets contract.',
+    description: 'A very Bazaar collection contract.',
     interfaces: ['TZIP-012', 'TZIP-016', 'TZIP-020'],
     tokenCategory: 'collectibles',
     ...metadata
@@ -84,6 +84,7 @@ export async function mintToken(
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
     ...metadata,
     decimals: 0,
+    symbol: "BATOs",
     booleanAmount: true
   });
   token_info.set('', toHexString(resp.data.ipfsUri));

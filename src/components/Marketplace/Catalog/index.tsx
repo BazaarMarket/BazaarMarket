@@ -81,6 +81,37 @@ export default function Catalog() {
     );
   }
 
+  function SearchBar() {
+    return(
+      <>
+      <Flex  alignSelf="center" mt="20px" mb="25px">
+      <Box borderColor="lightGray" borderWidth="1px" borderRadius="50px" width="500px" p="5px" pl="10px" bg="white"> 
+        <Box float="left" pt="3px">
+          <Search color="lightGray"/>
+        </Box>
+        <Box float="left" pt="4px">
+          <InputGroup>
+            <Input variant="unstyled" placeholder="Search NFTs..." ml="10px" color="lightGray" width="440px"/>
+            <InputRightElement width="4.5rem" float="right">
+              <Button h="1.5rem" size="sm" onClick={handleClick} float="right" mb="20px" borderRadius="100px">
+                {show ? "Clear" : 
+                  <Flex pr="2px">
+                    <Box p="2px">
+                      <Filter size="1em"/>
+                    </Box>
+                    Filters
+                  </Flex>}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </Box>
+      </Box>
+    </Flex>
+    <ShowFilters />
+    </>
+    );
+  }
+
   let tokens = state.marketplace.tokens;
   if (tokens === null) {
     tokens = [];
@@ -97,31 +128,7 @@ export default function Catalog() {
       justify="start"
       flexDir="column"
     >
-      <Flex  alignSelf="center" mt="20px" mb="25px">
-        <Box borderColor="lightGray" borderWidth="1px" borderRadius="50px" width="500px" p="5px" pl="10px" bg="white"> 
-          <Box float="left" pt="3px">
-            <Search color="lightGray"/>
-          </Box>
-          <Box float="left" pt="4px">
-            <InputGroup>
-              <Input variant="unstyled" placeholder="Search NFTs..." ml="10px" color="lightGray" width="440px"/>
-              <InputRightElement width="4.5rem" float="right">
-                <Button h="1.5rem" size="sm" onClick={handleClick} float="right" mb="20px" borderRadius="100px">
-                  {show ? "Clear" : 
-                    <Flex pr="2px">
-                      <Box p="2px">
-                        <Filter size="1em"/>
-                      </Box>
-                      Filters
-                    </Flex>}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </Box>
-        </Box>
-      </Flex>
-      <ShowFilters />
-      <Container maxW="80em">
+      <Container maxW="80em" mt="5vh">
         <Flex
           flex="1"
           w="100%"
@@ -165,7 +172,7 @@ export default function Catalog() {
                         network={system.config.network}
                         {...token}
                       />
-                    );
+                    )
                   })}
                 </SimpleGrid>
               </>

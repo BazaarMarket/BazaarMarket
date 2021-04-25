@@ -35,7 +35,6 @@ export default function SplashPage() {
       bg="brand.darkGray"
       px={10}
       pt={6}
-      overflowY="scroll"
       justify="start"
       flexDir="column"
     >

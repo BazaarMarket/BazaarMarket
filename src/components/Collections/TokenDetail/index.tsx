@@ -31,7 +31,7 @@ import {
   TagRightIcon,
   TagCloseButton
 } from '@chakra-ui/react';
-import { ChevronLeft, HelpCircle, MoreHorizontal, Star, ArrowDownCircle, DollarSign, Maximize2, UserCheck } from 'react-feather';
+import { ChevronLeft, HelpCircle, MoreHorizontal, Star, ArrowDownCircle, DollarSign, Maximize2, UserCheck, Codesandbox } from 'react-feather';
 import { MinterButton, MinterMenuButton, MinterMenuItem } from '../../common';
 import { TransferTokenModal } from '../../common/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
@@ -557,7 +557,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   Charity
                 </TagLabel> 
               </Tag> ) : <></>}
-              {token.metadata.minter && token.metadata.minter?.substr(-5) == verifiedUsers[0] ? (
+              {token.metadata.minter && token.metadata.minter?.substr(-5) == "VERIF" ? (
                 <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
                 <TagLeftIcon boxSize="12px" as={UserCheck} />
                 <TagLabel>
@@ -565,6 +565,25 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 </TagLabel> 
               </Tag>
               ) : <></>}
+             {token.metadata.symbol ? (
+        <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="auto" mt="1vh">
+            <TagLeftIcon boxSize="1em" as={Codesandbox} />
+            <TagLabel>
+              {token.metadata.symbol}
+            </TagLabel>
+          </Tag>
+        </>
+        ) : (
+          <>
+        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="auto" mt="1vh">
+            <TagLeftIcon boxSize="1em" as={Codesandbox} />
+            <TagLabel>
+              OpenMinter
+            </TagLabel>
+          </Tag>
+        </>
+        )}
           </Flex>
           </Flex>
         </Flex>

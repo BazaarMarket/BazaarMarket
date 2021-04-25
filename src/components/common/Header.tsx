@@ -116,7 +116,7 @@ function WalletDisplay() {
             onClick={() => {
               setLocation('/collections');
             }}>
-            Collections
+            My Collections
           </MenuItem>
           <MenuItem
             color="brand.red"
@@ -183,7 +183,7 @@ export function Header() {
           </Flex>
         </Link>   
         
-        <Link href="https://github.com/FacioErgoSum/Bazaar-Marketplace" isExternal pl="20px" pr="20px" mt="14px" size="30px" stroke="100">
+        <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="20px" pr="20px" mt="14px" size="30px" stroke="100">
           <GitHub/>
         </Link>
       

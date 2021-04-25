@@ -1,0 +1,17 @@
+{
+    "rpc": "https://rpc.tzbeta.net",
+    "network": "mainnet",
+    "bcd": {
+      "api": "https://api.better-call.dev",
+      "gui": "https://better-call.dev"
+    },
+    "contracts": {
+      "nftFaucet": "KT19PsuKA8SmQphgiJBquPSHDJAuLqfhwQt4",
+      "marketplace": {
+        "fixedPrice": {
+          "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
+        }
+      }
+    },
+    "ipfsApi": "https://minter-api.tqhosted.com"
+  }

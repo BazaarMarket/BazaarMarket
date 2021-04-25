@@ -15,6 +15,7 @@ import {
   CreateNftState,
   decrementStep,
   incrementStep,
+  updateField,
   steps
 } from '../../reducer/slices/createNft';
 import { mintTokenAction } from '../../reducer/async/actions';

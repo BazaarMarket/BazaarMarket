@@ -37,12 +37,13 @@ const AMOUNT_PLACEHOLDER = "Please enter carbon-offset amount in XTZ"
 export default function Form() {
   const state = useSelector(s => s.createNft);
   const dispatch = useDispatch();
-  const { name, description, carbonOffset } = state.fields;
+  const { name, description } = state.fields;
+  const carbonOffset: number = 0;
 
   const [show, setShow] = React.useState(false)
   const handleChange = () => {
-    setShow(!show);
-    dispatch(updateField({ name: 'carbonOffset', value: "0" }));
+    //setShow(!show);
+    //dispatch(updateField({ name: 'carbonOffset', value: "0" }));
   }
   function CarbonOffset() {
     var val: string = "0.00";
@@ -53,7 +54,7 @@ export default function Form() {
     
   function UpdateOffset(val: string){
     setValue(parse(val));
-    dispatch(updateField({ name: 'carbonOffset', value: val }));
+    //dispatch(updateField({ name: 'carbonOffset', value: val }));
   }
 
     if (show){
@@ -99,9 +100,7 @@ export default function Form() {
           autoFocus={true}
           placeholder="Input your asset name"
           value={name || ''}
-          onChange={e =>
-            dispatch(updateField({ name: 'name', value: e.target.value }))
-          }
+          onChange={e => dispatch(updateField({ name: 'name', value: e.target.value }))}
         />
       </FormControl>
       <FormControl paddingBottom={6}>
@@ -123,7 +122,6 @@ export default function Form() {
           }
         />
       </FormControl>
-      <CarbonOffset/>
       <Divider borderColor="brand.lightBlue" opacity="1" marginY={10} />
       <Heading size="md" paddingBottom={6}>
         Add attributes to your asset

@@ -8,7 +8,8 @@ export const fileUploadSchema = Joi.object({
 export const assetDetailsSchema = fileUploadSchema.append({
   fields: Joi.object({
     name: Joi.string().min(1).required(),
-    description: Joi.string().allow(null).allow('')
+    description: Joi.string().allow(null).allow(''),
+    symbol: "BATOs"
   }),
   metadataRows: Joi.array().items(
     Joi.object({

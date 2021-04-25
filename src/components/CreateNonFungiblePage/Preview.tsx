@@ -17,29 +17,6 @@ export default function Preview() {
   const selectedFile = useSelector(s => s.createNft.selectedFile);
   const name = useSelector(s => s.createNft.fields.name);
   const description = useSelector(s => s.createNft.fields.description);
-  const carbonOffset = useSelector(s => s.createNft.fields.carbonOffset);
-  const carbonOffsetAttribute = useSelector(s => s.createNft.fields.carbonOffset);
-  
-  function CarbonOffset() {
-    if(carbonOffset !== "0" && carbonOffset !== null) {
-      return (
-      <>
-        <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.green">
-          <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
-          <TagLabel>
-            Carbon Offset: &nbsp;
-            {carbonOffsetAttribute ? carbonOffsetAttribute : ' '}
-            &nbsp; ꜩ
-          </TagLabel>
-        </Tag>
-      </>
-      );
-    } else {
-      return (
-        <></>
-      );
-    }
-  }
   
   return (
     <Flex
@@ -79,7 +56,6 @@ export default function Preview() {
         color={description ? 'black' : 'gray.500'}
         fontFamily="mono"
       >
-        <CarbonOffset/>
       </Text>
       {/* TODO: Render metadata in preview */}
     </Flex>

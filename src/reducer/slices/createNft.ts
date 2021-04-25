@@ -16,7 +16,6 @@ export const steps: Step[] = [
 interface Fields {
   name: string | null;
   description: string | null;
-  carbonOffset: string | "0";
 }
 
 export enum CreateStatus {
@@ -56,7 +55,6 @@ export const initialState: CreateNftState = {
   fields: {
     name: null,
     description: null,
-    carbonOffset: "0"
   },
   attributes: [],
   collectionAddress: null,

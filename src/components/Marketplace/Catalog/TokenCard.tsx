@@ -14,7 +14,7 @@ import {
   TagLeftIcon,
   TagRightIcon,
   TagCloseButton } from '@chakra-ui/react';
-  import { Columns, Plus, X, ArrowDownCircle } from 'react-feather';
+  import { Columns, Plus, X, ArrowDownCircle, Codesandbox } from 'react-feather';
 import { TokenMedia } from '../../common/TokenMedia';
 import VerificationCheck from '../../common/assets/VerifiedTag.png';
 
@@ -64,6 +64,32 @@ export default function TokenCard(props: TokenCardProps) {
     } else {
       return (
         <></>
+      );
+    }
+  }
+
+  function TokenType() {
+    if(props.metadata.symbol)  {
+      return (
+        <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="auto" mt="1vh">
+            <TagLeftIcon boxSize="1em" as={Codesandbox} />
+            <TagLabel>
+              {props.metadata.symbol}
+            </TagLabel>
+          </Tag>
+        </>
+        );
+    } else {
+      return (
+        <>
+        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="auto" mt="1vh">
+            <TagLeftIcon boxSize="1em" as={Codesandbox} />
+            <TagLabel>
+              OpenMinter
+            </TagLabel>
+          </Tag>
+        </>
       );
     }
   }
@@ -135,7 +161,6 @@ export default function TokenCard(props: TokenCardProps) {
           <TokenMedia
             src={ipfsUriToGatewayUrl(props.network, props.artifactUri)}
           />
-          <VerifiedNFT/>
         </Box>
       </AspectRatio>
       <Flex
@@ -150,6 +175,7 @@ export default function TokenCard(props: TokenCardProps) {
         <Heading size="sm">{props.title}</Heading>
         <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
         <CarbonOffset/>
+        <TokenType/>
       </Flex>
       <SaleType />
     </Flex>
