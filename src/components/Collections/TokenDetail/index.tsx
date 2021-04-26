@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from "react-helmet";
 import { useLocation } from 'wouter';
 import {
   Accordion,
@@ -157,7 +158,7 @@ function TokenImage(props: {
         controls
         style={{
           margin: 'auto', height: props.height || "auto",
-          width: props.width || "auto",
+          width: props.width || "100%",
           maxWidth: props.maxWidth ?? 'unset',
           maxHeight: props.maxHeight ?? '70vh'
         }}
@@ -179,7 +180,7 @@ function TokenImage(props: {
             rotation-per-second="30deg"
             src={obj.url}
             class={props.id === "fullScreenAssetView" ? "fullscreen" : "individual"}
-            style={{width: props.width || '100%'}}
+            style={{width: props.width || '100%', height: "65vh"}}
           ></model-viewer>
         </>
       );
