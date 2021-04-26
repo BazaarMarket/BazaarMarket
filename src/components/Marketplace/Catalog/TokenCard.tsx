@@ -1,9 +1,7 @@
-
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Token } from '../../../reducer/slices/collections';
 import { useLocation } from 'wouter';
-import { IpfsGatewayConfig } from '../../../lib/util/ipfs';
+import { IpfsGatewayConfig, ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
 import { TokenMedia } from '../../common/TokenMedia';
 import { 
   AspectRatio, 
@@ -20,9 +18,15 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon, } from '@chakra-ui/react';
-  import { Columns, Plus, X, ArrowDownCircle, Codesandbox } from 'react-feather';
+  import { Columns, Plus, X, ArrowDownCircle, Codesandbox, Volume2, VolumeX } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
+
+interface TokenMediaProps extends Token {
+  config: IpfsGatewayConfig;
+  maxW?: string;
+  class?: string;
+}
 
   interface TokenCardProps extends Token {
     config: IpfsGatewayConfig,
@@ -34,6 +38,24 @@ export default function TokenCard(props: TokenCardProps) {
   let auctionType: any = "forSale";
   var verifiedUsers: string[] = ["2YnvZ", "HXV1m"];
   var verifiedUser: boolean = false;
+
+  const src = ipfsUriToGatewayUrl(props.config, props.artifactUri);
+  const [errored, setErrored] = useState(false);
+  const [obj, setObj] = useState<{ url: string; type: string } | null>(null);
+  useEffect(() => {
+    (async () => {
+      let blob;
+      try {
+        blob = await fetch(src).then(r => r.blob());
+      } catch (e) {
+        return setErrored(true);
+      }
+      setObj({
+        url: URL.createObjectURL(blob),
+        type: blob.type
+      });
+    })();
+  }, [src]);
 
   function VerifiedNFT() {
     for(var i: number = 0; i <= verifiedUsers.length; i++){
@@ -163,7 +185,12 @@ export default function TokenCard(props: TokenCardProps) {
       }
     >
       <AspectRatio ratio={3 / 2}>
-        <Box>
+        <Box bgColor="brand.darkGray">
+          {obj && (/^video\/.*/.test(obj.type)) ? (
+            <Flex position="absolute" ml="82%" mt="52%">
+              <Volume2 size="25px" color="white"/>
+            </Flex>
+          ) : ( <></> )}
           <TokenMedia
             {...props}
           />

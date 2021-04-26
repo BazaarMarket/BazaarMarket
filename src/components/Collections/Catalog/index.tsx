@@ -37,7 +37,7 @@ export default function Catalog() {
     <Flex
       flex="1"
       w="100%"
-      minHeight="0"
+      minHeight="90vh"
       flexDir={{
         base: 'column',
         md: 'row'

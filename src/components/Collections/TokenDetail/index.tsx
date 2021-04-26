@@ -155,10 +155,12 @@ function TokenImage(props: {
   if (/^video\/.*/.test(obj.type)) {
     return (
       <video
+        loop
+        autoPlay
         controls
         style={{
-          margin: 'auto', height: props.height || "auto",
-          width: props.width || "100%",
+          margin: 'auto', height: props.height || "100%",
+          width: props.width || "auto",
           maxWidth: props.maxWidth ?? 'unset',
           maxHeight: props.maxHeight ?? '70vh'
         }}

@@ -19,13 +19,15 @@ import {
   DrawerBody,
   Heading
 } from '@chakra-ui/react';
-import { ChevronDown, Package, Plus, GitHub, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
-import { RiStore2Line } from 'react-icons/ri';
+import { ChevronDown, Package, Plus, GitHub, Server, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
+import { RiStore2Line, RiDiscordLine, RiTwitterLine } from 'react-icons/ri';
 import { MdCollections } from 'react-icons/md';
+import { FaDiscord } from 'react-icons/fa';
 import { useSelector, useDispatch } from '../../reducer';
 import { connectWallet, disconnectWallet } from '../../reducer/async/wallet';
 import { MinterButton } from '../common';
 import headerLogo from './assets/logo.svg';
+import headerIcon from './assets/icon.svg';
 
 interface MobileHeaderLinkProps {
   to: string;
@@ -102,7 +104,7 @@ function DesktopHeaderLink(props: DesktopHeaderLinkProps) {
 function WalletInfo(props: { tzPublicKey: string }) {
   return (
     <>
-      <Box borderRadius="100%" width="50px" height="50px" bg="white">
+      <Box borderRadius="100%" width="5.5vh" height="5.5vh" bg="white">
         <Image borderRadius="100%"
           src={`https://services.tzkt.io/v1/avatars2/${props.tzPublicKey}`}
         />
@@ -187,31 +189,120 @@ function WalletDisplay() {
   );
 }
 
-export function Header() {
-  const [location, setLocation] = useLocation();
-  /*if (location === '/' || location === '') {
-    return null;
-  }*/
+function NavItems() {
+  const system = useSelector(s => s.system);
+  const dispatch = useDispatch();
+  const [, setLocation] = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef(null);
+
   return (
-    <Flex
+    <>
+      {/* Mobile */}
+      <Flex
       width="100%"
       bg="white"
       paddingX={10}
       paddingY={6}
       height="10vh"
+        flex="1"
+        justify="flex-end"
+        display={{
+          base: 'flex',
+          md: 'none'
+        }}
+      >
+        <Box
+          color="brand.lightGray"
+          ref={btnRef}
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          <HamburgerIcon />
+        </Box>
+        <Drawer
+          isOpen={isOpen}
+          onClose={onClose}
+          placement="right"
+          finalFocusRef={btnRef}
+        >
+          <DrawerOverlay>
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerBody mt={12}>
+                <Flex
+                  flexDir="column"
+                  justifyContent="space-between"
+                  height="100%"
+                >
+                  <Flex flexDir="column">
+                    <MobileHeaderLink to="/marketplace" onClick={onClose}>
+                      Marketplace
+                    </MobileHeaderLink>
+                    <MobileHeaderLink to="/about" onClick={onClose}>
+                      About
+                    </MobileHeaderLink>
+                    <MobileHeaderLink to="/collections" onClick={onClose}>
+                      Collections
+                    </MobileHeaderLink>
+                    {system.status === 'WalletConnected' ? (
+                      <MobileHeaderLink to="/create" onClick={onClose}>
+                        New Asset
+                      </MobileHeaderLink>
+                    ) : null}
+                  <Flex flexDir="row" m="2vh" align="center">
+                    <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="20px" pr="20px" mt="14px" stroke="200">
+                      <GitHub size="30px" strokeWidth="2.5px"/>
+                    </Link>
+                    <Link href="https://discord.gg/mnYZwv8s5a" isExternal pl="20px" pr="20px" mt="14px">
+                      <RiDiscordLine size="40px"/>
+                    </Link>  
+                    <Link href="https://twitter.com/BazaarNfts" isExternal pl="20px" pr="20px" mt="14px">
+                      <RiTwitterLine size="37px"/>
+                    </Link> 
+                  </Flex>
+                  </Flex>
+                  {system.status === 'WalletConnected' ? (
+                    <MinterButton
+                      variant="cancelAction"
+                      onClick={async () => {
+                        await dispatch(disconnectWallet());
+                        setLocation('/');
+                      }}
+                      mb={4}
+                    >
+                      Disconnect Wallet
+                    </MinterButton>
+                  ) : (
+                    <MinterButton
+                      variant="secondaryAction"
+                      onClick={e => {
+                        e.preventDefault();
+                        dispatch(connectWallet());
+                      }}
+                      mb={4}
+                    >
+                      Connect Wallet
+                    </MinterButton>
+                  )}
+                </Flex>
+              </DrawerBody>
+            </DrawerContent>
+          </DrawerOverlay>
+        </Drawer>
+      </Flex>
+      {/* Desktop */}
+      <Flex
+      width="100%"
+      bg="white"
+      paddingX={10}
+      paddingY={6}
+      height="10vh"
+      display={{
+        base: 'none',
+        md: 'flex'
+      }}
     >
-      
-      <Image
-        width="200px"
-        src={headerLogo}
-        cursor="pointer"
-        align="right"
-        onClick={ function() {
-          window.location.href = '/';
-          }
-        }
-      />
-
       <Flex width="100%" alignSelf="right">
         
         <Spacer />
@@ -245,6 +336,55 @@ export function Header() {
         <WalletDisplay />
       </Flex>
     
+    </Flex>
+    </>
+  );
+}
+
+export function Header() {
+  const [, setLocation] = useLocation();
+
+  return (
+    <Flex
+      width="97%"
+      maxW="100vw"
+      bg="brand.white"
+      height="10vh"
+      marginLeft="2.5vw"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Image
+        display={{
+          base: 'none',
+          md: 'block'
+        }}
+        height="5vh"
+        maxW="220px"
+        src={headerLogo}
+        onClick={e => {
+          e.preventDefault();
+          setLocation('/');
+        }}
+        cursor="pointer"
+      />
+      <Image
+        display={{
+          base: 'block',
+          md: 'none'
+        }}
+        marginLeft="10px"
+        height="8vh"
+        width="45px"
+        src={headerIcon}
+        onClick={e => {
+          e.preventDefault();
+          setLocation('/');
+        }}
+        cursor="pointer"
+        align="right"
+      />
+      <NavItems/>
     </Flex>
   );
 }

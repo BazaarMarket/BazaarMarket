@@ -69,11 +69,13 @@ export function TokenMedia(props: TokenMediaProps) {
     return (
       <video
         loop
+        autoPlay
+        muted
         onClick={e => e.preventDefault()}
-        onMouseEnter={e => e.currentTarget.play()}
-        onMouseLeave={e => e.currentTarget.pause()}
+        onMouseEnter={e => e.currentTarget.muted = false}
+        onMouseLeave={e => e.currentTarget.muted = true}
         width="100%"
-        style={{ maxWidth: props.maxW }}
+        style={{ maxWidth: props.maxW, backgroundColor: "brand.darkGray"}}
       >
         <source src={obj.url} type={obj.type} />
       </video>
