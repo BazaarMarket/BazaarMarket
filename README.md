@@ -3,6 +3,7 @@
 [![](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE) [![](https://img.shields.io/badge/version-v0.4.2-orange)](https://github.com/tqtezos/minter)
 
 ### Bazaar Market Social Links:
+***Website:*** [:four_leaf_clover:](https://bazaarnft.xyz)
 ***Twitter:*** [:baby_chick:](https://twitter.com/BazaarNfts)
 ***Github:*** [:octocat:](https://github.com/BazaarMarket/bazaar-market) 
 ***Discord:*** [:speech_balloon:](https://discord.gg/wYK2DRmW6R)
