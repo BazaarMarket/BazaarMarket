@@ -386,7 +386,11 @@ export async function getMarketplaceNfts(
   const tokenSales = await getFixedPriceSales(system.tzkt, address);
   const activeSales = tokenSales.filter(v => v.active);
   const addresses = activeSales
+<<<<<<< HEAD
   .map(s => s.key.sale_token.token_for_sale_address);
+=======
+    .map(s => s.key.sale_token.token_for_sale_address);
+>>>>>>> 38a8b6fb5e5eef7f1f89d7241516de3d02f9b6b5
 
   const uniqueAddresses = Array.from(new Set(addresses));
 
