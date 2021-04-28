@@ -259,7 +259,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   var verifiedUser: boolean = false;
 
   return (
-    <Flex flex="1" width="100%" minHeight="auto">
+    <Flex flex="1" width="100vw" minHeight="auto">
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -322,6 +322,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
         </ModalContent>
       </Modal>
       <Flex 
+      width="100vw"
       display={{
         base: 'flex',
           lg: 'flex',
@@ -661,6 +662,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       </Flex>        
       </Flex>
       <Flex 
+      width="100vw"
       flexDir="column"
       display={{
         base: 'none',
