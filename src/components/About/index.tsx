@@ -698,7 +698,8 @@ export default function AboutPage() {
         base: 'none',
           lg: 'none',
           md: 'none',
-          sm: 'flex'
+          sm: 'flex',
+          xs: 'flex'
       }}>
         <Flex flexDir="row" maxW="90vw" mt="5vh"> 
           <Flex flexDir="column" width="85vw" pr="2vw">

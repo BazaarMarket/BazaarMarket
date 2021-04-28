@@ -106,18 +106,17 @@ export default function SplashPage() {
       flexDir="column"
     >
       <Flex height="90vh" flexDir="column" align="center" maxW="600px">
-        <Heading color="brand.darkGray" size="xl" pb={8} position="absolute" pt="30vh">
+        <Heading color="brand.darkGray" size="lg" pb={2} pt="30vh" textAlign="center">
           Carbon-Offset NFTs on Tezos
         </Heading>
+       
         <Heading
           color="brand.darkGray"
           size="md"
           textAlign="center"
           fontFamily="Helvetica"
-          pb={12}
+          pb={4}
           opacity=".8"
-          m="50px"
-          mt="35vh"
         >
           Create and mint non-fungible tokens guilt-free.
         </Heading>
