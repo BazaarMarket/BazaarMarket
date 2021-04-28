@@ -6,8 +6,6 @@ import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../../
 import TokenCard from './TokenCard';
 import FeaturedToken from './FeaturedToken';
 import { VisibilityTrigger } from '../../common/VisibilityTrigger';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
 export default function Catalog() {
   const { system, marketplace: state } = useSelector(s => s);

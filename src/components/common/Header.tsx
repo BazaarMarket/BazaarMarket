@@ -303,7 +303,7 @@ function NavItems() {
         md: 'flex'
       }}
     >
-      <Flex width="100%" alignSelf="right">
+      <Flex width="100%">
         
         <Spacer />
         

@@ -1,10 +1,12 @@
 import { MichelsonMap } from '@taquito/taquito';
+import {
+  Fa2MultiNftAssetCode,
+  Fa2MultiNftFaucetCode
+} from '@tqtezos/minter-contracts';
 import { Buffer } from 'buffer';
 import { SystemWithWallet } from '../system';
-import faucetCode from './code/fa2_tzip16_compat_multi_nft_faucet';
-import assetCode from './code/fa2_tzip16_compat_multi_nft_asset';
 import { uploadIPFSJSON } from '../util/ipfs';
-import { NftMetadata } from './queries';
+import { NftMetadata } from './decoders';
 
 function toHexString(input: string) {
   return Buffer.from(input).toString('hex');
@@ -24,7 +26,7 @@ export async function createFaucetContract(
   metadataMap.set('', toHexString(resp.data.ipfsUri));
   return await system.toolkit.wallet
     .originate({
-      code: faucetCode,
+      code: Fa2MultiNftFaucetCode.code,
       storage: {
         assets: {
           ledger: new MichelsonMap(),
@@ -44,7 +46,7 @@ export async function createAssetContract(
 ) {
   const metadataMap = new MichelsonMap<string, string>();
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
-    description: 'A very Bazaar collection contract.',
+    description: 'A very Bazaar assets contract.',
     interfaces: ['TZIP-012', 'TZIP-016', 'TZIP-020'],
     tokenCategory: 'collectibles',
     ...metadata
@@ -52,7 +54,7 @@ export async function createAssetContract(
   metadataMap.set('', toHexString(resp.data.ipfsUri));
   return await system.toolkit.wallet
     .originate({
-      code: assetCode,
+      code: Fa2MultiNftAssetCode.code,
       storage: {
         assets: {
           ledger: new MichelsonMap(),
@@ -84,7 +86,6 @@ export async function mintToken(
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
     ...metadata,
     decimals: 0,
-    symbol: "BATOs",
     booleanAmount: true
   });
   token_info.set('', toHexString(resp.data.ipfsUri));
@@ -128,7 +129,7 @@ export async function listTokenForSale(
 ) {
   const contractM = await system.toolkit.wallet.at(marketplaceContract);
   const contractT = await system.toolkit.wallet.at(tokenContract);
-  const batch = await system.toolkit.wallet
+  const batch = system.toolkit.wallet
     .batch([])
     .withContractCall(
       contractT.methods.update_operators([
@@ -155,7 +156,7 @@ export async function cancelTokenSale(
 ) {
   const contractM = await system.toolkit.wallet.at(marketplaceContract);
   const contractT = await system.toolkit.wallet.at(tokenContract);
-  const batch = await system.toolkit.wallet
+  const batch = system.toolkit.wallet
     .batch([])
     .withContractCall(
       contractM.methods.cancel(system.tzPublicKey, tokenContract, tokenId)

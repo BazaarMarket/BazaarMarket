@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction, CaseReducer } from '@reduxjs/toolkit';
-import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../async/queries';
-import { Nft, MarketplaceNftLoadingData } from '../../lib/nfts/queries';
+import {
+  getMarketplaceNftsQuery,
+  loadMoreMarketplaceNftsQuery
+} from '../async/queries';
+import { Nft } from '../../lib/nfts/decoders';
+import { MarketplaceNftLoadingData } from '../../lib/nfts/queries';
 import config from '../../config.json';
 
 //// State
@@ -54,8 +58,6 @@ const slice = createSlice({
   }
 });
 
-export const {
-  populateMarketplace
-} = slice.actions;
+export const { populateMarketplace } = slice.actions;
 
 export default slice;

@@ -18,7 +18,7 @@ import {
 } from '../../lib/util/ipfs';
 import { SelectedFile } from '../slices/createNft';
 import { connectWallet } from './wallet';
-import { NftMetadata } from '../../lib/nfts/queries';
+import { NftMetadata } from '../../lib/nfts/decoders';
 import { SystemWithToolkit, SystemWithWallet } from '../../lib/system';
 import { notifyPending, notifyFulfilled } from '../slices/notificationsActions';
 
@@ -208,17 +208,21 @@ export const mintTokenAction = createAsyncThunk<
         ipfsMetadata.artifactUri = fileResponse.data.ipfsUri;
         ipfsMetadata.displayUri = imageResponse.data.ipfsUri;
         ipfsMetadata.thumbnailUri = imageResponse.data.thumbnail.ipfsUri;
-        ipfsMetadata.formats = [{
-          fileSize: fileResponse.headers['content-length'],
-          mimeType: fileResponse.headers['content-type']
-        }];
+        ipfsMetadata.formats = [
+          {
+            fileSize: fileResponse.headers['content-length'],
+            mimeType: fileResponse.headers['content-type']
+          }
+        ];
       } else {
         const fileResponse = await uploadIPFSFile(system.config.ipfsApi, file);
         ipfsMetadata.artifactUri = fileResponse.data.ipfsUri;
-        ipfsMetadata.formats = [{
-          fileSize: fileResponse.data.size,
-          mimeType: file.type
-        }];
+        ipfsMetadata.formats = [
+          {
+            fileSize: fileResponse.data.size,
+            mimeType: file.type
+          }
+        ];
       }
     } catch (e) {
       return rejectWithValue({

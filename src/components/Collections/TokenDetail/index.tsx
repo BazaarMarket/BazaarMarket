@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from "react-helmet";
 import { useLocation } from 'wouter';
 import {
   Accordion,
@@ -33,21 +32,29 @@ import {
   TagRightIcon,
   TagCloseButton
 } from '@chakra-ui/react';
-import { ChevronLeft, HelpCircle, MoreHorizontal, Star, ArrowDownCircle, DollarSign, ExternalLink, Maximize2, UserCheck, Codesandbox } from 'react-feather';
+import { 
+  ChevronLeft, 
+  HelpCircle, 
+  MoreHorizontal, 
+  Star, 
+  ArrowDownCircle, 
+  DollarSign, 
+  ExternalLink, 
+  Maximize2, 
+  UserCheck, 
+  Codesandbox, 
+  RefreshCw } from 'react-feather';
 import { MinterButton, MinterMenuButton, MinterMenuItem } from '../../common';
 import { TransferTokenModal } from '../../common/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
-import { BuyTokenButton } from '../../common/BuyToken';
+import { BuyTokenButton } from '../../common/modals/BuyToken';
 import { ipfsUriToGatewayUrl, uriToCid } from '../../../lib/util/ipfs';
 import { useSelector, useDispatch } from '../../../reducer';
 import {
   getContractNftsQuery,
   getNftAssetContractQuery
 } from '../../../reducer/async/queries';
-import { NftMetadata } from '../../../lib/nfts/queries';
-import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
-import { config } from '@fortawesome/fontawesome-svg-core';
-import { calculateSHA256Hash } from '@taquito/tzip16';
+import { NftMetadata } from '../../../lib/nfts/decoders';
 
 function NotFound() {
   return (
@@ -179,6 +186,7 @@ function TokenImage(props: {
           <model-viewer
             auto-rotate
             camera-controls
+            width={props.maxWidth}
             rotation-per-second="30deg"
             src={obj.url}
             class={props.id === "fullScreenAssetView" ? "fullscreen" : "individual"}
@@ -251,7 +259,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   var verifiedUser: boolean = false;
 
   return (
-    <Flex flex="1" width="100%" minHeight="90vh">
+    <Flex flex="1" width="100%" minHeight="auto">
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -313,25 +321,30 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
           <ModalCloseButton position="absolute" right="0 !important" bottom="0 !important" display="block !important" fontSize="18px" top="unset" borderLeft="2px solid #aaa" color="white" borderTop="2px solid #aaa" width="4rem" height="4rem" borderRight="none" borderBottom="none" borderBottomStartRadius="0" borderBottomEndRadius="0" borderTopEndRadius="0" border="0" />
         </ModalContent>
       </Modal>
-      
-      <Flex flexDir="column" w="50%" minHeight="90vh">
+      <Flex 
+      display={{
+        base: 'flex',
+          lg: 'flex',
+          md: 'none',
+          sm: 'none'
+      }}>
+        <Flex flexDir="column" w="50%" minHeight="90vh">
         <Flex px={8} mx={8}>
           <MinterButton
             variant="primaryActionInverted"
             onClick={e => {
               e.preventDefault();
-              setLocation('/collections', { replace: true });
+              window.history.back();
             }}
           >
-            <Box color="currentcolor">
-              <ChevronLeft size={16} strokeWidth="3" />
-            </Box>
-            <Text ml={2}>Collections</Text>
-          </MinterButton>
+          <Box color="currentcolor">
+            <ChevronLeft size={24} strokeWidth="3" />
+          </Box>
+        </MinterButton>
         </Flex>
         <Flex align="center" justify="center" flex="1" px={16}>
             <Box             
-            width="100%"
+            width="45vw"
             borderRadius="30px"
             borderWidth="1px"
             borderColor="brand.lightBlue"
@@ -603,38 +616,372 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <TagLabel>
                   Charity
                 </TagLabel> 
-              </Tag> ) : <></>}
+              </Tag> ) : <></> }
+              
               {token.metadata.minter && token.metadata.minter?.substr(-5) == "VERIF" ? (
-                <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
                 <TagLeftIcon boxSize="12px" as={UserCheck} />
                 <TagLabel>
                   Verified
                 </TagLabel> 
               </Tag>
-              ) : <></>}
-             {token.metadata.symbol ? (
-        <>
-          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="auto" mt="1vh">
-            <TagLeftIcon boxSize="1em" as={Codesandbox} />
-            <TagLabel>
-              {token.metadata.symbol}
-            </TagLabel>
-          </Tag>
-        </>
-        ) : (
-          <>
-        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="auto" mt="1vh">
-            <TagLeftIcon boxSize="1em" as={Codesandbox} />
-            <TagLabel>
-              OpenMinter
-            </TagLabel>
-          </Tag>
-        </>
-        )}
-          </Flex>
+              ) : <></> }
+              
+              {token.metadata.symbol ? (
+              <>
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
+                  <TagLabel>
+                    {token.metadata.symbol}
+                  </TagLabel>
+                </Tag>
+              </>
+              ) : (
+              <>
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
+                  <TagLabel>
+                    OpenMinter
+                  </TagLabel>
+                </Tag>
+              </>
+              )}
+
+              {token.sale && token.metadata.minter !== token.sale?.seller ? (
+                <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={RefreshCw} />
+                  <TagLabel>
+                    Re-Sale
+                  </TagLabel> 
+                </Tag>
+              ) : <></> }  
+            </Flex>
           </Flex>
         </Flex>
+      </Flex>        
       </Flex>
+      <Flex 
+      flexDir="column"
+      display={{
+        base: 'none',
+          lg: 'none',
+          md: 'flex',
+          sm: 'flex'
+      }}>
+        <Flex w="90vw" flexDir="column">
+        <Flex mb="2vh">
+            <MinterButton
+              variant="primaryActionInverted"
+              onClick={e => {
+                e.preventDefault();
+                window.history.back();
+              }}
+            >
+              <Box color="currentcolor">
+                <ChevronLeft size={24} strokeWidth="3" />
+              </Box>
+            </MinterButton>
+          </Flex>
+          <Flex align="center" justify="center" flex="1">
+            <Box             
+            width="100%"
+            borderRadius="30px"
+            borderWidth="1px"
+            borderColor="brand.lightBlue"
+            boxShadow="0 0 5px rgba(0,0,0,.15)"
+            overflow="hidden"
+            marginLeft="5vw">
+              <Button 
+              position="absolute"
+              py={6}
+              ml="4vw"
+              mt="2.5vh"
+              borderRadius="10px"
+              bgColor="rgba(40,43,48, 0.7)"
+              onClick={onOpen}
+              >
+                <Maximize2 color="white" size={30} strokeWidth="3" />
+              </Button>
+              <TokenImage
+                src={ipfsUriToGatewayUrl(system.config, token.artifactUri)}
+                metadata={token.metadata}
+              />
+            </Box>
+        </Flex>
+      </Flex>
+          <Flex
+            flexDir="column"
+            bg="white"
+            py={6}
+            minH="50vh"
+          >
+            {system.tzPublicKey &&
+            (system.tzPublicKey === token.owner ||
+              system.tzPublicKey === token.sale?.seller) ? (
+              <Flex>
+                <Flex
+                  py={1}
+                  px={3}
+                  mb={6}
+                  mt={2}
+                  borderRightRadius="5px"
+                  bg="brand.blue"
+                  color="white"
+                  align="center"
+                  justify="center"
+                >
+                  <Star fill="white" color="white" size={17} />
+                  <Text fontWeight="600" mx={3} fontSize="md">
+                    You own this asset
+                  </Text>
+                </Flex>
+              </Flex>
+            ) : null}
+            <Flex
+              justify="space-between"
+              align="center"
+              w="90vw"
+              pb={6}
+            >
+              <Flex flexDir="column" maxW="90vw" pl="5vw">
+                <Heading color="black" size="lg">
+                  {token.title}
+                </Heading>
+                <Flex>
+                <Text color="brand.lightGray" fontWeight="bold">
+                  Collection: &nbsp;
+                </Text>
+                <Text color="brand.blue">
+                  {collection.metadata.name || collection.address}
+                </Text>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex
+              py={6}
+              fontSize="1rem"
+              maxW="90vw"
+              pl="5vw"
+            >
+              {token.description ? (
+                token.description
+              ) : (
+                <Text fontSize="md" color="brand.gray">
+                  No description provided
+                </Text>
+              )}
+            </Flex>
+
+            <Accordion allowToggle             
+            w="90vw"
+            px={8}>
+              <AccordionItem border="none">
+                <AccordionButton mt={[4, 8]} p={0}>
+                  <Text color="brand.neutralGray">Metadata</Text>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                  {token.metadata?.attributes?.map(({ name, value }) => (
+                    <Flex mt={[4, 8]}>
+                      <Text color="brand.neutralGray">{name}:</Text>
+                      <Text color="brand.darkGray" fontWeight="bold" ml={[1]}>{value}</Text>
+                    </Flex>
+                  ))}
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+
+            <Flex flexDir="column" px={8} pt={6}>
+              <Text
+                pb={2}
+                fontSize="xs"
+                color="brand.gray"
+                textTransform="uppercase"
+              >
+                Minter
+              </Text>
+              <Link
+                href={"https://tzkt.io/" + token.metadata?.minter}
+                color="brand.darkGray"
+                isExternal
+                ml={2}
+              >
+                <Flex flexDir="row" mr="auto" alignContent="right">
+                  <Text mr="5px">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <ExternalLink size={16} />
+                </Flex>
+              </Link>
+              
+              <Text
+                py={2}
+                fontSize="xs"
+                color="brand.gray"
+                textTransform="uppercase"
+              >
+                IPFS Hash
+              </Text>
+              <Link
+                href={"https://cloudflare-ipfs.com/ipfs/" + uriToCid(token.artifactUri)}
+                color="brand.darkGray"
+                isExternal
+                ml={2}
+              >
+                <Flex flexDir="row" mr="auto" alignContent="right" maxW="75vw">
+                  <Text>{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
+                  <ExternalLink size={16} />
+                </Flex>
+              </Link>
+            </Flex>
+          </Flex>
+          <Flex 
+            flexDir="column"
+            w="90vw"
+            bg="white"
+            py={6}>
+          <Box
+            w="90vw"
+            bg="white"
+            py={6}
+            px={8}
+          >
+            <Flex>
+              <Box flex="1">
+                <Heading
+                  pb={2}
+                  fontSize="xs"
+                  color="brand.gray"
+                  textTransform="uppercase"
+                >
+                  Market status
+                </Heading>
+                {token.sale ? (
+                  <Text color="black" fontSize="lg">
+                    For sale
+                  </Text>
+                ) : (
+                  <Text color="black" fontSize="lg">
+                    Not for sale
+                  </Text>
+                )}
+              </Box>
+              {token.sale ? (
+                <Box flex="1">
+                  <Heading
+                    pb={2}
+                    fontSize="xs"
+                    color="brand.gray"
+                    textTransform="uppercase"
+                  >
+                    Price
+                  </Heading>
+                  <Text color="black" fontSize="lg">
+                    ꜩ {token.sale.price}
+                  </Text>
+                </Box>
+              ) : null }
+             
+              {system.tzPublicKey &&
+              (system.tzPublicKey === token.owner ||
+                system.tzPublicKey === token.sale?.seller) ? (
+                <Box>
+                  {token.sale ? (
+                    <CancelTokenSaleButton
+                      contract={contractAddress}
+                      tokenId={tokenId}
+                    />
+                  ) : (
+                    <Flex>
+                      <Box pos="absolute" top={6} right={6}>
+                        <TransferTokenModal
+                          contractAddress={contractAddress}
+                          tokenId={tokenId}
+                          disclosure={disclosure}
+                        />
+                      </Box>
+                      <MinterButton 
+                        backgroundColor="brand.blue"
+                        color="white" 
+                        fontSize="20px" 
+                        width="150px" 
+                        mr="10px"
+                        onClick={disclosure.onOpen}
+                      >
+                        Transfer
+                      </MinterButton>
+                    <SellTokenButton
+                      contract={contractAddress}
+                      tokenId={tokenId}
+                    />
+                    </Flex>
+                  )}
+                </Box>
+              ) : token.sale ? (
+                <BuyTokenButton contract={contractAddress} token={token} />
+              ) : null}
+            </Flex>
+          </Box>
+          <Flex
+            w="90vw"
+            my={6}
+            mx={5}
+          >
+            {token.title && token.title == "blep" ? (
+              <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
+                <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
+                <TagLabel>
+                  Carbon Offset: &nbsp;
+                  {token.title ? (token.title) : ''}
+                  &nbsp; ꜩ
+                </TagLabel>
+              </Tag>) : <></>}
+              {token.title == "charity" ? (
+                <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
+                <TagLeftIcon boxSize="12px" as={DollarSign} />
+                <TagLabel>
+                  Charity
+                </TagLabel> 
+              </Tag> ) : <></> }
+              
+              {token.metadata.minter && token.metadata.minter?.substr(-5) == "VERIF" ? (
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
+                <TagLeftIcon boxSize="12px" as={UserCheck} />
+                <TagLabel>
+                  Verified
+                </TagLabel> 
+              </Tag>
+              ) : <></> }
+              
+              {token.metadata.symbol ? (
+              <>
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
+                  <TagLabel>
+                    {token.metadata.symbol}
+                  </TagLabel>
+                </Tag>
+              </>
+              ) : (
+              <>
+                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
+                  <TagLabel>
+                    OpenMinter
+                  </TagLabel>
+                </Tag>
+              </>
+              )}
+
+              {token.sale && token.metadata.minter !== token.sale?.seller ? (
+                <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
+                  <TagLeftIcon boxSize="1em" as={RefreshCw} />
+                  <TagLabel>
+                    Re-Sale
+                  </TagLabel> 
+                </Tag>
+              ) : <></> }
+            </Flex>
+          </Flex>
+        </Flex>   
     </Flex>
   );
 }

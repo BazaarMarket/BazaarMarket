@@ -15,10 +15,11 @@ import {
   NumberInputStepper, 
   NumberIncrementStepper, 
   NumberDecrementStepper, 
+  Spacer,
   Tag,
   TagLabel,
   TagLeftIcon, } from '@chakra-ui/react';
-  import { Columns, Plus, X, ArrowDownCircle, Codesandbox, Volume2, VolumeX } from 'react-feather';
+  import { Columns, Plus, X, ArrowDownCircle, Codesandbox, Volume2, VolumeX, RefreshCw } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
 
@@ -100,7 +101,7 @@ export default function TokenCard(props: TokenCardProps) {
     if(props.metadata.symbol)  {
       return (
         <>
-          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="auto" mt="1vh">
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="1vh" mt="1vh">
             <TagLeftIcon boxSize="1em" as={Codesandbox} />
             <TagLabel>
               {props.metadata.symbol}
@@ -111,7 +112,7 @@ export default function TokenCard(props: TokenCardProps) {
     } else {
       return (
         <>
-        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="auto" mt="1vh">
+        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="1vh" mt="1vh">
             <TagLeftIcon boxSize="1em" as={Codesandbox} />
             <TagLabel>
               OpenMinter
@@ -119,6 +120,21 @@ export default function TokenCard(props: TokenCardProps) {
           </Tag>
         </>
       );
+    }
+  }
+
+  function Resale() {
+    if(props.metadata.minter !== props.sale?.seller){
+      return(
+        <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mr="auto" mt="1vh">
+          <TagLeftIcon boxSize="1em" as={RefreshCw} />
+          <TagLabel>
+            Re-Sale
+          </TagLabel> 
+        </Tag>
+      );
+    } else {
+      return( <></> );
     }
   }
 
@@ -184,7 +200,7 @@ export default function TokenCard(props: TokenCardProps) {
         setLocation(`/collection/${props.address}/token/${props.id}`)
       }
     >
-      <AspectRatio ratio={3 / 2}>
+      <AspectRatio ratio={1 / 1}>
         <Box bgColor="brand.darkGray">
           {obj && (/^video\/.*/.test(obj.type)) ? (
             <Flex position="absolute" ml="82%" mt="52%">
@@ -207,8 +223,11 @@ export default function TokenCard(props: TokenCardProps) {
       >
         <Heading size="sm">{props.title}</Heading>
         <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
-        <CarbonOffset/>
-        <TokenType/>
+        <Flex flexDir="row">
+          <CarbonOffset/>
+          <TokenType/>
+          <Resale/>
+        </Flex>
       </Flex>
       <SaleType />
     </Flex>

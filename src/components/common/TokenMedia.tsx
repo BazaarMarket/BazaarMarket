@@ -91,6 +91,8 @@ export function TokenMedia(props: TokenMediaProps) {
           <model-viewer
             auto-rotate
             rotation-per-second="30deg"
+            width="100%"
+            maxWidth={props.maxW}
             src={obj.url}
             class={props.class}
           ></model-viewer>

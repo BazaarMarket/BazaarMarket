@@ -9,7 +9,7 @@
     "api": "https://staging.api.mainnet.tzkt.io"
   },
   "contracts": {
-    "nftFaucet": "KT1QcxwB4QyPKfmSwjH1VRxa6kquUjeDWeEy",
+    "nftFaucet": "KT1PKvHNWuWDNVDtqjDha4AostLrGDu4G1jy",
     "marketplace": {
       "fixedPrice": {
         "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
@@ -17,5 +17,5 @@
     }
   },
   "ipfsApi": "https://minter-api.tqhosted.com",
-  "ipfsGateway": "https://ipfs.fleek.co"
+  "ipfsGateway": "https://tqtezos.mypinata.cloud"
 }
