@@ -665,9 +665,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       width="100vw"
       flexDir="column"
       display={{
-        base: 'none',
           lg: 'none',
-          md: 'flex',
+          md: 'none',
           sm: 'block',
           xs: 'block'
       }}>

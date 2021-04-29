@@ -85,6 +85,7 @@ export async function mintToken(
   const token_info = new MichelsonMap<string, string>();
   const resp = await uploadIPFSJSON(system.config.ipfsApi, {
     ...metadata,
+    symbol: "BATOs",
     decimals: 0,
     booleanAmount: true
   });
