@@ -695,11 +695,8 @@ export default function AboutPage() {
 
       <Flex 
       display={{
-        base: 'none',
-          lg: 'none',
-          md: 'none',
-          sm: 'flex',
-          xs: 'flex'
+        base: 'block',
+        md: 'none'
       }}>
         <Flex flexDir="row" maxW="90vw" mt="5vh"> 
           <Flex flexDir="column" width="85vw" pr="2vw">
