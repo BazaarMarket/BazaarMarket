@@ -259,7 +259,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   var verifiedUser: boolean = false;
 
   return (
-    <Flex flex="1" width="100vw" minHeight="auto">
+    <Flex flex="1" minHeight="auto">
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -326,7 +326,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       display={{
         base: 'none',
           lg: 'flex',
-          md: 'none',
+          md: 'flex',
           sm: 'none',
       }}>
         <Flex flexDir="column" w="50%" minHeight="90vh">
@@ -443,7 +443,6 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 </Text>
               )}
             </Flex>
-
             <Accordion allowToggle             
             w="100%"
             px={8}>
@@ -479,7 +478,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{token.metadata?.minter || 'Minter Unknown'}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -499,7 +498,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px">{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -662,13 +661,10 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       </Flex>        
       </Flex>
       <Flex 
-      width="100vw"
       flexDir="column"
       display={{
-          lg: 'none',
-          md: 'none',
-          sm: 'block',
-          xs: 'block'
+        base: 'block',
+        md: 'none'
       }}>
         <Flex w="90vw" flexDir="column">
         <Flex mb="2vh">
@@ -809,7 +805,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{token.metadata?.minter || 'Minter Unknown'}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -829,7 +825,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right" maxW="75vw">
-                  <Text>{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
+                  <Text wordBreak="break-word">{uriToCid(token.artifactUri) || 'No IPFS Hash'}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
