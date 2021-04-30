@@ -96,7 +96,7 @@ export default function CreateNonFungiblePage() {
 
   useEffect(() => {
     if (system.status !== 'WalletConnected') {
-      setLocation('/');
+      setLocation('/collections');
     }
   });
 
