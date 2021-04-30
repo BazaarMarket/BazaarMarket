@@ -59,7 +59,7 @@ It also has the built-in capability for voting, making updates to the DAO, and r
 
 ## What steps are next?
 
-Currently, the website is almost ready for it's alpha release, but we need funding to hire developers to help finalize and test our smart contracts. To help secure funding, bDAO Tokens will be dispersed throughout the next week via Airdrops and asset swaps. This will also begin to decentralize the project, and give the reigns to the Community. More information will be provided in our full roadmap, coming soon!
+Currently, the website is in it's alpha release, but we need funding to hire developers to help finalize and test our smart contracts. To help secure funding, bDAO Tokens will be dispersed throughout the next week via Airdrops and asset swaps. This will also begin to decentralize the project, and give the reigns to the Community. More information will be provided in our full roadmap, coming soon!
 
 Let's make CleanNFTs together :four_leaf_clover:
 
