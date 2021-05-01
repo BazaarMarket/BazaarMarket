@@ -1,10 +1,5 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image, Link } from '@chakra-ui/react';
-import { MinterButton /* , MinterLink */ } from '../common';
-import logo from '../../components/common/assets/logo.svg';
-import { useSelector, useDispatch } from '../../reducer';
-import { connectWallet } from '../../reducer/async/wallet';
+import React from 'react';
+import { Flex, Heading } from '@chakra-ui/react';
 
 export default function DropsPage() {
 

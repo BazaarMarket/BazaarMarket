@@ -1,22 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image, Link, MenuButton, Button, Container, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from 'react-feather';
+import { Flex, Text, Heading, Image } from '@chakra-ui/react';
 import { MinterButton } from '../common';
-import logo from '../../components/common/assets/logo.svg';
 import BackgroundImage1 from '../SplashPage/CloversLeft.png';
 import BackgroundImage2 from '../SplashPage/CloversRight.png';
 import { useSelector, useDispatch } from '../../reducer';
-import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../reducer/async/queries';
-import TokenCard from '../Marketplace/Catalog/TokenCard';
-import { VisibilityTrigger } from '../common/VisibilityTrigger';
-import { connectWallet } from '../../reducer/async/wallet';
 
 export default function SplashPage() {
   const [, setLocation] = useLocation();
-  const system = useSelector(s => s.system);
-  const dispatch = useDispatch();
-
+  
   return (
     <Flex
       align="center"

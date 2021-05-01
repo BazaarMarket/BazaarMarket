@@ -16,11 +16,10 @@ import {
   NumberInputStepper, 
   NumberIncrementStepper, 
   NumberDecrementStepper, 
-  Spacer,
   Tag,
   TagLabel,
   TagLeftIcon, } from '@chakra-ui/react';
-  import { Columns, Plus, X, ArrowDownCircle, Codesandbox, Volume2, VolumeX, RefreshCw } from 'react-feather';
+  import { ArrowDownCircle, Codesandbox, Volume2, RefreshCw } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
 
@@ -30,9 +29,9 @@ interface TokenMediaProps extends Token {
   class?: string;
 }
 
-  interface TokenCardProps extends Token {
-    config: IpfsGatewayConfig,
-  }
+interface TokenCardProps extends Token {
+  config: IpfsGatewayConfig,
+}
 
 export default function TokenCard(props: TokenCardProps) {
   const [, setLocation] = useLocation();
@@ -61,7 +60,7 @@ export default function TokenCard(props: TokenCardProps) {
 
   function VerifiedNFT() {
     for(var i: number = 0; i <= verifiedUsers.length; i++){
-      if (props.metadata.minter && props.metadata.minter?.substr(-5) == verifiedUsers[i]){
+      if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
         verifiedUser = true;
       }
     }
@@ -78,7 +77,7 @@ export default function TokenCard(props: TokenCardProps) {
   }
 
   function CarbonOffset() {
-    if(props.title != "0" && props.title == "blep") {
+    if(props.title !== "0" && props.title === "blep") {
       return (
       <>
         <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" width="75%">
@@ -140,8 +139,8 @@ export default function TokenCard(props: TokenCardProps) {
   }
 
   function SaleType(){
-    int: priceValue = props.sale?.price;
-    string: auctionType = props.sale?.type;
+    //int: priceValue = props.sale?.price;
+    //string: auctionType = props.sale?.type;
     
     if(auctionType !== "fixedPrice") {
       return(

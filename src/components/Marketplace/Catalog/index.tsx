@@ -1,10 +1,20 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Text, Flex, Heading, SimpleGrid, Spinner, Input, InputRightElement, InputGroup, Button } from '@chakra-ui/react';
-import { Wind, Search, Filter, BarChart, ArrowRight, ArrowDown, Sliders } from 'react-feather';
+import { 
+  Box, 
+  Container, 
+  Text, 
+  Flex, 
+  Heading, 
+  SimpleGrid, 
+  Spinner, 
+  Input, 
+  InputRightElement, 
+  InputGroup, 
+  Button } from '@chakra-ui/react';
+import { Wind, Search, Filter, ArrowRight, ArrowDown, Sliders } from 'react-feather';
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
-import FeaturedToken from './FeaturedToken';
 import { VisibilityTrigger } from '../../common/VisibilityTrigger';
 
 export default function Catalog() {

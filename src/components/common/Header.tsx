@@ -217,7 +217,7 @@ function NavItems() {
           ref={btnRef}
           cursor="pointer"
           onClick={onOpen}
-          paddingTop="1vh"
+          marginY="auto"
         >
           <HamburgerIcon size="30px"/>
         </Box>
@@ -372,7 +372,8 @@ export function Header() {
           md: 'none'
         }}
         marginLeft="10px"
-        marginTop="3vh"
+        marginTop="1vh"
+        marginBottom="1vh"
         height="8vh"
         width="45px"
         src={headerIcon}

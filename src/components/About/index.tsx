@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'wouter';
+import React from 'react';
 import { 
   Accordion, 
   AccordionButton, 
@@ -8,15 +7,8 @@ import {
   AccordionPanel, 
   Box, 
   Flex, 
-  Heading, 
-  Image, 
-  Link, 
-  Text } from '@chakra-ui/react';
-import { MinterButton /* , MinterLink */ } from '../common';
-import logo from '../../components/common/assets/logo.svg';
-import { useSelector, useDispatch } from '../../reducer';
-import { connectWallet } from '../../reducer/async/wallet';
-
+  Heading,  
+  Link, } from '@chakra-ui/react';
 
 function AboutBazaar() {
   return(

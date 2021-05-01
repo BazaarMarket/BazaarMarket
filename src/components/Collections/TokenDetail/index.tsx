@@ -13,10 +13,7 @@ import {
   Heading,
   Image,
   Link,
-  Menu,
-  MenuList,
   Modal,
-  ModalBody,
   ModalContent,
   ModalCloseButton,
   ResponsiveValue,
@@ -29,13 +26,10 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton
 } from '@chakra-ui/react';
 import { 
   ChevronLeft, 
   HelpCircle, 
-  MoreHorizontal, 
   Star, 
   ArrowDownCircle, 
   DollarSign, 
@@ -44,7 +38,7 @@ import {
   UserCheck, 
   Codesandbox, 
   RefreshCw } from 'react-feather';
-import { MinterButton, MinterMenuButton, MinterMenuItem } from '../../common';
+import { MinterButton } from '../../common';
 import { TransferTokenModal } from '../../common/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
 import { BuyTokenButton } from '../../common/modals/BuyToken';
@@ -551,8 +545,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   >
                     Price
                   </Heading>
-                  <Flex color="black" fontSize="lg">
-                    {token.sale.price} <img src={tz} alt="" width={10} height="auto" style={{ display: 'inline-block', paddingLeft: "1px" }} />
+                  <Flex color="black" fontSize="lg" maxH="20px">
+                    {token.sale.price} <img src={tz} alt="" width={10} style={{ display: 'inline-block', paddingLeft: "1px" }} />
                   </Flex>
                 </Box>
               ) : null }
@@ -602,7 +596,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
             my={6}
             px={8}
           >
-            {token.title && token.title == "blep" ? (
+            {token.title && token.title === "blep" ? (
               <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
                 <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
                 <TagLabel>
@@ -611,7 +605,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   &nbsp; ꜩ
                 </TagLabel>
               </Tag>) : <></>}
-              {token.title == "charity" ? (
+              {token.title === "charity" ? (
                 <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
                 <TagLeftIcon boxSize="12px" as={DollarSign} />
                 <TagLabel>
@@ -619,7 +613,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 </TagLabel> 
               </Tag> ) : <></> }
               
-              {token.metadata.minter && token.metadata.minter?.substr(-5) == "VERIF" ? (
+              {token.metadata.minter && token.metadata.minter?.substr(-5) === "VERIF" ? (
                 <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
                 <TagLeftIcon boxSize="12px" as={UserCheck} />
                 <TagLabel>
@@ -873,8 +867,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   >
                     Price
                   </Heading>
-                  <Flex color="black" fontSize="lg">
-                    {token.sale.price} <img src={tz} alt="" width={10} height="auto" style={{ display: 'inline-block', paddingLeft: "1px" }} />
+                  <Flex color="black" fontSize="lg" maxH="20px">
+                    {token.sale.price} <img src={tz} alt="" width={10} style={{ display: 'inline-block', paddingLeft: "1px" }} />
                   </Flex>
                 </Box>
               ) : null }

@@ -1,23 +1,12 @@
 import React from 'react';
 import { useLocation } from 'wouter';
 import {
-  Box,
   Flex,
   Image,
   Link,
   Text,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Spacer
 } from '@chakra-ui/react';
-import { ChevronDown, Package, Plus, GitHub, ExternalLink } from 'react-feather';
 import footerLogo from './assets/footerLogo.svg';
-import { useSelector, useDispatch } from '../../reducer';
-import { connectWallet } from '../../reducer/async/wallet';
-import { disconnectWallet } from '../../reducer/async/wallet';
-import { MinterButton /* , MinterLink */ } from '.';
 
 interface HeaderLinkProps {
   to: string;
