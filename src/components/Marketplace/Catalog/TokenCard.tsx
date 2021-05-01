@@ -3,6 +3,7 @@ import { Token } from '../../../reducer/slices/collections';
 import { useLocation } from 'wouter';
 import { IpfsGatewayConfig, ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
 import { TokenMedia } from '../../common/TokenMedia';
+import tz from '../../common/assets/tezos-sym.svg';
 import { 
   AspectRatio, 
   Box, 
@@ -175,7 +176,9 @@ export default function TokenCard(props: TokenCardProps) {
         justify="space-between"
       >
         <Text fontSize="md">Price:</Text>
-        <Text fontSize="md" fontWeight="600">{props.sale?.price} ꜩ</Text>
+        <Flex fontSize="md" fontWeight="600">
+          {props.sale?.price} <img src={tz} alt="" width={10} height="auto" style={{ display: 'inline-block', paddingLeft: "1px" }} />
+        </Flex>
       </Flex>
     );
   }

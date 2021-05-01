@@ -55,7 +55,6 @@ import {
   getNftAssetContractQuery
 } from '../../../reducer/async/queries';
 import { NftMetadata } from '../../../lib/nfts/decoders';
-import tz from '../../common/assets/tezos-sym.svg';
 
 function NotFound() {
   return (
@@ -201,12 +200,11 @@ function TokenImage(props: {
   return <MediaNotFound />;
 }
 
-interface TokenDetailProps {
+interface CollectionDetailProps {
   contractAddress: string;
-  tokenId: number;
 }
 
-function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
+function CollectionDetail({ contractAddress }: CollectionDetailProps) {
   const [, setLocation] = useLocation();
   const { system, collections: state } = useSelector(s => s);
   const disclosure = useDisclosure();
@@ -228,7 +226,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     } else {
       dispatch(getContractNftsQuery(contractAddress));
     }
-  }, [contractAddress, tokenId, collectionUndefined, dispatch]);
+  }, [contractAddress, collectionUndefined, dispatch]);
 
   useEffect(() => {
     const img = document.getElementById('fullScreenAssetView');
@@ -251,7 +249,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     return null;
   }
 
-  const token = collection.tokens.find(token => token.id === tokenId);
+  const token = collection.tokens.find(token => token.id === 0);
   if (!token) {
     return <NotFound />;
   }
@@ -551,9 +549,9 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   >
                     Price
                   </Heading>
-                  <Flex color="black" fontSize="lg">
-                    {token.sale.price} <img src={tz} alt="" width={10} height="auto" style={{ display: 'inline-block', paddingLeft: "1px" }} />
-                  </Flex>
+                  <Text color="black" fontSize="lg">
+                    ꜩ {token.sale.price}
+                  </Text>
                 </Box>
               ) : null }
              
@@ -564,14 +562,14 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   {token.sale ? (
                     <CancelTokenSaleButton
                       contract={contractAddress}
-                      tokenId={tokenId}
+                      tokenId={0}
                     />
                   ) : (
                     <Flex>
                       <Box pos="absolute" top={6} right={6}>
                         <TransferTokenModal
                           contractAddress={contractAddress}
-                          tokenId={tokenId}
+                          tokenId={0}
                           disclosure={disclosure}
                         />
                       </Box>
@@ -587,7 +585,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                       </MinterButton>
                     <SellTokenButton
                       contract={contractAddress}
-                      tokenId={tokenId}
+                      tokenId={0}
                     />
                     </Flex>
                   )}
@@ -873,9 +871,9 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   >
                     Price
                   </Heading>
-                  <Flex color="black" fontSize="lg">
-                    {token.sale.price} <img src={tz} alt="" width={10} height="auto" style={{ display: 'inline-block', paddingLeft: "1px" }} />
-                  </Flex>
+                  <Text color="black" fontSize="lg">
+                    ꜩ {token.sale.price}
+                  </Text>
                 </Box>
               ) : null }
              
@@ -886,14 +884,14 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   {token.sale ? (
                     <CancelTokenSaleButton
                       contract={contractAddress}
-                      tokenId={tokenId}
+                      tokenId={0}
                     />
                   ) : (
                     <Flex>
                       <Box pos="absolute" top={6} right={6}>
                         <TransferTokenModal
                           contractAddress={contractAddress}
-                          tokenId={tokenId}
+                          tokenId={0}
                           disclosure={disclosure}
                         />
                       </Box>
@@ -909,7 +907,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                       </MinterButton>
                     <SellTokenButton
                       contract={contractAddress}
-                      tokenId={tokenId}
+                      tokenId={0}
                     />
                     </Flex>
                   )}
@@ -985,4 +983,4 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   );
 }
 
-export default TokenDetail;
+export default CollectionDetail;

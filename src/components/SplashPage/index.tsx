@@ -17,86 +17,6 @@ export default function SplashPage() {
   const system = useSelector(s => s.system);
   const dispatch = useDispatch();
 
-  function FeaturedTokens(){
-    const { marketplace: state } = useSelector(s => s);
-    
-    useEffect(() => {
-      dispatch(getMarketplaceNftsQuery(state.marketplace.address));
-    }, [ state.marketplace.address, dispatch ]);
-  
-    const loadMore = () => {
-      dispatch(loadMoreMarketplaceNftsQuery({}));
-    };
-
-    let tokens = state.marketplace.tokens?.filter(x=>x.token).map(x=>x.token!) ?? [];
-
-    return(
-      <Flex
-      w="100%"
-      h="100%"
-      bg="brand.darkGray"
-      px={10}
-      pt={6}
-      justify="start"
-      flexDir="column"
-    >
-      <Container maxW="80em">
-        <Flex
-          flex="1"
-          w="100%"
-          flexDir="column"
-        >
-          {!state.marketplace.loaded ? (
-            <Flex flexDir="column" align="center" flex="1" pt={20}>
-              <Spinner size="xl" mb={6} color="gray.300" />
-              <Heading size="lg" textAlign="center" color="gray.500">
-                Loading...
-              </Heading>
-            </Flex>
-          ) :
-            tokens.length === 0 ? (
-            <Flex w="100%" flex="1" flexDir="column" align="center">
-              <Flex
-                px={20}
-                py={10}
-                bg="gray.200"
-                textAlign="center"
-                align="center"
-                borderRadius="5px"
-                flexDir="column"
-                fontSize="xl"
-                color="gray.400"
-                mt={28}
-              >
-                <Wind />
-                <Text fontWeight="600" pt={5}>
-                  No tokens to display in this marketplace
-                </Text>
-              </Flex>
-            </Flex>
-            ) : (
-              <>
-                <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
-                  <>
-                    {tokens.slice(0,4).map(token => {
-                      return (
-                        <TokenCard
-                          key={`${token.address}-${token.id}`}
-                          config={system.config}
-                          {...token}
-                        />
-                      );
-                    })}
-                  </>
-                </SimpleGrid>
-              </>
-          )}
-        </Flex>
-      </Container>
-    </Flex>
-    );
-  }
-
   return (
     <Flex
       align="center"
@@ -105,8 +25,8 @@ export default function SplashPage() {
       flex="1"
       flexDir="column"
     >
-      <Flex height="90vh" flexDir="column" align="center" maxW="600px">
-        <Heading color="brand.darkGray" size="lg" pb={2} pt="30vh" textAlign="center">
+      <Flex height="90vh" flexDir="column" align="center">
+        <Heading color="brand.darkGray" size="lg" pb={2} pt="30vh" mx="10vw" textAlign="center">
           Carbon-Offset NFTs on Tezos
         </Heading>
        
@@ -116,6 +36,7 @@ export default function SplashPage() {
           textAlign="center"
           fontFamily="Helvetica"
           pb={4}
+          mx="10vw"
           opacity=".8"
         >
           Create and mint non-fungible tokens guilt-free.
@@ -133,7 +54,7 @@ export default function SplashPage() {
           src={BackgroundImage1}
           align="left"
           height="20vh"
-          mr="78vw"
+          mr="60vw"
           mt="70vh"
           position="absolute" 
         />
@@ -141,7 +62,7 @@ export default function SplashPage() {
           src={BackgroundImage2}
           align="right"
           height="20vh"
-          ml="80vw"
+          ml="60vw"
           mt="70vh"
           position="absolute"
         />

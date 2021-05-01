@@ -217,8 +217,9 @@ function NavItems() {
           ref={btnRef}
           cursor="pointer"
           onClick={onOpen}
+          paddingTop="1vh"
         >
-          <HamburgerIcon />
+          <HamburgerIcon size="30px"/>
         </Box>
         <Drawer
           isOpen={isOpen}
@@ -240,7 +241,7 @@ function NavItems() {
                       Marketplace
                     </MobileHeaderLink>
                     <MobileHeaderLink to="/about" onClick={onClose}>
-                      About
+                      FAQ
                     </MobileHeaderLink>
                     <MobileHeaderLink to="/collections" onClick={onClose}>
                       Collections
@@ -269,7 +270,7 @@ function NavItems() {
                         await dispatch(disconnectWallet());
                         setLocation('/');
                       }}
-                      mb={4}
+                      mb={10}
                     >
                       Disconnect Wallet
                     </MinterButton>
@@ -316,17 +317,14 @@ function NavItems() {
         </DesktopHeaderLink>
 
         <DesktopHeaderLink to="/about">
-          <Text m={2}>About</Text>
+          <Text m={2}>FAQ</Text>
         </DesktopHeaderLink>
 
-        <Link href="https://discord.gg/mnYZwv8s5a" isExternal fontWeight="bold" p="5px" pt="6px" mt="5px">
-          Discord 
-          <Flex p="2px" float="right">
-            <ExternalLink size="10px"/>
-          </Flex>
-        </Link>   
+        <Link href="https://discord.gg/mnYZwv8s5a" isExternal margin="auto" pl="13px" pr="15px">
+          <RiDiscordLine size="27px"/>
+        </Link>  
         
-        <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="20px" pr="20px" mt="14px" size="30px" stroke="100">
+        <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal margin="auto" pl="15px" pr="20px" size="30px" stroke="100">
           <GitHub/>
         </Link>
       
@@ -374,6 +372,7 @@ export function Header() {
           md: 'none'
         }}
         marginLeft="10px"
+        marginTop="3vh"
         height="8vh"
         width="45px"
         src={headerIcon}

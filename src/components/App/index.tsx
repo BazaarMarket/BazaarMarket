@@ -6,6 +6,7 @@ import AccountPage from '../Account';
 import CreateNonFungiblePage from '../CreateNonFungiblePage';
 import CollectionsCatalog from '../Collections/Catalog';
 import CollectionsTokenDetail from '../Collections/TokenDetail';
+import CollectionsCollectionDetail from '../Collections/CollectionDetail';
 import MarketplaceCatalog from '../Marketplace/Catalog';
 import DropsPage from '../Drops';
 import Header from '../common/Header';
@@ -58,6 +59,13 @@ export default function App() {
           </Route>
           <Route path="/about">
             <AboutPage />
+          </Route>
+          <Route path="/collection/:contractAddress/">
+            {({ contractAddress, tokenId }) => (
+              <CollectionsCollectionDetail
+                contractAddress={contractAddress}
+              />
+            )}
           </Route>
           <Route path="/collection/:contractAddress/token/:tokenId">
             {({ contractAddress, tokenId }) => (
