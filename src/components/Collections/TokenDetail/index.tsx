@@ -419,9 +419,17 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <Text color="brand.lightGray" fontWeight="bold">
                   Collection: &nbsp;
                 </Text>
-                <Text color="brand.blue">
-                  {collection.metadata.name || collection.address}
-                </Text>
+                <Link
+                    href={"https://bazaarnft.xyz/collection/" + collection.address}
+                    color="brand.darkGray"
+                    isExternal
+                    ml={2}
+                  >
+                    <Flex flexDir="row" mr="auto" alignContent="right">
+                      <Text mr="5px" wordBreak="break-word" color="brand.blue">{collection.metadata.name || collection.address}</Text>
+                      <ExternalLink size={12} />
+                    </Flex>
+                  </Link>
                 </Flex>
               </Flex>
             </Flex>
@@ -741,12 +749,21 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   {token.title}
                 </Heading>
                 <Flex>
-                <Text color="brand.lightGray" fontWeight="bold">
-                  Collection: &nbsp;
-                </Text>
-                <Text color="brand.blue">
-                  {collection.metadata.name || collection.address}
-                </Text>
+                  <Text color="brand.lightGray" fontWeight="bold">
+                    Collection: &nbsp;
+                  </Text>
+
+                  <Link
+                    href={"https://bazaarnft.xyz/" + collection.address}
+                    color="brand.darkGray"
+                    isExternal
+                    ml={2}
+                  >
+                    <Flex flexDir="row" mr="auto" alignContent="right">
+                      <Text mr="5px" wordBreak="break-word" color="brand.blue">{collection.metadata.name || collection.address}</Text>
+                      <ExternalLink size={12} />
+                    </Flex>
+                  </Link>
                 </Flex>
               </Flex>
             </Flex>
