@@ -176,8 +176,8 @@ export default function TokenCard(props: TokenCardProps) {
         justify="space-between"
       >
         <Text fontSize="md">Price:</Text>
-        <Flex fontSize="md" fontWeight="600">
-          {props.sale?.price} <img src={tz} alt="" width={10} style={{ display: 'inline', paddingLeft: "1px" }} />
+        <Flex fontSize="md" fontWeight="600" maxH="20px">
+          {props.sale?.price} <img src={tz} alt="" width={10} style={{ display: 'inline-block', paddingLeft: "1px" }} />
         </Flex>
       </Flex>
     );
