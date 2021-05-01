@@ -205,7 +205,7 @@ export default function CollectionDisplay({
   const tokens = ownedOnly
     ? collection.tokens.filter(
         ({ owner, sale }) =>
-          owner !== tzPublicKey || sale?.seller === tzPublicKey
+          owner === tzPublicKey || sale?.seller === tzPublicKey
       )
     : collection.tokens;
 
@@ -226,7 +226,7 @@ export default function CollectionDisplay({
         >
           <Wind />
           <Text fontWeight="600" pt={5}>
-            {!ownedOnly
+            {ownedOnly
               ? 'No owned tokens to display in this collection'
               : 'No tokens to display in this collection'}
           </Text>
@@ -238,7 +238,7 @@ export default function CollectionDisplay({
   return (
     <Flex
       flexDir="column"
-      h="100%"
+      minH="90vh"
       w="100%"
       px={{ base: 6, md: 10 }}
       pt={6}

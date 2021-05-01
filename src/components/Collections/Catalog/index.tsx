@@ -52,6 +52,7 @@ export default function Catalog() {
         flex="1"
         flexDir="column"
         bg="white"
+
       >
         <Flex flexDir="column" align="center" maxW="600px" pt={20}>
           <Heading color="brand.darkGray" size="xl" pb={8}>
@@ -99,7 +100,7 @@ export default function Catalog() {
     <Flex
       flex="1"
       w="100%"
-      minHeight="0"
+      minHeight="90vh"
       flexDir={{
         base: 'column',
         md: 'row'
