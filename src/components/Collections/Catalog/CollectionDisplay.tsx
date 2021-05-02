@@ -69,7 +69,7 @@ function TokenImage(props: TokenTileProps) {
         src={src}
         objectFit="scale-down"
         flex="1"
-        height="100%"
+        width="100%"
         onError={() => setErrored(true)}
       />
     );
@@ -125,7 +125,7 @@ function TokenTile(props: TokenTileProps) {
       bg="white"
       border="1px solid"
       borderColor="brand.lightBlue"
-      borderRadius="3px"
+      borderRadius="25px"
       overflow="hidden"
       boxShadow="0px 0px 0px 4px rgba(15, 97, 255, 0)"
       transition="all linear 50ms"
@@ -137,8 +137,8 @@ function TokenTile(props: TokenTileProps) {
         setLocation(`/collection/${props.address}/token/${props.id}`)
       }
     >
-      <AspectRatio ratio={3 / 2}>
-        <Box p={4}>
+      <AspectRatio ratio={4 / 3}>
+        <Box>
           <TokenImage {...props} />
         </Box>
       </AspectRatio>

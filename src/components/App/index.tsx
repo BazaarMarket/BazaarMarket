@@ -7,7 +7,6 @@ import CreateNonFungiblePage from '../CreateNonFungiblePage';
 import CollectionsCatalog from '../Collections/Catalog';
 import CollectionDisplay from '../Collections/Catalog/CollectionDisplay';
 import CollectionsTokenDetail from '../Collections/TokenDetail';
-import CollectionsCollectionDetail from '../Collections/CollectionDetail';
 import MarketplaceCatalog from '../Marketplace/Catalog';
 import DropsPage from '../Drops';
 import Header from '../common/Header';

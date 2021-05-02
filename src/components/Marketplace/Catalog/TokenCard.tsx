@@ -202,8 +202,8 @@ export default function TokenCard(props: TokenCardProps) {
         setLocation(`/collection/${props.address}/token/${props.id}`)
       }
     >
-      <AspectRatio ratio={1 / 1}>
-        <Box bgColor="brand.darkGray">
+      <AspectRatio ratio={4 / 3}>
+        <Box bgColor="brand.brightGray">
           {obj && (/^video\/.*/.test(obj.type)) ? (
             <Flex position="absolute" ml="82%" mt="52%">
               <Volume2 size="25px" color="white"/>

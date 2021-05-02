@@ -321,7 +321,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       display={{
         base: 'none',
           lg: 'flex',
-          md: 'flex',
+          md: 'none',
           sm: 'none',
       }}>
         <Flex flexDir="column" w="50%" minHeight="90vh">
@@ -667,7 +667,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
       flexDir="column"
       display={{
         base: 'block',
-        md: 'none'
+        lg: 'none'
       }}>
         <Flex w="90vw" flexDir="column">
         <Flex mb="2vh">

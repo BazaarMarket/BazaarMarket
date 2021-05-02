@@ -133,13 +133,13 @@ export default function Catalog() {
       w="100%"
       minH="90vh"
       bg="brand.brightGray"
-      px={10}
+      px={5}
       pt={6}
       overflowY="scroll"
       justify="start"
       flexDir="column"
     >
-      <Container maxW="80em">
+      <Container maxW="100em">
         <Flex
           flex="1"
           w="100%"
