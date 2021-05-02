@@ -422,12 +422,9 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <Link
                     href={"https://bazaarnft.xyz/collection/" + collection.address}
                     color="brand.darkGray"
-                    isExternal
-                    ml={2}
                   >
-                    <Flex flexDir="row" mr="auto" alignContent="right">
+                    <Flex flexDir="row" mr="auto" alignContent="left">
                       <Text mr="5px" wordBreak="break-word" color="brand.blue">{collection.metadata.name || collection.address}</Text>
-                      <ExternalLink size={12} />
                     </Flex>
                   </Link>
                 </Flex>
@@ -756,12 +753,9 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   <Link
                     href={"https://bazaarnft.xyz/" + collection.address}
                     color="brand.darkGray"
-                    isExternal
-                    ml={2}
                   >
-                    <Flex flexDir="row" mr="auto" alignContent="right">
+                    <Flex flexDir="row" mr="auto" alignContent="left">
                       <Text mr="5px" wordBreak="break-word" color="brand.blue">{collection.metadata.name || collection.address}</Text>
-                      <ExternalLink size={12} />
                     </Flex>
                   </Link>
                 </Flex>
