@@ -22,6 +22,9 @@ import {
 } from '../../../reducer/async/queries';
 import CollectionsDropdown from './CollectionsDropdown';
 
+import VerificationCheck from '../../common/assets/VerifiedTag.png';
+import ScamCheck from '../../common/assets/ScamTag.png';
+
 function MediaNotFound() {
   return (
     <Flex
@@ -79,9 +82,8 @@ function TokenImage(props: TokenTileProps) {
     return (
       <video
         loop
+        autoPlay={true}
         onClick={e => e.preventDefault()}
-        onMouseEnter={e => e.currentTarget.play()}
-        onMouseLeave={e => e.currentTarget.pause()}
         muted
       >
         <source src={obj.url} type={obj.type} />
@@ -117,6 +119,43 @@ interface TokenTileProps extends Token {
 
 function TokenTile(props: TokenTileProps) {
   const [, setLocation] = useLocation();
+
+  var verifiedUsers: string[] = [ "jSZtK", "2YnvZ", "PENui", "Puqry", "BJNdn", "ost2P" ];
+  var scamUsers: string[] = [ "gdQfK" ];
+  var verifiedUser: boolean = false;
+  var scamUser: boolean = false;
+
+  function VerifiedNFT() {
+    for(var i: number = 0; i <= verifiedUsers.length; i++){
+      if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
+        verifiedUser = true;
+      }
+    }
+    if(verifiedUser){
+      return (
+        <Flex>
+          <Image src={VerificationCheck} width="35px" position="absolute" top="15px" left="15px"/>
+        </Flex>
+      );
+    } else {
+      for(var i: number = 0; i <= scamUsers.length; i++){
+        if (props.metadata.minter && props.metadata.minter?.substr(-5) === scamUsers[i]){
+          scamUser = true;
+        }
+      }
+      if(scamUser){
+        return (
+          <Flex>
+          <Image src={ScamCheck} width="35px" position="absolute" top="15px" left="15px"/>
+        </Flex>
+        );
+      }
+    }
+    return (
+      <></>
+    );
+  }
+
   return (
     <Flex
       flexDir="column"
@@ -140,6 +179,7 @@ function TokenTile(props: TokenTileProps) {
       <AspectRatio ratio={4 / 3}>
         <Box>
           <TokenImage {...props} />
+          <VerifiedNFT/>
         </Box>
       </AspectRatio>
       <Flex

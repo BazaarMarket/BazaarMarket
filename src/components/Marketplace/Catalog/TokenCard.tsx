@@ -22,6 +22,7 @@ import {
   import { ArrowDownCircle, Codesandbox, Volume2, RefreshCw } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
+  import ScamCheck from '../../common/assets/ScamTag.png';
 
 interface TokenMediaProps extends Token {
   config: IpfsGatewayConfig;
@@ -37,8 +38,10 @@ export default function TokenCard(props: TokenCardProps) {
   const [, setLocation] = useLocation();
   let priceValue: any = 0;
   let auctionType: any = "forSale";
-  var verifiedUsers: string[] = ["2YnvZ", "HXV1m"];
+  var verifiedUsers: string[] = [ "jSZtK", "2YnvZ", "PENui", "Puqry", "BJNdn", "ost2P" ];
+  var scamUsers: string[] = [ "gdQfK" ];
   var verifiedUser: boolean = false;
+  var scamUser: boolean = false;
 
   const src = ipfsUriToGatewayUrl(props.config, props.artifactUri);
   const [errored, setErrored] = useState(false);
@@ -70,6 +73,19 @@ export default function TokenCard(props: TokenCardProps) {
           <Image src={VerificationCheck} width="35px" position="absolute" top="15px" left="15px"/>
         </Flex>
       );
+    } else {
+      for(var i: number = 0; i <= scamUsers.length; i++){
+        if (props.metadata.minter && props.metadata.minter?.substr(-5) === scamUsers[i]){
+          scamUser = true;
+        }
+      }
+      if(scamUser){
+        return (
+          <Flex>
+          <Image src={ScamCheck} width="35px" position="absolute" top="15px" left="15px"/>
+        </Flex>
+        );
+      }
     }
     return (
       <></>
@@ -212,6 +228,7 @@ export default function TokenCard(props: TokenCardProps) {
           <TokenMedia
             {...props}
           />
+            <VerifiedNFT/>
         </Box>
       </AspectRatio>
       <Flex

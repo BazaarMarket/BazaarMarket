@@ -37,7 +37,8 @@ import {
   Maximize2, 
   UserCheck, 
   Codesandbox, 
-  RefreshCw } from 'react-feather';
+  RefreshCw, 
+  UserX} from 'react-feather';
 import { MinterButton } from '../../common';
 import { TransferTokenModal } from '../../common/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
@@ -250,8 +251,47 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     return <NotFound />;
   }
 
-  var verifiedUsers: string[] = ["2YnvZ", "HXV1m"];
+  var verifiedUsers: string[] = [ "jSZtK", "2YnvZ", "PENui", "Puqry", "BJNdn", "ost2P" ];
+  var scamUsers: string[] = [ "gdQfK" ];
   var verifiedUser: boolean = false;
+  var scamUser: boolean = false;
+  
+  function VerifiedNFT() {
+    for(var i: number = 0; i <= verifiedUsers.length; i++){
+      if (token?.metadata.minter && token.metadata.minter?.substr(-5) === verifiedUsers[i]){
+        verifiedUser = true;
+      }
+    }
+    if(verifiedUser){
+      return (
+        <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
+          <TagLeftIcon boxSize="1em" as={UserCheck} />
+          <TagLabel>
+            Verfied
+        </TagLabel> 
+      </Tag>
+      );
+    } else {
+      for(var i: number = 0; i <= scamUsers.length; i++){
+        if (token?.metadata.minter && token.metadata.minter?.substr(-5) === scamUsers[i]){
+          scamUser = true;
+        }
+      }
+      if(scamUser){
+        return (
+        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
+        <TagLeftIcon boxSize="1em" as={UserX} />
+        <TagLabel>
+          Copymint
+        </TagLabel> 
+      </Tag>
+        );
+      }
+    }
+    return (
+      <></>
+    );
+  }
 
   return (
     <Flex flex="1" minHeight="auto">
@@ -655,6 +695,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   </TagLabel> 
                 </Tag>
               ) : <></> }  
+
+              <VerifiedNFT/>
             </Flex>
           </Flex>
         </Flex>
