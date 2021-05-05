@@ -1025,6 +1025,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   </TagLabel> 
                 </Tag>
               ) : <></> }
+
+              <VerifiedNFT/>
             </Flex>
           </Flex>
         </Flex>   
