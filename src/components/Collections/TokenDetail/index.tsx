@@ -267,7 +267,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
         <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
           <TagLeftIcon boxSize="1em" as={UserCheck} />
           <TagLabel>
-            Verfied
+            Verified
         </TagLabel> 
       </Tag>
       );
