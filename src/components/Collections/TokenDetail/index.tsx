@@ -533,7 +533,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px" wordBreak="break-word">{token.metadata.minter ? (verifiedMinterAlias !== "" ? (verifiedMinterAlias) : (token.metadata.minter)) :("Minter Unknown")}</Text>
+                  <Text mr="5px" wordBreak="break-word">{token.metadata.minter ? (verifiedMinterAlias !== "" ? (verifiedMinterAlias) 
+                  : (token.metadata.minter)) :("Minter Unknown")}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -868,7 +869,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px" wordBreak="break-word">{verifiedMinterAlias === "" ? (verifiedMinterAlias) : ("") || 'Minter Unknown'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{token.metadata.minter ? (verifiedMinterAlias !== "" ? (verifiedMinterAlias) 
+                  : (token.metadata.minter)) : ("Minter Unknown")}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
