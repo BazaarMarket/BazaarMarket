@@ -48,8 +48,8 @@ function AboutBazaar() {
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}  borderWidth="1px" borderTop="none" borderBottomRadius="25px" >
-        Currently, Bazaar has been coded in free time without funding. We will soon 
-        be releasing an bDAO investment fundraiser on the website, the proceeds of 
+        Currently, Bazaar has been coded in free time without funding. During late Q2 2021,
+        we will be selling bDAO Tokens on the website, the proceeds of 
         which will be used to hire developers to finish writing the smart contracts 
         necessary to finish the Beta release.
         </AccordionPanel>
@@ -64,7 +64,7 @@ function AboutBazaar() {
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}  borderWidth="1px" borderTop="none" borderBottomRadius="25px" >
-        The (current) Alpha site is carbon-offset via a manual donation to Team Trees.
+        The (current) Alpha site is carbon-offset via a manual donation to <Link href="https://teamtrees.org?q=Bazaar%20NFTs" isExternal> Team Trees.</Link>
          It will cover the first 50,000 NFTs. In the future, NFTs will be automatically
           offset via a percentage of the standard 2.5% marketplace transaction fee. 
           There will also be the option to make a carbon-offset donation on an NFT during 
@@ -482,11 +482,10 @@ function AboutTokenomics(){
           bDAO breaks down as such: 
           <p>500,000 - Total Circulation (Fixed) </p>
           <p>125,000 - Initial Airdrop - 25%</p>
-          <p>5,000 - Tokens set aside for Liquidity Stickers - 5%</p>
-          <p>100,000 in DAO Treasury (for future distribution post-Beta) - 20%</p>
-          <p>75,000 - Investment Fund - 15%</p>
-          <p>50,000 - Investment Fund Round 2 - 10%</p>
-          <p>125,000 - Token Farm - 25%</p>       
+          <p>5,000 - Tokens set aside for Liquidity Stickers - 1%</p>
+          <p>120,000 in DAO Treasury (for future distribution post-Beta) - 24%</p>
+          <p>125,000 - Token Sale - 25%</p>
+          <p>125,000 - bDAO Farm - 25%</p>       
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem border="none" borderRadius="25px" my="10px">

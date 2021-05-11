@@ -1,14 +1,56 @@
-import React from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image } from '@chakra-ui/react';
+import { Flex, Text, Heading, Image, Modal, ModalCloseButton } from '@chakra-ui/react';
 import { MinterButton } from '../common';
 import BackgroundImage1 from '../SplashPage/CloversLeft.png';
 import BackgroundImage2 from '../SplashPage/CloversRight.png';
 import { useSelector, useDispatch } from '../../reducer';
+//import { TezosToolkit, MichelCodecPacker } from "@taquito/taquito";
+//import { ReadOnlySigner, findDex } from "@quipuswap/sdk";
+//import { estimateTezInToken } from "@quipuswap/sdk/src/estimates";
 
 export default function SplashPage() {
   const [, setLocation] = useLocation();
   
+  /*function BdaoPrice() {
+    const publicKeyHash = "tz1fVQangAfb9J1hRRMP2bSB6LvASD6KpY8A";
+    const publicKey = "edpkvWbk81uh1DEvdWKR4g1bjyTGhdu1mDvznPUFE2zDwNsLXrEb9K";
+  
+    const tezos = new TezosToolkit("https://mainnet.smartpy.io");
+    tezos.setPackerProvider(new MichelCodecPacker());
+    tezos.setSignerProvider(new ReadOnlySigner(publicKeyHash, publicKey));
+  
+    const factories = {
+      fa1_2Factory: "KT1WkKiDSsDttdWrfZgcQ6Z9e3Cp4unHP2CP",
+      fa2Factory: "KT1Bps1VtszT2T3Yvxm5PJ6Rx2nk1FykWPdU",
+    };
+    const token = {
+      contract: "KT1RX7AdYr9hFZPQTZw5Fu8KkMwVtobHpTp6",
+      id: 0,
+    };
+  
+    return(
+      <Flex>
+        <Text>
+        {(async () => {
+      try {
+        const dex = await findDex(tezos, factories, token);
+        const dexStorage = await dex.storage();
+  
+        const tokenValue = 4_000;
+        const inTezValue = estimateTezInToken(dexStorage, tokenValue);
+  
+        return(inTezValue);
+  
+      } catch (err) {  
+        console.error(err);
+      }
+    })}
+        </Text>
+      </Flex>
+    ); 
+  }*/
+
   return (
     <Flex
       align="center"

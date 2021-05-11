@@ -23,6 +23,7 @@ import {
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
   import ScamCheck from '../../common/assets/ScamTag.png';
+import { isNone } from 'fp-ts/lib/Option';
 
 interface TokenMediaProps extends Token {
   config: IpfsGatewayConfig;
@@ -38,9 +39,23 @@ export default function TokenCard(props: TokenCardProps) {
   const [, setLocation] = useLocation();
   let priceValue: any = 0;
   let auctionType: any = "forSale";
-  var verifiedUsers: string[] = [ "jSZtK", "2YnvZ", "PENui", "Puqry", "BJNdn", "ost2P" ];
-  var scamUsers: string[] = [ "gdQfK" ];
+  var verifiedUsers: string[] = [ 
+    "jSZtK", "2YnvZ", "PENui", "Puqry", 
+    "BJNdn", "ost2P", "pcuk6", "mLWfD", 
+    "38zd8", "5CXVj", "FTeCe", "M5chq", 
+    "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
+    "qfpwN", "E3UNv", "rrGMa", "Yt5su" ];
+  var verifiedUserAliases: string[] = [
+    "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
+    "Blitzkreate", "SegArt", "NFT HUB Cologne", "MoistZombie", 
+    "DrDrooth", "Omiod", "THÖR", "Tezonians", 
+    "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
+    "siberelis", "Raw & Roll", "ArtNode", "BullishArt"
+  ]
+  var userName: string;
+  var verifiedUserAlias: string = "";
   var verifiedUser: boolean = false;
+  var scamUsers: string[] = [ "gdQfK" ];
   var scamUser: boolean = false;
 
   const src = ipfsUriToGatewayUrl(props.config, props.artifactUri);
@@ -61,12 +76,14 @@ export default function TokenCard(props: TokenCardProps) {
     })();
   }, [src]);
 
-  function VerifiedNFT() {
-    for(var i: number = 0; i <= verifiedUsers.length; i++){
-      if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
-        verifiedUser = true;
-      }
+  for(var i: number = 0; i <= verifiedUsers.length; i++){
+    if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
+      verifiedUser = true;
+      verifiedUserAlias = verifiedUserAliases[i];
     }
+  }
+
+  function VerifiedNFT() {
     if(verifiedUser){
       return (
         <Flex>
@@ -241,7 +258,30 @@ export default function TokenCard(props: TokenCardProps) {
         flexDir="column"
       >
         <Heading size="sm">{props.title}</Heading>
-        <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
+        {props.metadata.minter === props.sale?.seller ? (        
+          <>
+          {verifiedUserAlias !== "" ? (
+            <>
+            <Text fontSize="sm" >Seller: {verifiedUserAlias} </Text>
+            </>
+          ) : (
+            <>
+            <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
+            </>
+          )}
+          </>
+        ) : (
+          <>
+          <Text fontSize="sm" >Seller: {props.sale?.seller.substr(0, 5)}...{props.sale?.seller.substr(-5)}</Text>
+          {verifiedUserAlias !== "" ? (
+            <>
+            <Text fontSize="sm" >Minter: {verifiedUserAlias} </Text>
+            </>
+          ) : (
+            <></>
+          )}
+          </>
+        )}
         <Flex flexDir="row">
           <CarbonOffset/>
           <TokenType/>

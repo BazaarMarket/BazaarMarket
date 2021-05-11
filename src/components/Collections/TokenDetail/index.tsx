@@ -251,17 +251,32 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     return <NotFound />;
   }
 
-  var verifiedUsers: string[] = [ "jSZtK", "2YnvZ", "PENui", "Puqry", "BJNdn", "ost2P" ];
-  var scamUsers: string[] = [ "gdQfK" ];
+  var verifiedMinters: string[] = [ 
+    "jSZtK", "2YnvZ", "PENui", "Puqry", 
+    "BJNdn", "ost2P", "pcuk6", "mLWfD", 
+    "38zd8", "5CXVj", "FTeCe", "M5chq", 
+    "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
+    "qfpwN", "E3UNv", "rrGMa", "Yt5su" ];
+  var verifiedMinterAliases: string[] = [
+    "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
+    "Blitzkreate", "SegArt", "NFT HUB Cologne", "MoistZombie", 
+    "DrDrooth", "Omiod", "THÖR", "Tezonians", 
+    "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
+    "siberelis", "Raw & Roll", "ArtNode", "BullishArt"
+  ]
+  var verifiedMinterAlias: string = "";
   var verifiedUser: boolean = false;
+  var scamUsers: string[] = [ "gdQfK" ];
   var scamUser: boolean = false;
+
+  for(var i: number = 0; i <= verifiedMinters.length; i++){
+    if (token?.metadata.minter && token.metadata.minter?.substr(-5) === verifiedMinters[i]){
+      verifiedUser = true;
+      verifiedMinterAlias = verifiedMinterAliases[i];
+    }
+  }
   
   function VerifiedNFT() {
-    for(var i: number = 0; i <= verifiedUsers.length; i++){
-      if (token?.metadata.minter && token.metadata.minter?.substr(-5) === verifiedUsers[i]){
-        verifiedUser = true;
-      }
-    }
     if(verifiedUser){
       return (
         <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
@@ -518,7 +533,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px" wordBreak="break-word">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{token.metadata.minter ? (verifiedMinterAlias !== "" ? (verifiedMinterAlias) : (token.metadata.minter)) :("Minter Unknown")}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -793,7 +808,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   </Text>
 
                   <Link
-                    href={"https://bazaarnft.xyz/" + collection.address}
+                    href={"%PUBLIC_URL%/" + collection.address}
                     color="brand.darkGray"
                   >
                     <Flex flexDir="row" mr="auto" alignContent="left">
@@ -853,7 +868,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
-                  <Text mr="5px" wordBreak="break-word">{token.metadata?.minter || 'Minter Unknown'}</Text>
+                  <Text mr="5px" wordBreak="break-word">{verifiedMinterAlias === "" ? (verifiedMinterAlias) : ("") || 'Minter Unknown'}</Text>
                   <ExternalLink size={16} />
                 </Flex>
               </Link>
@@ -987,15 +1002,6 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   Charity
                 </TagLabel> 
               </Tag> ) : <></> }
-              
-              {token.metadata.minter && token.metadata.minter?.substr(-5) == "VERIF" ? (
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
-                <TagLeftIcon boxSize="12px" as={UserCheck} />
-                <TagLabel>
-                  Verified
-                </TagLabel> 
-              </Tag>
-              ) : <></> }
               
               {token.metadata.symbol ? (
               <>
