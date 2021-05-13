@@ -809,7 +809,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   </Text>
 
                   <Link
-                    href={"%PUBLIC_URL%/" + collection.address}
+                    href={"https://bazaarnft.xyz/" + collection.address}
                     color="brand.darkGray"
                   >
                     <Flex flexDir="row" mr="auto" alignContent="left">
