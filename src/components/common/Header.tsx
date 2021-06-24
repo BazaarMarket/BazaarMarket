@@ -20,7 +20,7 @@ import {
   Heading
 } from '@chakra-ui/react';
 import { ChevronDown, Package, Plus, GitHub, Server, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
-import { RiStore2Line, RiDiscordLine, RiTwitterLine } from 'react-icons/ri';
+import { RiStore2Line, RiDiscordLine, RiTwitterLine, RiGithubLine } from 'react-icons/ri';
 import { MdCollections } from 'react-icons/md';
 import { FaDiscord } from 'react-icons/fa';
 import { useSelector, useDispatch } from '../../reducer';
@@ -28,6 +28,7 @@ import { connectWallet, disconnectWallet } from '../../reducer/async/wallet';
 import { MinterButton } from '../common';
 import headerLogo from './assets/logo.svg';
 import headerIcon from './assets/icon.svg';
+import releaseBanner from './assets/AlphaBanner.png';
 
 interface MobileHeaderLinkProps {
   to: string;
@@ -153,17 +154,23 @@ function WalletDisplay() {
           <MenuItem color="brand.black">
             <Link
               href={"https://tzkt.io" + '/' + system.tzPublicKey}
-              color="brand.darkGray"
+              color="brand.blue"
               isExternal
-              ml={2}
             >
               <Flex flexDir="row" mr="auto" alignContent="right">
                 <Text pr="5px">
-                  Account Info
+                  TzKT Info
                 </Text>
                 <ExternalLink size={16} />
               </Flex>
             </Link>
+          </MenuItem>
+          <MenuItem
+            color="brand.black"
+            onClick={() => {
+              setLocation('/account');
+            }}>
+            My Account
           </MenuItem>
           <MenuItem
             color="brand.black"
@@ -241,19 +248,19 @@ function NavItems() {
                       Marketplace
                     </MobileHeaderLink>
                     <MobileHeaderLink to="/about" onClick={onClose}>
-                      FAQ
+                      About
                     </MobileHeaderLink>
                     <MobileHeaderLink to="/collections" onClick={onClose}>
                       Collections
                     </MobileHeaderLink>
                     {system.status === 'WalletConnected' ? (
                       <MobileHeaderLink to="/create" onClick={onClose}>
-                        New Asset
+                        NFT Minter
                       </MobileHeaderLink>
                     ) : null}
                   <Flex flexDir="row" m="2vh" align="center">
-                    <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="20px" pr="20px" mt="14px" stroke="200">
-                      <GitHub size="30px" strokeWidth="2.5px"/>
+                    <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="20px" pr="20px" mt="14px">
+                      <RiGithubLine size="40px"/>
                     </Link>
                     <Link href="https://discord.gg/mnYZwv8s5a" isExternal pl="20px" pr="20px" mt="14px">
                       <RiDiscordLine size="40px"/>
@@ -296,7 +303,7 @@ function NavItems() {
       <Flex
       width="100%"
       bg="white"
-      paddingX={10}
+      paddingX={5}
       paddingY={6}
       height="10vh"
       display={{
@@ -311,21 +318,25 @@ function NavItems() {
         <DesktopHeaderLink to="/marketplace">
           <Text m={2}>Marketplace</Text>
         </DesktopHeaderLink>
-        
-        <DesktopHeaderLink to="/drops">
-          <Text m={2}>Drops</Text>
-        </DesktopHeaderLink>
 
         <DesktopHeaderLink to="/about">
-          <Text m={2}>FAQ</Text>
+          <Text m={2}>About</Text>
         </DesktopHeaderLink>
 
-        <Link href="https://discord.gg/mnYZwv8s5a" isExternal margin="auto" pl="13px" pr="15px">
-          <RiDiscordLine size="27px"/>
-        </Link>  
-        
-        <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal margin="auto" pl="15px" pr="20px" size="30px" stroke="100">
-          <GitHub/>
+        <Link 
+          href="http://docs.bazaarnft.xyz/"
+          textDecor="none"
+          borderRadius="10px"
+          alignItems="center"
+          fontWeight="600"
+          mr={4}
+          display="flex"
+          transition="none"
+          _hover={{
+            textDecor: 'none',
+          }}
+          >
+          <Text m={2}>Docs</Text>
         </Link>
       
       </Flex>
@@ -352,6 +363,14 @@ export function Header() {
       alignItems="center"
       justifyContent="space-between"
     >
+      <Image
+        height="8vh"
+        maxW="220px"
+        src={releaseBanner}
+        position="absolute"
+        top="0"
+        left="0"
+      />
       <Image
         display={{
           base: 'none',

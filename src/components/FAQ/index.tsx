@@ -1,11 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image, Modal, ModalCloseButton } from '@chakra-ui/react';
-import { MinterButton } from '../common';
-import BackgroundImage1 from '../SplashPage/CloversLeft.png';
-import BackgroundImage2 from '../SplashPage/CloversRight.png';
-import { useSelector, useDispatch } from '../../reducer';
-
+import React from 'react';
 import { 
   Accordion, 
   AccordionButton, 
@@ -13,73 +6,15 @@ import {
   AccordionItem, 
   AccordionPanel, 
   Box, 
-  Link } from '@chakra-ui/react';
-
-export default function SplashPage() {
-  const [, setLocation] = useLocation();
-
-  return (
-    <Flex
-      align="center"
-      justifyContent="space-between"
-      w="100%"
-      flex="1"
-      flexDir="column"
-    >
-      <Flex height="90vh" flexDir="column" align="center">
-        <Heading color="brand.darkGray" size="lg" pb={2} pt="30vh" mx="10vw" textAlign="center">
-          Carbon-Offset NFTs on Tezos
-        </Heading>
-       
-        <Heading
-          color="brand.darkGray"
-          size="md"
-          textAlign="center"
-          fontFamily="Helvetica"
-          pb={4}
-          mx="10vw"
-          opacity=".8"
-        >
-          Create and mint non-fungible tokens guilt-free.
-        </Heading>
-        <MinterButton 
-          backgroundColor="brand.green"
-          color="white" 
-          fontSize="20px" 
-          width="150px" 
-          onClick={() => setLocation("/create")}
-        >
-          <Text m={2} fontSize="20px">Start Minting</Text>
-        </MinterButton>  
-        <Image
-          src={BackgroundImage1}
-          align="left"
-          height="20vh"
-          mr="60vw"
-          mt="70vh"
-          position="absolute" 
-        />
-        <Image
-          src={BackgroundImage2}
-          align="right"
-          height="20vh"
-          ml="60vw"
-          mt="70vh"
-          position="absolute"
-        />
-      </Flex>
-      <Flex>
-        <AboutPage/>
-      </Flex>
-    </Flex>
-  );
-}
+  Flex, 
+  Heading,  
+  Link, } from '@chakra-ui/react';
 
 function AboutBazaar() {
   return(
     <>
     <Heading
-      color="white"
+      color="brand.darkGray"
       size="md"
       textAlign="center"
       fontFamily="Helvetica"
@@ -227,7 +162,7 @@ function AboutMinting() {
   return(
     <>
     <Heading
-      color="white"
+      color="brand.darkGray"
       size="md"
       textAlign="center"
       fontFamily="Helvetica"
@@ -476,7 +411,7 @@ function AboutTokenomics(){
   return(
     <>
     <Heading
-      color="white"
+      color="brand.darkGray"
       size="md"
       textAlign="center"
       fontFamily="Helvetica"
@@ -679,23 +614,21 @@ function AboutTokenomics(){
 }
 
 
-function AboutPage() {
+export default function FAQPage() {
 
   return (
     <Flex
       align="center"
-      width="99.15vw"
+      w="100%"
       flex="1"
       flexDir="column"
-      bg="brand.darkGray"
+      bg="#ffffff"
       minH="90vh"
-      color="white"
-      borderBottomWidth="2px"
-      borderStyle="dashed"
+      overflowY="scroll"
     >
 
-      <Flex flexDir="column" align="center">
-        <Heading color="white" size="lg" pb={2} pt="8vh" mx="10vw" textAlign="center">
+      <Flex flexDir="column" align="center" maxW="90vw">
+        <Heading color="brand.darkGray" size="xl" mt="5vh" mb="2vh" textAlign="center">
           FAQ Section:
         </Heading>
 
@@ -705,6 +638,7 @@ function AboutPage() {
           textAlign="center"
           fontFamily="Helvetica"
           opacity=".8"
+          marginX='20vw'
         >
           (Please reach out on our Discord if you feel that a question is missing)
         </Heading>
@@ -717,7 +651,7 @@ function AboutPage() {
           md: 'none',
           sm: 'none'
       }}>
-        <Flex flexDir="row" mt="5vh"> 
+        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
           <Flex flexDir="column" width="25vw" pr="2vw">
             <AboutBazaar/>
           </Flex>
@@ -739,7 +673,7 @@ function AboutPage() {
           md: 'flex',
           sm: 'none'
       }}>
-        <Flex flexDir="row" mt="5vh"> 
+        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
           <Flex flexDir="column" width="35vw" pr="2vw">
             <AboutBazaar/>
             <AboutTokenomics/>
@@ -755,7 +689,7 @@ function AboutPage() {
         base: 'block',
         md: 'none'
       }}>
-        <Flex flexDir="row" mt="5vh"> 
+        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
           <Flex flexDir="column" width="85vw" pr="2vw">
             <AboutBazaar/>
             <AboutMinting/>

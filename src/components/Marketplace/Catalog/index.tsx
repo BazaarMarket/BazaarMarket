@@ -178,7 +178,8 @@ export default function Catalog() {
               <>
                 <SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl: 4}} gap={8} pb={8}>
                   <>
-                    {tokens.slice(0).map(token => {
+                    {
+                    tokens.slice(0).map(token => {
                       return (
                         <TokenCard
                           key={`${token.address}-${token.id}`}

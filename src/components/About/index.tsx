@@ -615,89 +615,31 @@ function AboutTokenomics(){
 
 
 export default function AboutPage() {
-
   return (
     <Flex
       align="center"
+      justifyContent="space-between"
       w="100%"
       flex="1"
       flexDir="column"
       bg="#ffffff"
-      minH="90vh"
-      overflowY="scroll"
     >
-
-      <Flex flexDir="column" align="center" maxW="90vw">
-        <Heading color="brand.darkGray" size="xl" mt="5vh" mb="2vh" textAlign="center">
-          FAQ Section:
+      
+      <Flex mt="10%" flexDir="column" align="center" maxW="600px" pt={20} height="90vh">
+        <Heading color="brand.darkGray" size="xl" pb={8}>
+          This is the about page.
         </Heading>
-
         <Heading
-          color="brand.blue"
-          size="sm"
+          color="brand.darkGray"
+          size="md"
           textAlign="center"
           fontFamily="Helvetica"
+          pb={12}
           opacity=".8"
-          marginX='20vw'
         >
-          (Please reach out on our Discord if you feel that a question is missing)
+          More info coming soon.
         </Heading>
       </Flex>
-
-      <Flex 
-      display={{
-        base: 'none',
-          lg: 'flex',
-          md: 'none',
-          sm: 'none'
-      }}>
-        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
-          <Flex flexDir="column" width="25vw" pr="2vw">
-            <AboutBazaar/>
-          </Flex>
-
-          <Flex flexDir="column" width="25vw" pr="2vw">
-            <AboutMinting/>
-          </Flex>
-
-          <Flex flexDir="column" width="25vw">
-            <AboutTokenomics/>
-          </Flex>
-        </Flex>
-      </Flex>
-
-      <Flex 
-      display={{
-        base: 'none',
-          lg: 'none',
-          md: 'flex',
-          sm: 'none'
-      }}>
-        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
-          <Flex flexDir="column" width="35vw" pr="2vw">
-            <AboutBazaar/>
-            <AboutTokenomics/>
-          </Flex>
-          <Flex flexDir="column" width="35vw" pr="2vw">
-            <AboutMinting/>
-          </Flex>
-        </Flex>
-      </Flex>
-
-      <Flex 
-      display={{
-        base: 'block',
-        md: 'none'
-      }}>
-        <Flex flexDir="row" maxW="90vw" mt="5vh"> 
-          <Flex flexDir="column" width="85vw" pr="2vw">
-            <AboutBazaar/>
-            <AboutMinting/>
-            <AboutTokenomics/>
-          </Flex>
-        </Flex>
-      </Flex>
-
     </Flex>
   );
 }

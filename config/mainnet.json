@@ -6,7 +6,7 @@
     "gui": "https://better-call.dev"
   },
   "tzkt": {
-    "api": "https://staging.api.mainnet.tzkt.io"
+    "api": "https://api.mainnet.tzkt.io"
   },
   "contracts": {
     "nftFaucet": "KT1PKvHNWuWDNVDtqjDha4AostLrGDu4G1jy",

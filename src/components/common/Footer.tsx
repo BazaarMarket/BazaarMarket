@@ -7,10 +7,66 @@ import {
   Text,
 } from '@chakra-ui/react';
 import footerLogo from './assets/footerLogo.svg';
+import { TezosToolkit, MichelCodecPacker } from "@taquito/taquito";
+import { ReadOnlySigner, findDex, estimateTezInToken } from "@quipuswap/sdk";
+import TezIcon from "../common/assets/tezos-sym.svg";
+import { ChevronDown, Package, Plus, GitHub, Server, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
+import { RiStore2Line, RiDiscordLine, RiTwitterLine, RiTelegramLine, RiGithubLine } from 'react-icons/ri';
+import { MdCollections } from 'react-icons/md';
+import { FaDiscord, FaTelegram } from 'react-icons/fa';
 
 interface HeaderLinkProps {
   to: string;
   children: React.ReactNode;
+}
+
+function TokenPriceDisplay() {
+  const publicKeyHash = "tz1fVQangAfb9J1hRRMP2bSB6LvASD6KpY8A";
+  const publicKey = "edpkvWbk81uh1DEvdWKR4g1bjyTGhdu1mDvznPUFE2zDwNsLXrEb9K";
+
+  const tezos = new TezosToolkit("https://mainnet.smartpy.io");
+  tezos.setPackerProvider(new MichelCodecPacker());
+  tezos.setSignerProvider(new ReadOnlySigner(publicKeyHash, publicKey));
+
+  const factories = {
+    fa1_2Factory: "KT1Lw8hCoaBrHeTeMXbqHPG4sS4K1xn7yKcD",
+    fa2Factory: "KT1SwH9P1Tx8a58Mm6qBExQFTcy2rwZyZiXS",
+  };
+  
+  const token = {
+    contract: "KT1GUNKmkrgtMQjJp3XxcmCj6HZBhkUmMbge",
+    id: 0,
+  };
+
+  const [price, setPrice] = React.useState("");
+  React.useEffect(() => {
+    const fetchTokenPrice = async () => {
+      try {
+        const dex = await findDex(tezos, factories, token);
+        const dexStorage = await dex.contract.storage();
+
+        const tokenValue = 1_000_0;
+        const price = estimateTezInToken(dexStorage, tokenValue);
+
+        setPrice(String(price));
+
+      } catch (err) {  
+          setPrice("Could not retrieve token price. Big Sad.");
+      }
+    }
+    fetchTokenPrice();
+  }, []);
+
+  return(
+    <Flex align="center" textAlign="center">
+      <Text fontSize="14px" fontWeight="bold">
+        bDAO Token Price:&nbsp;
+      </Text>
+      <Text fontSize="14px">
+        0.{price} tz
+      </Text>
+    </Flex>
+  ); 
 }
 
 function FooterLink(props: HeaderLinkProps) {
@@ -51,33 +107,90 @@ export function Footer() {
     return null;
   }*/
   return (
-    <Flex bg="brand.darkGray" maxH="250px" padding="50px" color="white">
-      <footer>
-      <Flex display="block">
+    <footer>
+      <Flex bg="brand.darkGray" px="2vw" pt="4vh" pb="2vh" color="white" flexDir="column">
+        <Flex flexDir="row" justify="space-between" width="100%">
+          <Flex flexDir="column">
+            <Text fontSize="20px" fontWeight="bold" textAlign="right">
+              Sitemap:
+            </Text>
+            <Link href="/" fontSize="12px" pt="10px">
+              Home
+            </Link>
+            <Link href="/marketplace" fontSize="12px" pt="10px">
+              Marketplace
+            </Link>
+            <Link href="/drops" fontSize="12px" pt="10px">
+              Drops
+            </Link>
+            <Link href="http://docs.bazaarnft.xyz/" fontSize="12px" pt="10px" pb="2vh">
+              Docs
+            </Link> 
+          </Flex>
+          <Flex flexDir="column" textAlign="center">
+            <Text fontSize="20px" fontWeight="bold">
+              DeFi:
+            </Text>
+            <Flex mt="2vh" textAlign="center" alignSelf="center" pb="1vh">
+              <TokenPriceDisplay/>
+            </Flex>
+            <Flex flexDir="row" align="center">
+              <Link href="https://app.crunchy.network/#/farms" isExternal px="0.5em">
+                🚜 Farm
+              </Link>  
+              <Link href="https://quipuswap.com/swap?from=tez&to=KT1GUNKmkrgtMQjJp3XxcmCj6HZBhkUmMbge_0" isExternal px="0.5em">
+                🛒 Buy
+              </Link>  
+              <Link href="https://quipuswap.com/swap?from=KT1GUNKmkrgtMQjJp3XxcmCj6HZBhkUmMbge_0" isExternal px="0.5em">
+                💱 Swap
+              </Link>
+              <Link href="http://docs.bazaarnft.xyz/en/bdao" isExternal px="0.5em">
+                ℹ️ Info
+              </Link>
+              <Link isExternal px="0.5em" color="lightGray">
+                🏛️ DAO
+              </Link>
+            </Flex>
+            <Text fontSize="2vh"  fontWeight="bold" pt="1em"> Donate:</Text>
+            <Link fontSize="1.75vh" href="https://app.tezos.domains/domain/bazaar.tez" isExternal flexDir="row">
+              <Text color="brand.blue" fontWeight="bold">
+                Bazaar.tez
+              </Text>
+            </Link>
+          </Flex>
+          <Flex flexDir="column">
+            <Text fontSize="20px" fontWeight="bold" textAlign="right">
+              Social Links:
+            </Text>
+            <Flex flexDir="row" mt="2vh">
+            <Link href="https://discord.gg/mnYZwv8s5a" isExternal px="0.5em">
+              <RiDiscordLine size="2em"/>
+            </Link> 
+            <Link href="https://t.me/joinchat/L_izbzRXxLNhNTY5" isExternal px="0.5em">
+              <RiTelegramLine size="2em"/>
+            </Link> 
+            <Link href="https://twitter.com/BazaarNfts" isExternal px="0.5em">
+              <RiTwitterLine size="2em"/>
+            </Link>
+            <Link href="https://github.com/BazaarMarket/Bazaar-Market" isExternal pl="0.5em">
+              <RiGithubLine size="2em"/>
+            </Link>
+            </Flex>
+          </Flex>
+    </Flex>
+    <Flex flexDir="row" justify="space-between" width="100%">
       <Image
-        width="150px"
+        width="125px"
         src={footerLogo}
         cursor="pointer"
-        align="right"
+        align="center"
       />
-      <Text display="block" fontSize="14px" pt="20px" fontWeight="bold">
-        Sitemap:
+      <Text>
+        Bazaar Market © 2021
       </Text>
-      <Link href="/" display="block" fontSize="12px" pt="10px">
-        Home
-      </Link>
-      <Link href="/about" display="block" fontSize="12px" pt="10px">
-        About
-      </Link>
-      <Link href="/marketplace" display="block" fontSize="12px" pt="10px" pb="12px">
-        Marketplace
-      </Link>
-      </Flex>
-      <Flex>
-
-      </Flex>
-      </footer>
     </Flex>
+    </Flex>
+    </footer>
   );
 }
 

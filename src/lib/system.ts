@@ -165,6 +165,9 @@ function networkType(config: Config) {
   if (config.network === 'edo2net') {
     return NetworkType.CUSTOM;
   }
+  if (config.network === 'florencenet') {
+    return NetworkType.FLORENCENET;
+  }
   return NetworkType.CUSTOM;
 }
 
@@ -176,7 +179,7 @@ function getWallet(
 ): BeaconWallet {
   if (wallet === null) {
     wallet = new BeaconWallet({
-      name: 'Bazaar Market',
+      name: 'Bazaar Market dApp',
       preferredNetwork: networkType(system.config),
       eventHandlers
     });
