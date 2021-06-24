@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+
 import { 
   Accordion, 
   AccordionButton, 
@@ -6,9 +7,72 @@ import {
   AccordionItem, 
   AccordionPanel, 
   Box, 
+  Button,
   Flex, 
-  Heading,  
+  Heading,
+  FormControl, 
+  FormLabel,
+  FormErrorMessage,
+  Input, 
   Link, } from '@chakra-ui/react';
+
+  import {
+    Formik,
+    FormikHelpers,
+    FormikProps,
+    Form,
+    Field,
+    FieldProps,
+  } from 'formik';
+
+  interface MyFormValues {
+    firstName: string;
+  }
+
+  function FormikExample() {
+    function validateName(value: string) {
+      let error
+      if (!value) {
+        error = "Name is required"
+      } else if (value.toLowerCase() !== "naruto") {
+        error = "Jeez! You're not a fan 😱"
+      }
+      return error
+    }
+  
+    return (
+      <Formik
+        initialValues={{ name: "Sasuke" }}
+        onSubmit={(values, actions) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2))
+            actions.setSubmitting(false)
+          }, 1000)
+        }}
+      >
+        {(props) => (
+          <Form>
+            <Field name="Contact Info" validate={validateName}>
+            {({}) => (
+              <FormControl>
+                <FormLabel htmlFor="name">Contact</FormLabel>
+                <Input id="name" placeholder="Contact Info" />
+              </FormControl>
+            )}
+            </Field>
+            <Button
+              mt={4}
+              colorScheme="teal"
+              isLoading={props.isSubmitting}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    )
+  }
   
 function AboutBazaar() {
   return(
@@ -637,8 +701,12 @@ export default function AboutPage() {
           pb={12}
           opacity=".8"
         >
-          More info coming soon.
+          Testing contact form below vvvv.
         </Heading>
+
+        <form name="Bazaar Contact Form" method="POST" data-netlify="true">
+        <FormikExample/>
+        </form>
         <Flex>
         </Flex>
       </Flex>
