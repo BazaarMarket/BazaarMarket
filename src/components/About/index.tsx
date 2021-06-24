@@ -9,7 +9,7 @@ import {
   Flex, 
   Heading,  
   Link, } from '@chakra-ui/react';
-
+  
 function AboutBazaar() {
   return(
     <>
@@ -639,6 +639,8 @@ export default function AboutPage() {
         >
           More info coming soon.
         </Heading>
+        <Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

@@ -180,6 +180,13 @@ function WalletDisplay() {
             My Collections
           </MenuItem>
           <MenuItem
+            color="brand.black"
+            onClick={() => {
+              setLocation('/wert');
+            }}>
+            Buy Tezos
+          </MenuItem>
+          <MenuItem
             color="brand.red"
             onClick={async () => {
               await dispatch(disconnectWallet());
@@ -324,6 +331,25 @@ function NavItems() {
         </DesktopHeaderLink>
 
         <Link 
+          href="https://app.crunchy.network/#/farms"
+          textDecor="none"
+          borderRadius="10px"
+          alignItems="center"
+          fontWeight="600"
+          mr={4}
+          display="flex"
+          transition="none"
+          _hover={{
+            textDecor: 'none',
+          }}
+          >
+          <Text>Farm</Text>
+          <Flex mb={2}>
+            <ExternalLink size={15} color="#4AA0D5"/>
+          </Flex>
+        </Link>
+
+        <Link 
           href="http://docs.bazaarnft.xyz/"
           textDecor="none"
           borderRadius="10px"
@@ -336,7 +362,10 @@ function NavItems() {
             textDecor: 'none',
           }}
           >
-          <Text m={2}>Docs</Text>
+          <Text>Docs</Text>
+          <Flex mb={2}>
+            <ExternalLink size={15} color="#4AA0D5"/>
+          </Flex>
         </Link>
       
       </Flex>

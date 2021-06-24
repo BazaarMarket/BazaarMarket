@@ -16,6 +16,7 @@ import Notifications from '../common/Notifications';
 import { useSelector, useDispatch } from '../../reducer';
 import { reconnectWallet } from '../../reducer/async/wallet';
 import { getMarketplaceNftsQuery } from '../../reducer/async/queries';
+import WertPage from '../Wert';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,12 @@ export default function App() {
           </Route>
           <Route path="/about">
             <AboutPage />
+          </Route>
+          <Route path="/account">
+            <AccountPage />
+          </Route>
+          <Route path="/wert">
+            <WertPage />
           </Route>
           <Route path="/collection/:contractAddress">
             {({ contractAddress }) => (
