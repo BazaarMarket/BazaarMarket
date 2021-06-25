@@ -77,6 +77,7 @@ import {
   >
     {() => (
     <form name="contact-demo" data-netlify={true}>
+      <input type="hidden" name="contact-form" value="contact-form" />
       <label htmlFor="name">Name: </label>
       <Field name="name" />
       <ErrorMessage name="name" />
