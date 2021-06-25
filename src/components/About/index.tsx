@@ -29,50 +29,29 @@ import {
     firstName: string;
   }
 
-  function FormikExample() {
-    function validateName(value: string) {
-      let error
-      if (!value) {
-        error = "Name is required"
-      } else if (value.toLowerCase() !== "naruto") {
-        error = "Jeez! You're not a fan 😱"
-      }
-      return error
-    }
-  
+  function FormikForm() {
+    const initialValues: MyFormValues = { firstName: '' };
     return (
-      <Formik
-        initialValues={{ name: "Sasuke" }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            actions.setSubmitting(false)
-          }, 1000)
-        }}
-      >
-        {(props) => (
+      <div>
+        <h1>My Example</h1>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, actions) => {
+            console.log({ values, actions });
+            alert(JSON.stringify(values, null, 2));
+            actions.setSubmitting(false);
+          }}
+        >
           <Form>
-            <Field name="Contact Info" validate={validateName}>
-            {({}) => (
-              <FormControl>
-                <FormLabel htmlFor="name">Contact</FormLabel>
-                <Input id="name" placeholder="Contact Info" />
-              </FormControl>
-            )}
-            </Field>
-            <Button
-              mt={4}
-              colorScheme="teal"
-              isLoading={props.isSubmitting}
-              type="submit"
-            >
-              Submit
-            </Button>
+          <input type="hidden" name="form-name" value="pizzaOrder" />
+            <label htmlFor="firstName">First Name</label>
+            <Field id="firstName" name="firstName" placeholder="First Name" />
+            <button type="submit">Submit</button>
           </Form>
-        )}
-      </Formik>
-    )
-  }
+        </Formik>
+      </div>
+    );
+  };
   
 function AboutBazaar() {
   return(
@@ -730,7 +709,7 @@ export default function AboutPage() {
         >
           Testing contact form below vvvv.
         </Heading>
-        <ContactForm/>
+        <FormikForm/>
         <Flex>
         </Flex>
       </Flex>
