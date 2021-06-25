@@ -23,33 +23,89 @@ import {
     Form,
     Field,
     FieldProps,
+    ErrorMessage
   } from 'formik';
 
   interface MyFormValues {
-    firstName: string;
+      name: '',
+      email: '',
+      message: ''
+  }
+
+  const encode = (data: string) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[+key]))
+      .join("&");
   }
 
   function FormikForm() {
-    const initialValues: MyFormValues = { firstName: '' };
+    const initialValues: MyFormValues = { name: '', email: '', message: '' };
     return (
-      <div>
-        <h1>My Example</h1>
+      <Flex backgroundColor="lightGray" flexDir="column" textAlign="center">
+        <div>
+        <Heading size="md" pt={5}>Contact Form</Heading>
         <Formik
-          initialValues={initialValues}
-          onSubmit={(values, actions) => {
-            console.log({ values, actions });
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
+          initialValues={{
+            name: '',
+            email: '',
+            message: '',
           }}
-        >
-          <Form>
-          <input type="hidden" name="form-name" value="pizzaOrder" />
-            <label htmlFor="firstName">First Name</label>
-            <Field id="firstName" name="firstName" placeholder="First Name" />
-            <button type="submit">Submit</button>
-          </Form>
-        </Formik>
+        onSubmit={
+          (values, actions) => {
+            fetch("/", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: encode({ "form-name": "contact-demo", ...values }.toString())
+            })
+            .then(() => {
+              alert('Success');
+              actions.resetForm()
+            })
+            .catch(() => {
+              alert('Error');
+            })
+            .finally(() => actions.setSubmitting(false))
+          }
+        }
+        validate={values => {
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      const errors = { name: '', email: '', message: '',};
+      if(!values.name) {
+        errors.name = 'Name Required'
+      }
+      if(!values.email || !emailRegex.test(values.email)) {
+        errors.email = 'Valid Email Required'
+      }
+      if(!values.message) {
+        errors.message = 'Message Required'
+      }
+      return errors;
+    }}
+  >
+    {() => (
+    <Form name="contact-demo" data-netlify={true}>
+      <Flex flexDir="column" p={5} textAlign="center">
+      <label htmlFor="name">Name: </label>
+      <Field name="name" />
+      <ErrorMessage name="name" />
+
+      <label htmlFor="email">Email: </label>
+      <Field name="email" />
+      <Flex color="red">
+        <ErrorMessage name="email"/>
+      </Flex>
+
+      <label htmlFor="message">Message: </label>
+      <Field name="message" component="textarea"/>
+      <ErrorMessage name="message" />
+
+      <Button type="submit" mt={5}>Send</Button>
+      </Flex>
+    </Form>
+  )}
+  </Formik>
       </div>
+      </Flex>
     );
   };
   
@@ -450,7 +506,7 @@ function AboutMinting() {
   );
 }
 
-function AboutTokenomics(){
+function AboutTokenomics() {
   return(
     <>
     <Heading
@@ -656,7 +712,7 @@ function AboutTokenomics(){
   );
 }
 
-function ContactForm(){
+function ContactForm() {
   return(
     <form name="contact" method="post" data-netlify="true">
       <input type="hidden" name="form-name" value="pizzaOrder" />
