@@ -26,12 +26,6 @@ import {
     ErrorMessage
   } from 'formik';
 
-  interface MyFormValues {
-      name: '',
-      email: '',
-      message: ''
-  }
-
   const encode = (data: string) => {
     return Object.keys(data)
       .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[+key]))
@@ -39,7 +33,6 @@ import {
   }
 
   function FormikForm() {
-    const initialValues: MyFormValues = { name: '', email: '', message: '' };
     return (
       <Flex backgroundColor="lightGray" flexDir="column" textAlign="center">
         <div>
@@ -83,25 +76,21 @@ import {
     }}
   >
     {() => (
-    <Form name="contact-demo" data-netlify={true}>
-      <Flex flexDir="column" p={5} textAlign="center">
+    <form name="contact-demo" data-netlify={true}>
       <label htmlFor="name">Name: </label>
       <Field name="name" />
       <ErrorMessage name="name" />
 
       <label htmlFor="email">Email: </label>
       <Field name="email" />
-      <Flex color="red">
-        <ErrorMessage name="email"/>
-      </Flex>
+      <ErrorMessage name="email"/>
 
       <label htmlFor="message">Message: </label>
       <Field name="message" component="textarea"/>
       <ErrorMessage name="message" />
 
-      <Button type="submit" mt={5}>Send</Button>
-      </Flex>
-    </Form>
+      <button type="submit">Send</button>
+    </form>
   )}
   </Formik>
       </div>
@@ -709,34 +698,6 @@ function AboutTokenomics() {
       </AccordionItem>
     </Accordion>
     </>
-  );
-}
-
-function ContactForm() {
-  return(
-    <form name="contact" method="post" data-netlify="true">
-      <input type="hidden" name="form-name" value="pizzaOrder" />
-      <p>
-        <label>Your Name: <input type="text" name="name" /></label>   
-      </p>
-      <p>
-        <label>Your Email: <input type="email" name="email" /></label>
-      </p>
-      <p>
-        <label>Your Role:  
-          <select name="role[]" multiple>
-            <option value="leader">Leader</option>
-            <option value="follower">Follower</option>
-          </select>
-        </label>
-      </p>
-      <p>
-        <label>Message: <textarea name="message"></textarea></label>
-      </p>
-      <p>
-        <button type="submit">Send</button>
-      </p>
-    </form>
   );
 }
 
