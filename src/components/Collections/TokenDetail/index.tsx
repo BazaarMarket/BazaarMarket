@@ -527,7 +527,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 Minter
               </Text>
               <Link
-                href={"https://tzkt.io/" + token.metadata?.minter}
+                href={"https://bazaarnft.xyz/u/" + token.metadata?.minter}
                 color="brand.darkGray"
                 isExternal
                 ml={2}
