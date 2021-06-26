@@ -135,9 +135,9 @@ function ContactForm() {
           >
             Submit
           </Button>
-          <Badge colorScheme="yellow" textAlign="center">This form is under construction.</Badge>
+          <Badge colorScheme="yellow" textAlign="center">This form is under construction</Badge>
           <Text color="brand.blue" pt={4} textAlign="center">
-            Please contact us via email: BazaarNFT@gmail.com
+            Please contact us via <Link fontWeight="bold" href="https://forms.gle/LhFk3yXt9EZN59tCA">this Google Form.</Link>
           </Text>
           </Flex>
           
