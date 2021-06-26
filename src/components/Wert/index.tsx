@@ -20,7 +20,7 @@ export default function WertPage() {
       flex="1"
       flexDir="column"
       bg="#ffffff"
-      width="90vw" minHeight="90vh"
+      width="99vw" minHeight="90vh"
     >
         <Heading mt="6vh">
           Purchase Tezos on Bazaar!
@@ -29,7 +29,7 @@ export default function WertPage() {
           Powered by <Link href="https://wert.io/" color="brand.blue"> Wert.io </Link>
         </Text>
         <iframe 
-          src="https://widget.wert.io/01F8YT5VWTY38S9AKBEKKJYKDJ/widget?commodities=XTZ" 
+          src="https://widget.wert.io/01F8YT5VWTY38S9AKBEKKJYKDJ/widget?commodities=XTZ&color_buttons=%234BA0D4&color_icons=%234BA0D4&color_links=%234BA0D4&color_success=%2327B278&color_warning=%23FACB43&color_error=%23eb586f" 
           allow="cross-origin-isolated 'none'"
           width="100%"
           height="100%"

@@ -143,20 +143,6 @@ function WalletDisplay() {
           <WalletInfo tzPublicKey={system.tzPublicKey} />
         </MenuButton>
         <MenuList>
-          <MenuItem color="brand.black">
-            <Link
-              href={"https://tzkt.io" + '/' + system.tzPublicKey}
-              color="brand.blue"
-              isExternal
-            >
-              <Flex flexDir="row" mr="auto" alignContent="right">
-                <Text pr="5px">
-                  TzKT Info
-                </Text>
-                <ExternalLink size={16} />
-              </Flex>
-            </Link>
-          </MenuItem>
           <MenuItem>
             <Link
             href={"https://bazaarnft.xyz/u/" + system.tzPublicKey}
@@ -176,8 +162,22 @@ function WalletDisplay() {
             }}>
             My Collections
           </MenuItem>
+          <MenuItem color="brand.black">
+            <Link
+              href={"https://tzkt.io" + '/' + system.tzPublicKey}
+              color="brand.blue"
+              isExternal
+            >
+              <Flex flexDir="row" mr="auto" alignContent="right">
+                <Text pr="5px" color="brand.black">
+                  TzKT Info
+                </Text>
+                <ExternalLink size={16}/>
+              </Flex>
+            </Link>
+          </MenuItem>
           <MenuItem
-            color="brand.black"
+            color="brand.green"
             onClick={() => {
               setLocation('/wert');
             }}>
