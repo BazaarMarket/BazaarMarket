@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'wouter';
-import SplashPage from '../SplashPage';
+import HomePage from '../Home';
 import AboutPage from '../About';
-import AccountPage from '../Account';
+import SettingsPage from '../Settings';
 import CreateNonFungiblePage from '../CreateNonFungiblePage';
 import CollectionsCatalog from '../Collections/Catalog';
 import CollectionDisplay from '../Collections/Catalog/CollectionDisplay';
@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from '../../reducer';
 import { reconnectWallet } from '../../reducer/async/wallet';
 import { getMarketplaceNftsQuery } from '../../reducer/async/queries';
 import WertPage from '../Wert';
-import UserPage from '../UserPage';
+import ProfilePage from '../Profile';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ export default function App() {
         <Header />
         <Switch>
           <Route path="/">
-            <SplashPage />
+            <HomePage />
           </Route>
           <Route path="/create">
             <CreateNonFungiblePage />
@@ -62,8 +62,8 @@ export default function App() {
           <Route path="/about">
             <AboutPage />
           </Route>
-          <Route path="/account">
-            <AccountPage />
+          <Route path="/user-settings">
+            <SettingsPage />
           </Route>
           <Route path="/wert">
             <WertPage />
@@ -75,7 +75,7 @@ export default function App() {
           </Route>
           <Route path="/u/:userAddress">
             {({ userAddress }) => (
-              <UserPage address={userAddress} />
+              <ProfilePage address={userAddress} />
             )}
           </Route>
           <Route path="/collection/:contractAddress/token/:tokenId">

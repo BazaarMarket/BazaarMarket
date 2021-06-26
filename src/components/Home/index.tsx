@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'wouter';
-import { Flex, Text, Heading, Image, Modal, ModalCloseButton } from '@chakra-ui/react';
+import { Flex, Text, Heading, Image } from '@chakra-ui/react';
 import { MinterButton } from '../common';
-import BackgroundImage1 from '../SplashPage/CloversLeft.png';
-import BackgroundImage2 from '../SplashPage/CloversRight.png';
-import { useSelector, useDispatch } from '../../reducer';
+import BackgroundImage1 from './CloversLeft.png';
+import BackgroundImage2 from './CloversRight.png';
 
 import { 
   Accordion, 
@@ -13,9 +12,10 @@ import {
   AccordionItem, 
   AccordionPanel, 
   Box, 
-  Link } from '@chakra-ui/react';
+  Link 
+} from '@chakra-ui/react';
 
-export default function SplashPage() {
+export default function HomePage() {
   const [, setLocation] = useLocation();
 
   return (

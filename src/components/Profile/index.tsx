@@ -12,7 +12,7 @@ import {
   TagLeftIcon,
   Link,
   Spinner } from '@chakra-ui/react';
-import { Wind, Search, Filter, ArrowRight, ArrowDown, Sliders, UserCheck, ExternalLink } from 'react-feather';
+import { Wind, Settings, UserCheck, ExternalLink } from 'react-feather';
 import { useSelector, useDispatch } from '../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../reducer/async/queries';
 import TokenCard from './TokenCard';
@@ -41,7 +41,7 @@ interface UserPageProps {
   address: string | null;
 }
 
-export default function UserPage({
+export default function ProfilePage({
   address,
 }: UserPageProps) {
   for(var i: number = 0; i <= verifiedUsers.length; i++){
@@ -102,6 +102,21 @@ export default function UserPage({
     }
   }
 
+  function SettingsButton() {
+    if (address == system.tzPublicKey){
+      return (
+        <Flex mt={3}>
+          <Link href="https://bazaarnft.xyz/user-settings">
+            <Settings color="gray" size="3vh"/>
+          </Link>
+        </Flex>
+      );
+    } else {
+      return(<></>);
+    }
+    
+  }
+
   return (
     <Flex 
     w="100%"
@@ -129,6 +144,7 @@ export default function UserPage({
                 </Flex>
               </Flex>
             </Link>
+            <SettingsButton/>
           </Flex>
         </Flex>
       </Flex>

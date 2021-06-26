@@ -20,9 +20,7 @@ import {
   Heading
 } from '@chakra-ui/react';
 import { Plus, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
-import { RiStore2Line, RiDiscordLine, RiTwitterLine, RiGithubLine } from 'react-icons/ri';
-import { MdCollections } from 'react-icons/md';
-import { FaDiscord } from 'react-icons/fa';
+import { RiDiscordLine, RiTwitterLine, RiGithubLine } from 'react-icons/ri';
 import { useSelector, useDispatch } from '../../reducer';
 import { connectWallet, disconnectWallet } from '../../reducer/async/wallet';
 import { MinterButton } from '../common';
@@ -84,17 +82,11 @@ function DesktopHeaderLink(props: DesktopHeaderLinkProps) {
       borderRadius="10px"
       alignItems="center"
       fontWeight="600"
-      //px={3}
-      //py={2}
       mr={4}
-      //bg={selected ? 'brand.blue' : 'white'}
-      //color={selected ? 'white' : 'brand.blue'}
       display="flex"
       transition="none"
       _hover={{
         textDecor: 'none',
-        //bg: 'gray.700',
-        //color: selected ? 'gray.400' : 'gray.100'
       }}
     >
       {props.children}
@@ -165,12 +157,17 @@ function WalletDisplay() {
               </Flex>
             </Link>
           </MenuItem>
-          <MenuItem
+          <MenuItem>
+            <Link
+            href={"https://bazaarnft.xyz/u/" + system.tzPublicKey}
             color="brand.black"
-            onClick={() => {
-              setLocation('/account');
-            }}>
-            My Account
+            >
+            <Flex flexDir="row" mr="auto" alignContent="right">
+              <Text pr="5px">
+                Profile Page
+              </Text>
+            </Flex>
+          </Link>
           </MenuItem>
           <MenuItem
             color="brand.black"
