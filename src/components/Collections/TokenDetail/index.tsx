@@ -535,7 +535,6 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <Flex flexDir="row" mr="auto" alignContent="right">
                   <Text mr="5px" wordBreak="break-word">{token.metadata.minter ? (verifiedMinterAlias !== "" ? (verifiedMinterAlias) 
                   : (token.metadata.minter)) :("Minter Unknown")}</Text>
-                  <ExternalLink size={16} />
                 </Flex>
               </Link>
               
