@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Token } from '../../../reducer/slices/collections';
+import { Token } from '../../reducer/slices/collections';
 import { useLocation } from 'wouter';
-import { IpfsGatewayConfig, ipfsUriToGatewayUrl } from '../../../lib/util/ipfs';
-import { TokenMedia } from '../../common/TokenMedia';
-import tz from '../../common/assets/tezos-sym.svg';
+import { IpfsGatewayConfig, ipfsUriToGatewayUrl } from '../../lib/util/ipfs';
+import { TokenMedia } from '../common/TokenMedia';
+import tz from '../common/assets/tezos-sym.svg';
 import { 
   AspectRatio, 
   Box, 
@@ -21,8 +21,8 @@ import {
   TagLeftIcon, } from '@chakra-ui/react';
   import { ArrowDownCircle, Codesandbox, Volume2, RefreshCw } from 'react-feather';
 
-  import VerificationCheck from '../../common/assets/VerifiedTag.png';
-  import ScamCheck from '../../common/assets/ScamTag.png';
+  import VerificationCheck from '../common/assets/VerifiedTag.png';
+  import ScamCheck from '../common/assets/ScamTag.png';
 import { isNone } from 'fp-ts/lib/Option';
 
 interface TokenMediaProps extends Token {
@@ -58,13 +58,6 @@ export default function TokenCard(props: TokenCardProps) {
   var scamUsers: string[] = [ "gdQfK" ];
   var scamUser: boolean = false;
 
-  for(var i: number = 0; i <= verifiedUsers.length; i++){
-    if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
-      verifiedUser = true;
-      verifiedUserAlias = verifiedUserAliases[i];
-    }
-  }
-
   const src = ipfsUriToGatewayUrl(props.config, props.artifactUri);
   const [errored, setErrored] = useState(false);
   const [obj, setObj] = useState<{ url: string; type: string } | null>(null);
@@ -82,6 +75,13 @@ export default function TokenCard(props: TokenCardProps) {
       });
     })();
   }, [src]);
+
+  for(var i: number = 0; i <= verifiedUsers.length; i++){
+    if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
+      verifiedUser = true;
+      verifiedUserAlias = verifiedUserAliases[i];
+    }
+  }
 
   function VerifiedNFT() {
     if(verifiedUser){
@@ -224,7 +224,6 @@ export default function TokenCard(props: TokenCardProps) {
           <TokenMedia
             {...props}
           />
-            <VerifiedNFT/>
         </Box>
       </AspectRatio>
       <Flex

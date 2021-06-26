@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from '../../reducer';
 import { reconnectWallet } from '../../reducer/async/wallet';
 import { getMarketplaceNftsQuery } from '../../reducer/async/queries';
 import WertPage from '../Wert';
+import UserPage from '../UserPage';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,11 @@ export default function App() {
           <Route path="/collection/:contractAddress">
             {({ contractAddress }) => (
               <CollectionDisplay address={contractAddress} ownedOnly={false} />
+            )}
+          </Route>
+          <Route path="/u/:userAddress">
+            {({ userAddress }) => (
+              <UserPage address={userAddress} />
             )}
           </Route>
           <Route path="/collection/:contractAddress/token/:tokenId">

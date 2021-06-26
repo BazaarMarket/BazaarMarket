@@ -160,8 +160,8 @@ export default function AboutPage() {
       bg="#ffffff"
     >
       
-      <Flex mt="10%" flexDir="row" align="center" pt={20} height="90vh" justify="space-evenly">
-        <Flex flexDir='column'>
+      <Flex flexDir="row" align="center" height="90vh" justify="space-evenly">
+        <Flex flexDir='column' justify="space-between">
           <Heading>
             Our Mission
           </Heading>
