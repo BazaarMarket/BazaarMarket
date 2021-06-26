@@ -19,7 +19,7 @@ import {
   DrawerBody,
   Heading
 } from '@chakra-ui/react';
-import { ChevronDown, Package, Plus, GitHub, Server, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
+import { Plus, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
 import { RiStore2Line, RiDiscordLine, RiTwitterLine, RiGithubLine } from 'react-icons/ri';
 import { MdCollections } from 'react-icons/md';
 import { FaDiscord } from 'react-icons/fa';
