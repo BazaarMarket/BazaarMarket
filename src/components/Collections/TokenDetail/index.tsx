@@ -528,8 +528,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
               </Text>
               <Link
                 href={"https://bazaarnft.xyz/u/" + token.metadata?.minter}
-                color="brand.darkGray"
-                isExternal
+                color="brand.blue"
                 ml={2}
               >
                 <Flex flexDir="row" mr="auto" alignContent="right">
