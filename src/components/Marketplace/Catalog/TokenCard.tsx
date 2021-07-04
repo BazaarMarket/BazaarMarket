@@ -6,6 +6,7 @@ import { TokenMedia } from '../../common/TokenMedia';
 import tz from '../../common/assets/tezos-sym.svg';
 import { 
   AspectRatio, 
+  Tooltip,
   Box, 
   Flex, 
   Text, 
@@ -87,7 +88,9 @@ export default function TokenCard(props: TokenCardProps) {
     if(verifiedUser){
       return (
         <Flex>
-          <Image src={VerificationCheck} width="35px" position="absolute" top="15px" left="15px"/>
+          <Tooltip hasArrow placement="top" label="Verified NFT" bg="brand.yellow" color="black">
+            <Image src={VerificationCheck} width="35px" position="absolute" top="15px" left="15px"/>
+          </Tooltip>
         </Flex>
       );
     } else {

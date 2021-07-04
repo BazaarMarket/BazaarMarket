@@ -40,7 +40,7 @@ import {
   RefreshCw, 
   UserX} from 'react-feather';
 import { MinterButton } from '../../common';
-import { TransferTokenModal } from '../../common/TransferToken';
+import { TransferTokenModal, BurnTokenModal } from '../../common/modals/TransferToken';
 import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
 import { BuyTokenButton } from '../../common/modals/BuyToken';
 import { ipfsUriToGatewayUrl, uriToCid } from '../../../lib/util/ipfs';
@@ -204,7 +204,8 @@ interface TokenDetailProps {
 function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   const [, setLocation] = useLocation();
   const { system, collections: state } = useSelector(s => s);
-  const disclosure = useDisclosure();
+  const transferDisclosure = useDisclosure();
+  const burnDisclosure = useDisclosure();
   const dispatch = useDispatch();
   const collection = state.collections[contractAddress];
 
@@ -622,10 +623,27 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   ) : (
                     <Flex>
                       <Box pos="absolute" top={6} right={6}>
+                        <BurnTokenModal
+                          contractAddress={contractAddress}
+                          tokenId={tokenId}
+                          disclosure={burnDisclosure}
+                        />
+                      </Box>
+                      <MinterButton 
+                        backgroundColor="brand.red"
+                        color="white" 
+                        fontSize="20px" 
+                        width="150px" 
+                        mr="10px"
+                        onClick={burnDisclosure.onOpen}
+                      >
+                        Burn
+                      </MinterButton>
+                      <Box pos="absolute" top={6} right={6}>
                         <TransferTokenModal
                           contractAddress={contractAddress}
                           tokenId={tokenId}
-                          disclosure={disclosure}
+                          disclosure={transferDisclosure}
                         />
                       </Box>
                       <MinterButton 
@@ -634,7 +652,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                         fontSize="20px" 
                         width="150px" 
                         mr="10px"
-                        onClick={disclosure.onOpen}
+                        onClick={transferDisclosure.onOpen}
                       >
                         Transfer
                       </MinterButton>
@@ -645,6 +663,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                     </Flex>
                   )}
                 </Box>
+                
               ) : token.sale ? (
                 <BuyTokenButton contract={contractAddress} token={token} />
               ) : null}
@@ -956,7 +975,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                         <TransferTokenModal
                           contractAddress={contractAddress}
                           tokenId={tokenId}
-                          disclosure={disclosure}
+                          disclosure={transferDisclosure}
                         />
                       </Box>
                       <MinterButton 
@@ -965,7 +984,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                         fontSize="20px" 
                         width="150px" 
                         mr="10px"
-                        onClick={disclosure.onOpen}
+                        onClick={transferDisclosure.onOpen}
                       >
                         Transfer
                       </MinterButton>
