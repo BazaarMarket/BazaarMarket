@@ -10,7 +10,7 @@ interface TokenMediaProps extends Token {
   class?: string;
 }
 
-function MediaNotFound() {
+function MediaNotFound() { 
   return (
     <Flex
       flexDir="column"

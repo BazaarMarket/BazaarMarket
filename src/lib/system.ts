@@ -179,7 +179,7 @@ function getWallet(
 ): BeaconWallet {
   if (wallet === null) {
     wallet = new BeaconWallet({
-      name: 'Bazaar Market dApp',
+      name: 'OpenSystem dApp',
       preferredNetwork: networkType(system.config),
       eventHandlers
     });

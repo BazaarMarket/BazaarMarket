@@ -1,5 +1,5 @@
 export enum ErrorKind {
-  UknownError,
+  UnknownError,
   WalletNotConnected,
   CreateAssetContractFailed,
   CreateNftFormInvalid,
@@ -11,6 +11,7 @@ export enum ErrorKind {
   GetNftAssetContractFailed,
   GetContractNftsFailed,
   GetWalletNftAssetContractsFailed,
+  GetNftAssetContractsFailed,
   GetMarketplaceNftsFailed,
   IPFSUploadFailed,
   WalletAlreadyConnected,

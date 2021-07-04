@@ -41,7 +41,8 @@ import {
   UserX} from 'react-feather';
 import { MinterButton } from '../../common';
 import { TransferTokenModal, BurnTokenModal } from '../../common/modals/TransferToken';
-import { SellTokenButton, CancelTokenSaleButton } from '../../common/SellToken';
+import { SellTokenButton } from '../../common/modals/SellToken';
+import { CancelTokenSaleButton } from '../../common/modals/CancelTokenSale';
 import { BuyTokenButton } from '../../common/modals/BuyToken';
 import { ipfsUriToGatewayUrl, uriToCid } from '../../../lib/util/ipfs';
 import { useSelector, useDispatch } from '../../../reducer';
@@ -619,6 +620,8 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                     <CancelTokenSaleButton
                       contract={contractAddress}
                       tokenId={tokenId}
+                      saleId={token.sale.saleId}
+                      saleType={token.sale.type}
                     />
                   ) : (
                     <Flex>
@@ -665,7 +668,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 </Box>
                 
               ) : token.sale ? (
-                <BuyTokenButton contract={contractAddress} token={token} />
+                <BuyTokenButton token={token} />
               ) : null}
             </Flex>
           </Box>
@@ -966,8 +969,10 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                 <Box>
                   {token.sale ? (
                     <CancelTokenSaleButton
-                      contract={contractAddress}
-                      tokenId={tokenId}
+                      contract={token.sale.saleToken.address}
+                      tokenId={token.sale.saleToken.tokenId}
+                      saleId={token.sale.saleId}
+                      saleType={token.sale.type}
                     />
                   ) : (
                     <Flex>
@@ -996,7 +1001,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   )}
                 </Box>
               ) : token.sale ? (
-                <BuyTokenButton contract={contractAddress} token={token} />
+                <BuyTokenButton token={token} />
               ) : null}
             </Flex>
           </Box>

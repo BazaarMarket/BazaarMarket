@@ -10,13 +10,13 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { MinterButton } from '../../common';
-import { useDispatch } from '../../../reducer';
+import { useDispatch, useSelector } from '../../../reducer';
 import { buyTokenAction } from '../../../reducer/async/actions';
 import { Nft } from '../../../lib/nfts/decoders';
 import FormModal, { BaseModalProps, BaseModalButtonProps } from './FormModal';
+import tz from '../assets/tezos-sym.svg'
 
 interface BuyTokenModalProps extends BaseModalProps {
-  contract: string;
   token: Nft;
 }
 
@@ -31,10 +31,12 @@ export function BuyTokenModal(props: BuyTokenModalProps) {
       dispatchThunk={() =>
         dispatch(
           buyTokenAction({
-            contract: props.contract,
-            tokenId: props.token.id,
+            contract: props.token.sale?.saleToken.address || '',
+            tokenId: props.token.sale?.saleToken.tokenId || 0,
             tokenSeller: props.token.sale?.seller || '',
-            salePrice: props.token.sale?.price || 0
+            salePrice: props.token.sale?.price || 0,
+            saleId: props.token.sale?.saleId || 0,
+            saleType: props.token.sale?.type || ''
           })
         )
       }
@@ -50,7 +52,7 @@ export function BuyTokenModal(props: BuyTokenModalProps) {
               You are about to purchase
               <Box as="span" fontWeight="bold">
                 {' '}
-                {props.token.title} (ꜩ {props.token.sale?.price})
+                {props.token.title} (<img src={tz} alt="" width={10} height="auto" style={{display: 'inline-block'}}/> {props.token.sale?.price})
               </Box>
             </Text>
           </ModalBody>
@@ -70,15 +72,16 @@ export function BuyTokenModal(props: BuyTokenModalProps) {
 }
 
 interface BuyTokenButtonProps extends BaseModalButtonProps {
-  contract: string;
   token: Nft;
 }
 
 export function BuyTokenButton(props: BuyTokenButtonProps) {
   const disclosure = useDisclosure();
+  const { status } = useSelector(s => s.status.buyToken)
+
   return (
     <>
-      <MinterButton variant="primaryAction" onClick={disclosure.onOpen}>
+      <MinterButton variant="primaryAction" onClick={disclosure.onOpen} disabled={status === 'in_transit'}>
         Buy now
       </MinterButton>
 

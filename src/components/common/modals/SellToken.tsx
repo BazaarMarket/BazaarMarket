@@ -14,9 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { Check } from 'react-feather';
 import { MinterButton } from '../../common';
-import { useDispatch } from '../../../reducer';
+import { useDispatch, useSelector } from '../../../reducer';
 import { listTokenAction } from '../../../reducer/async/actions';
 import FormModal, { BaseModalProps, BaseModalButtonProps } from './FormModal';
+import tz from '../assets/tezos-sym.svg'
 
 interface SellTokenModalProps extends BaseModalProps {
   contract: string;
@@ -60,7 +61,7 @@ export function SellTokenModal(props: SellTokenModalProps) {
                     pointerEvents="none"
                     color="gray.900"
                     fontSize="1.2em"
-                    children="ꜩ"
+                    children={<img src={tz} alt="" width={10} height="auto" style={{display: 'inline-block'}}/>}
                   />
                   <Input
                     autoFocus={true}
@@ -97,9 +98,19 @@ interface SellTokenButtonProps extends BaseModalButtonProps {
 
 export function SellTokenButton(props: SellTokenButtonProps) {
   const disclosure = useDisclosure();
+  const { status } = useSelector(s => s.status.listToken)
+  
   return (
     <>
-      <MinterButton variant="primaryAction" onClick={disclosure.onOpen}>
+      <MinterButton 
+      variant="primaryAction" 
+      onClick={disclosure.onOpen} 
+      disabled={status === 'in_transit'}
+      backgroundColor="brand.green"
+      color="white" 
+      fontSize="20px" 
+      width="150px" 
+      mr="10px">
         Sell
       </MinterButton>
       <SellTokenModal {...props} disclosure={disclosure} sync={props.sync} />

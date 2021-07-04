@@ -1,14 +1,17 @@
+/* eslint-disable no-redeclare */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { State } from '..';
 import {
   createAssetContract,
   mintToken,
+  mintTokens,
   transferToken,
   listTokenForSale,
   cancelTokenSale,
-  buyToken
+  cancelTokenSaleLegacy,
+  buyToken,
+  buyTokenLegacy
 } from '../../lib/nfts/actions';
-// import {getNftAssetContract} from '../../lib/nfts/queries'
 import { ErrorKind, RejectValue } from './errors';
 import { getContractNftsQuery, getWalletAssetContractsQuery } from './queries';
 import { validateCreateNftForm } from '../validators/createNft';
@@ -21,6 +24,8 @@ import { connectWallet } from './wallet';
 import { NftMetadata } from '../../lib/nfts/decoders';
 import { SystemWithToolkit, SystemWithWallet } from '../../lib/system';
 import { notifyPending, notifyFulfilled } from '../slices/notificationsActions';
+import parse from 'csv-parse/lib/sync';
+import * as t from 'io-ts';
 
 type Options = {
   state: State;
@@ -62,7 +67,7 @@ export const readFileAsDataUrlAction = createAsyncThunk<
     return await readFile;
   } catch (e) {
     return rejectWithValue({
-      kind: ErrorKind.UknownError,
+      kind: ErrorKind.UnknownError,
       message: 'Could not read file'
     });
   }
@@ -103,6 +108,23 @@ export const createAssetContractAction = createAsyncThunk<
   }
 );
 
+type Attributes = { name: string; value: string }[];
+
+function appendAttributes(metadata: NftMetadata, attributes: Attributes) {
+  return attributes.reduce(
+    (acc, row) => {
+      const keys = Object.keys(NftMetadata.props);
+      const key = keys.find(k => k === row.name) as keyof NftMetadata;
+      if (key && NftMetadata.props[key].decode(row.value)._tag === 'Right') {
+        return { ...acc, [key]: row.value };
+      }
+      const attribute = { name: row.name, value: row.value };
+      return { ...acc, attributes: [...acc.attributes ?? [], attribute] };
+    }, 
+    metadata
+  );
+}
+
 function appendStateMetadata(
   state: State['createNft'],
   metadata: NftMetadata,
@@ -115,16 +137,7 @@ function appendStateMetadata(
     description: state.fields.description || undefined,
     attributes: []
   };
-
-  return state.attributes.reduce((acc, row) => {
-    const keys = Object.keys(NftMetadata.props);
-    const key = keys.find(k => k === row.name) as keyof NftMetadata;
-    if (key && NftMetadata.props[key].decode(row.value)._tag === 'Right') {
-      return { ...acc, [key]: row.value };
-    }
-    const attribute = { name: row.name, value: row.value };
-    return { ...acc, attributes: [...acc.attributes!, attribute] };
-  }, appendedMetadata);
+  return appendAttributes(appendedMetadata, state.attributes);
 }
 
 export const mintTokenAction = createAsyncThunk<
@@ -137,7 +150,7 @@ export const mintTokenAction = createAsyncThunk<
     const { system, createNft: state } = getState();
     if (state.selectedFile === null) {
       return rejectWithValue({
-        kind: ErrorKind.UknownError,
+        kind: ErrorKind.UnknownError,
         message: 'Could not mint token: no file selected'
       });
     } else if (system.status !== 'WalletConnected') {
@@ -160,7 +173,7 @@ export const mintTokenAction = createAsyncThunk<
       file = new File([blob], name, { type });
     } catch (e) {
       return rejectWithValue({
-        kind: ErrorKind.UknownError,
+        kind: ErrorKind.UnknownError,
         message: 'Could not mint token: selected file not found'
       });
     }
@@ -196,7 +209,7 @@ export const mintTokenAction = createAsyncThunk<
           displayFile = new File([blob], name, { type });
         } catch (e) {
           return rejectWithValue({
-            kind: ErrorKind.UknownError,
+            kind: ErrorKind.UnknownError,
             message: 'Could not mint token: video display file not found'
           });
         }
@@ -253,6 +266,105 @@ export const mintTokenAction = createAsyncThunk<
   }
 );
 
+interface NonEmptyArrayBrand {
+  readonly NonEmptyArray: unique symbol;
+}
+
+type ParsedCsvRow = t.TypeOf<typeof ParsedCsvRow>;
+const ParsedCsvRow = t.intersection([
+  t.type({
+    name: t.string,
+    description: t.string,
+    artifactUri: t.string,
+    collection: t.string
+  }),
+  t.partial({
+    displayUri: t.string
+  }),
+  t.record(t.string, t.string)
+]);
+
+const ParsedCsv = t.brand(
+  t.array(ParsedCsvRow),
+  (n): n is t.Branded<Array<ParsedCsvRow>, NonEmptyArrayBrand> => n.length > 0,
+  'NonEmptyArray'
+);
+
+export const mintCsvTokensAction = createAsyncThunk<null, undefined, Options>(
+  'action/mintCsvTokens',
+  async (_, { getState, rejectWithValue, dispatch, requestId }) => {
+    const { system, createNftCsvImport: state } = getState();
+    if (system.status !== 'WalletConnected') {
+      return rejectWithValue({
+        kind: ErrorKind.WalletNotConnected,
+        message: 'Wallet not connected'
+      });
+    }
+    if (state.selectedCsvFile === null) {
+      return rejectWithValue({
+        kind: ErrorKind.UnknownError,
+        message: 'No CSV file selected'
+      });
+    }
+
+    let text: string;
+    try {
+      text = await fetch(state.selectedCsvFile.objectUrl).then(r => r.text());
+    } catch (e) {
+      return rejectWithValue({
+        kind: ErrorKind.UnknownError,
+        message: 'Could not mint tokens: selected CSV file not found'
+      });
+    }
+    const parsed = parse(text, { columns: true, skipEmptyLines: true });
+    if (!ParsedCsv.is(parsed)) {
+      console.log('ERROR:', parsed);
+      return rejectWithValue({
+        kind: ErrorKind.UnknownError,
+        message: ''
+      });
+    }
+    const attrRegex = /^attribute\./;
+    const attrRegexTest = new RegExp(attrRegex.source + '.+');
+    const metadataArray = parsed.map(p => {
+      const attributes = Object.keys(p)
+        .filter(k => attrRegexTest.test(k))
+        .map(k => ({
+          name: k.split(attrRegex)[1],
+          value: p[k]
+        }));
+      const metadata: NftMetadata = {
+        name: p.name,
+        minter: system.tzPublicKey,
+        description: p.description,
+        artifactUri: p.artifactUri,
+        displayUri: p.displayUri,
+        attributes: [],
+      };
+      return appendAttributes(metadata, attributes);
+    });
+
+    try {
+      const address = parsed[0].collection;
+      const op = await mintTokens(system, address, metadataArray);
+      const pendingMessage = `Minting new tokens from CSV`;
+      dispatch(notifyPending(requestId, pendingMessage));
+      await op.confirmation(2);
+
+      const fulfilledMessage = `Created new tokens from CSV in ${address}`;
+      dispatch(notifyFulfilled(requestId, fulfilledMessage));
+      dispatch(getContractNftsQuery(address));
+    } catch (e) {
+      return rejectWithValue({
+        kind: ErrorKind.MintTokenFailed,
+        message: 'Mint tokens from CSV failed'
+      });
+    }
+
+    return null;
+  }
+);
+
 export const transferTokenAction = createAsyncThunk<
   { contract: string; tokenId: number; to: string },
   { contract: string; tokenId: number; to: string },
@@ -305,7 +417,8 @@ export const listTokenAction = createAsyncThunk<
       marketplaceContract,
       contract,
       tokenId,
-      salePrice
+      salePrice,
+      1
     );
     const pendingMessage = `Listing token for sale for ${salePrice / 1000000}ꜩ`;
     dispatch(notifyPending(requestId, pendingMessage));
@@ -318,6 +431,7 @@ export const listTokenAction = createAsyncThunk<
     dispatch(getContractNftsQuery(contract));
     return args;
   } catch (e) {
+      console.log(e);
     return rejectWithValue({
       kind: ErrorKind.ListTokenFailed,
       message: 'List token failed'
@@ -326,12 +440,12 @@ export const listTokenAction = createAsyncThunk<
 });
 
 export const cancelTokenSaleAction = createAsyncThunk<
-  { contract: string; tokenId: number },
-  { contract: string; tokenId: number },
+  { contract: string; tokenId: number; saleId: number; saleType: string },
+  { contract: string; tokenId: number; saleId: number; saleType: string },
   Options
 >('action/cancelTokenSale', async (args, api) => {
   const { getState, rejectWithValue, dispatch, requestId } = api;
-  const { contract, tokenId } = args;
+  const { contract, tokenId, saleId, saleType } = args;
   const { system } = getState();
   const marketplaceContract =
     system.config.contracts.marketplace.fixedPrice.tez;
@@ -342,18 +456,30 @@ export const cancelTokenSaleAction = createAsyncThunk<
     });
   }
   try {
-    const op = await cancelTokenSale(
-      system,
-      marketplaceContract,
-      contract,
-      tokenId
-    );
+    let op;
+    if (saleType === "fixedPriceLegacy") {
+      op = await cancelTokenSaleLegacy(
+        system,
+        marketplaceContract,
+        contract,
+        tokenId
+      );
+    } else {
+      op = await cancelTokenSale(
+        system,
+        marketplaceContract,
+        contract,
+        tokenId,
+        saleId
+      );
+    }
+
     dispatch(notifyPending(requestId, `Canceling token sale`));
     await op.confirmation(2);
 
     dispatch(notifyFulfilled(requestId, `Token sale canceled`));
     dispatch(getContractNftsQuery(contract));
-    return { contract: contract, tokenId: tokenId };
+    return { contract: contract, tokenId: tokenId, saleId: saleId, saleType: saleType };
   } catch (e) {
     return rejectWithValue({
       kind: ErrorKind.CancelTokenSaleFailed,
@@ -363,12 +489,12 @@ export const cancelTokenSaleAction = createAsyncThunk<
 });
 
 export const buyTokenAction = createAsyncThunk<
-  { contract: string; tokenId: number },
-  { contract: string; tokenId: number; tokenSeller: string; salePrice: number },
+  { contract: string; tokenId: number; saleId: number; saleType: string },
+  { contract: string; tokenId: number; tokenSeller: string; salePrice: number; saleId: number; saleType: string },
   Options
 >('action/buyToken', async (args, api) => {
   const { getState, rejectWithValue, dispatch, requestId } = api;
-  const { contract, tokenId, tokenSeller, salePrice } = args;
+  const { contract, tokenId, tokenSeller, salePrice, saleId, saleType } = args;
   let { system } = getState();
   const marketplaceContract =
     system.config.contracts.marketplace.fixedPrice.tez;
@@ -383,14 +509,24 @@ export const buyTokenAction = createAsyncThunk<
     system = res.payload;
   }
   try {
-    const op = await buyToken(
-      system,
-      marketplaceContract,
-      contract,
-      tokenId,
-      tokenSeller,
-      salePrice
-    );
+    let op;
+    if (saleType === "fixedPriceLegacy") {
+      op = await buyTokenLegacy(
+        system,
+        marketplaceContract,
+        contract,
+        tokenId,
+        tokenSeller,
+        salePrice
+      );
+    } else {
+      op = await buyToken(
+        system,
+        marketplaceContract,
+        saleId,
+        salePrice
+      );
+    }
     const pendingMessage = `Buying token from ${tokenSeller} for ${salePrice}`;
     dispatch(notifyPending(requestId, pendingMessage));
     await op.confirmation(2);
@@ -398,7 +534,7 @@ export const buyTokenAction = createAsyncThunk<
     const fulfilledMessage = `Bought token from ${tokenSeller} for ${salePrice}`;
     dispatch(notifyFulfilled(requestId, fulfilledMessage));
     dispatch(getContractNftsQuery(contract));
-    return { contract: contract, tokenId: tokenId };
+    return { contract: contract, tokenId: tokenId, saleId: saleId, saleType: saleType };
   } catch (e) {
     return rejectWithValue({
       kind: ErrorKind.BuyTokenFailed,

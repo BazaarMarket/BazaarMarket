@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { MinterButton } from '../common';
 import Form from './Form';
-import FileUpload from './FileUpload';
+import FileUpload, { CsvFileUpload } from './FileUpload';
 import CollectionSelect from './CollectionSelect';
 // import Preview from './Preview';
 import Confirmation from './Confirmation';
@@ -62,6 +62,22 @@ function LeftContent() {
       return (
         <Box w="100%" maxWidth="1200px">
           <FileUpload />
+          <Flex align="center" marginY={12}>
+            <Box
+              flex="1"
+              borderBottom="1px solid"
+              borderColor="brand.lightGray"
+            />
+            <Text color="brand.blue" fontWeight="700" paddingX={5}>
+              OR
+            </Text>
+            <Box
+              flex="1"
+              borderBottom="1px solid"
+              borderColor="brand.lightGray"
+            />
+          </Flex>
+          <CsvFileUpload />
         </Box>
       );
     case 'asset_details':
@@ -153,7 +169,7 @@ export default function CreateNonFungiblePage() {
             </MinterButton>
             <MinterButton
               variant={stepIsValid ? 'primaryAction' : 'primaryActionInactive'}
-              onClick={async () => {
+              onClick={() => {
                 if (!stepIsValid) return;
                 switch (state.step) {
                   case 'file_upload': {
@@ -202,13 +218,11 @@ export default function CreateNonFungiblePage() {
         </Flex>
         <Flex
           width="100%"
-          pt={10}
+          py={5}
           px={{
             base: 6,
             md: 28
           }}
-          overflowY="auto"
-          minHeight="0px"
           flex="1"
           flexDir="column"
           align="center"

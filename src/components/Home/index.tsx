@@ -369,7 +369,7 @@ function AboutMinting() {
       <AccordionItem border="none" borderRadius="25px" my="10px">
         <h2>
           <AccordionButton _expanded={{ bg: "brand.blue", color: "white", borderBottomRadius: "0px" }} borderWidth="1px" borderRadius="25px" height="75px">
-            < Box flex="1" textAlign="left"  padding="10px">
+            <Box flex="1" textAlign="left"  padding="10px">
               Can I make editions?
             </Box>
             <AccordionIcon />
@@ -382,15 +382,14 @@ function AboutMinting() {
       <AccordionItem border="none" borderRadius="25px" my="10px">
         <h2>
           <AccordionButton _expanded={{ bg: "brand.blue", color: "white", borderBottomRadius: "0px" }} borderWidth="1px" borderRadius="25px" height="75px">
-            < Box flex="1" textAlign="left"  padding="10px">
+            <Box flex="1" textAlign="left"  padding="10px">
               Can I burn my BATOs?
             </Box>
             <AccordionIcon />
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}  borderWidth="1px" borderTop="none" borderBottomRadius="25px" >
-        Yes. Although our UI does not support burning tokens, you can send your tokens 
-        to&nbsp;
+        Yes. When you use the "Burn" button on the Token page, the NFT will be sent to&nbsp;
         <Link href="https://tzkt.io/tz1burnburnburnburnburnburnburjAYjjX/info" isExternal color="brand.blue">
           tz1burnburnburnburnburnburnburjAYjjX&nbsp;
         </Link>
@@ -400,7 +399,7 @@ function AboutMinting() {
       <AccordionItem border="none" borderRadius="25px" my="10px">
         <h2>
           <AccordionButton _expanded={{ bg: "brand.blue", color: "white", borderBottomRadius: "0px" }} borderWidth="1px" borderRadius="25px" height="75px">
-            < Box flex="1" textAlign="left"  padding="10px">
+            <Box flex="1" textAlign="left"  padding="10px">
               What is the fee for the marketplace?
             </Box>
             <AccordionIcon />

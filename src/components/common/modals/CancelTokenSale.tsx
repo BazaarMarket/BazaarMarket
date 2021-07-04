@@ -9,13 +9,15 @@ import {
   useDisclosure
 } from '@chakra-ui/react';
 import { MinterButton } from '../../common';
-import { useDispatch } from '../../../reducer';
+import { useDispatch, useSelector } from '../../../reducer';
 import { cancelTokenSaleAction } from '../../../reducer/async/actions';
 import FormModal, { BaseModalProps, BaseModalButtonProps } from './FormModal';
 
 interface CancelTokenSaleModalProps extends BaseModalProps {
   contract: string;
   tokenId: number;
+  saleId: number;
+  saleType: string;
 }
 
 export function CancelTokenSaleModal(props: CancelTokenSaleModalProps) {
@@ -30,7 +32,9 @@ export function CancelTokenSaleModal(props: CancelTokenSaleModalProps) {
         dispatch(
           cancelTokenSaleAction({
             contract: props.contract,
-            tokenId: props.tokenId
+            tokenId: props.tokenId,
+            saleId: props.saleId,
+            saleType: props.saleType
           })
         )
       }
@@ -64,13 +68,17 @@ export function CancelTokenSaleModal(props: CancelTokenSaleModalProps) {
 interface CancelTokenSaleButtonProps extends BaseModalButtonProps {
   contract: string;
   tokenId: number;
+  saleId: number;
+  saleType: string;
 }
 
 export function CancelTokenSaleButton(props: CancelTokenSaleButtonProps) {
   const disclosure = useDisclosure();
+  const { status } = useSelector(s => s.status.cancelTokenSale)
+  
   return (
     <>
-      <MinterButton variant="cancelAction" onClick={disclosure.onOpen}>
+      <MinterButton variant="cancelAction" onClick={disclosure.onOpen} disabled={status === 'in_transit'}>
         Cancel sale
       </MinterButton>
 

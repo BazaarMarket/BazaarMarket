@@ -1,7 +1,9 @@
 /* eslint-disable no-redeclare */
 import * as t from 'io-ts';
+import * as e from 'fp-ts/Either';
+import merge from "ts-deepmerge";
 
-// Contracts
+//// Contracts
 
 export const ContractRow = <S extends t.Mixed>(storage: S) =>
   t.type({
@@ -26,7 +28,7 @@ export const ContractRow = <S extends t.Mixed>(storage: S) =>
     storage: storage
   });
 
-// Generic BigMaps
+//// Generic BigMaps
 
 export const BigMapRow = <K extends t.Mixed, V extends t.Mixed>(props: {
   key: K;
@@ -61,7 +63,7 @@ export const BigMapUpdateRow = <K extends t.Mixed, V extends t.Mixed>(content: {
     content: t.type({ hash: t.string, key: content.key, value: content.value })
   });
 
-// FA2 BigMaps
+//// FA2 BigMaps
 
 export type AssetMetadataBigMap = t.TypeOf<typeof AssetMetadataBigMap>;
 export const AssetMetadataBigMap = t.array(
@@ -86,23 +88,126 @@ export const TokenMetadataBigMap = t.array(
   })
 );
 
-// FixedPriceSale BigMaps
+//// FixedPriceSale BigMaps
 
-export type FixedPriceSaleBigMap = t.TypeOf<typeof FixedPriceSaleBigMap>;
-export const FixedPriceSaleBigMap = t.array(
-  BigMapRow({
-    key: t.type({
-      sale_token: t.type({
-        token_for_sale_address: t.string,
-        token_for_sale_token_id: t.string
-      }),
-      sale_seller: t.string
+function sequenceCodecs<A, B, O, P, H, I>(
+  inputCodec: t.Type<A, O, H>,
+  transform: (decoded: A) => I,
+  outputCodec: t.Type<B, P, I>,
+  name: string = outputCodec.name
+): t.Type<B, P, H> {
+  return new t.Type(
+    name,
+    outputCodec.is,
+    (input, context) =>
+      e.chain((decoded: A) => {
+        return outputCodec.validate(transform(decoded), context);
+      })(inputCodec.validate(input, context)),
+    outputCodec.encode
+  );
+}
+
+// Compatibility: Some fixed_price_sale contract bigmaps use a `sale_seller`
+// field while others use a `seller` field. This decoder conforms all bigmaps
+// to use the `sale_seller` field. The decoder receives an "input" codec that
+// describes the `sale_seller` and `seller` fields as optional strings. This
+// initial validation allows us to reference these (possibly undefined) fields
+// and pass them to the "output" codec for validation via a transformation
+// function.
+//
+// In this case the transformation defines the `sale_seller` field as one of the
+// two input fields. Note the resulting field could be undefined; however, the
+// "output" codec will fail if this is the case.
+
+export type FixedPriceSaleBigMapKey = t.TypeOf<typeof FixedPriceSaleBigMapKey>;
+const legacySaleV1 = t.type({
+    sale_seller: t.string,
+    sale_token: t.type({
+      token_for_sale_address: t.string,
+      token_for_sale_token_id: t.string
+    })
+  });
+const legacySaleV2 = t.type({
+    seller: t.string,
+    sale_token: t.type({
+      token_for_sale_address: t.string,
+      token_for_sale_token_id: t.string
+    })
+  });
+const saleV3 = t.type({
+  sale_data: t.type({
+    amount: t.string,
+    price: t.string,
+    sale_token: t.type({
+      fa2_address: t.string,
+      token_id: t.string
     }),
-    value: t.string
-  })
+  }),
+  seller: t.string
+});
+const sale = t.intersection([
+  saleV3,
+  t.partial({ isLegacy: t.boolean })
+]);
+
+export const FixedPriceSaleBigMapKey = sequenceCodecs(
+  t.union([ legacySaleV1, legacySaleV2, saleV3 ]),
+  decoded => ({
+    ...decoded,
+    sale_data: saleV3.is(decoded) ? decoded.sale_data : {
+      amount: "1",
+      price: "0",
+      sale_token: {
+        fa2_address: decoded.sale_token.token_for_sale_address,
+        token_id: decoded.sale_token.token_for_sale_token_id
+      }
+    },
+    seller: (saleV3.is(decoded) || legacySaleV2.is(decoded)) ? decoded.seller : decoded.sale_seller
+  }),
+  sale
 );
 
-// NFT Metadata
+const FixedPriceSaleBigMapRowV1 = BigMapRow({
+  key: FixedPriceSaleBigMapKey,
+  value: t.string
+});
+
+const FixedPriceSaleBigMapRowV2 = BigMapRow({
+  key: t.string,
+  value: FixedPriceSaleBigMapKey
+});
+
+export type FixedPriceSaleBigMap = t.TypeOf<typeof FixedPriceSaleBigMap>;
+export const FixedPriceSaleBigMap = t.array(sequenceCodecs(
+  t.union([ FixedPriceSaleBigMapRowV1, FixedPriceSaleBigMapRowV2 ]),
+  row => (FixedPriceSaleBigMapRowV1.is(row) ? merge(
+      row,
+      { key: row.id.toString(), value: row.key },
+      { value: { isLegacy: true, sale_data: { price: row.value }}}
+    ) : merge(row, { value: { isLegacy: false }})
+  ),
+  FixedPriceSaleBigMapRowV2
+));
+
+// Compatibility: fixed_price_sale contracts may have different storage
+// depending on which version was originated. Older versions only contain a
+// number referencing a `sales` bigmap, while newer versions store this number
+// in a `sales` field. For example:
+//   Legacy version:
+//     42
+//   Current version:
+//     { sales: 42 }
+//
+// This decoder conforms both storage schemas into the current version.
+
+export type FixedPriceSaleStorage = t.TypeOf<typeof FixedPriceSaleStorage>;
+export const FixedPriceSaleStorage = sequenceCodecs(
+  t.union([t.number, t.type({ sales: t.number })]),
+  sales => (t.number.is(sales) ? { sales } : sales),
+  t.type({ sales: t.number })
+);
+
+//// NFT Metadata
 
 export type NftMetadataFormat = t.TypeOf<typeof NftMetadataFormat>;
 export const NftMetadataFormat = t.partial({
@@ -165,7 +270,12 @@ export const NftSale = t.type({
   seller: t.string,
   price: t.number,
   mutez: t.number,
-  type: t.string
+  type: t.string,
+  saleToken: t.type({
+    address: t.string,
+    tokenId: t.number
+  }),
+  saleId: t.number
 });
 
 export type Nft = t.TypeOf<typeof Nft>;
@@ -184,7 +294,7 @@ export const Nft = t.intersection([
   })
 ]);
 
-// Contract Metadata
+//// Contract Metadata
 
 export const AssetContractMetadata = t.type({
   name: t.string

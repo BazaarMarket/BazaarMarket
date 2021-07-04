@@ -12,7 +12,7 @@ const Button = {
     primaryAction: {
       bg: 'brand.blue',
       borderColor: 'brand.blue',
-      borderRadius: '2px',
+      borderRadius: '5px',
       color: 'white',
       transition: 'none',
       _active: {
