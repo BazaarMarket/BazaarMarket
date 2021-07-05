@@ -154,7 +154,7 @@ export default function TokenCard(props: TokenCardProps) {
     int: priceValue = props.sale?.price;
     string: auctionType = props.sale?.type;
     
-    if(auctionType !== "fixedPrice") {
+    if(auctionType !== "fixedPrice" && auctionType !== "fixedPriceLegacy") {
       return(
         <Flex
           p={2}  
