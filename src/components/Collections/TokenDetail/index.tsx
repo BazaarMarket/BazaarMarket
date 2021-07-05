@@ -36,9 +36,12 @@ import {
   ExternalLink, 
   Maximize2, 
   UserCheck, 
-  Codesandbox, 
+  Codesandbox,
+  Square, 
   RefreshCw, 
-  UserX} from 'react-feather';
+  UserX,
+  Tag as TagIcon,
+  ChevronRight} from 'react-feather';
 import { MinterButton } from '../../common';
 import { TransferTokenModal, BurnTokenModal } from '../../common/modals/TransferToken';
 import { SellTokenButton } from '../../common/modals/SellToken';
@@ -280,6 +283,107 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     if (token?.metadata.minter && token.metadata.minter?.substr(-5) === verifiedMinters[i]){
       verifiedUser = true;
       verifiedMinterAlias = verifiedMinterAliases[i];
+    }
+  }
+
+  function CarbonTag() {
+    if (token && token.title && token.title === "CARBO") {
+      return(
+        <>
+        <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
+          <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
+          <TagLabel>
+            Carbon Offset: &nbsp;
+            {token.title ? (token.title) : ''}
+            &nbsp; ꜩ
+          </TagLabel>
+        </Tag>
+        </>
+      );
+    } else {
+      return(<></>);
+    }
+  }
+    
+  function CharityTag() {
+    if (token && token.title && token.title === "charity") {
+      return(
+        <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
+          <TagLeftIcon boxSize="12px" as={DollarSign} />
+          <TagLabel>
+            Charity
+          </TagLabel>
+          </Tag>
+      )
+    } else {
+      return(<></>);
+    }
+  }
+    
+  function TokenTag() {
+    if (token && token.metadata.symbol) {
+      if (token && token.metadata.symbol == "BATOs") {
+        return(
+          <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
+            <TagLeftIcon boxSize="1em" strokeWidth={2} as={TagIcon} />
+            <TagLabel>
+              BATOs
+            </TagLabel>
+          </Tag>
+          </>
+        );
+      } else {
+        return(
+          <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
+            <TagLeftIcon boxSize="1em" as={Codesandbox} />
+            <TagLabel>
+              {token.metadata.symbol}
+            </TagLabel>
+          </Tag>
+          </>
+        );
+      }
+    } else {
+      if (collection.address == "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+        return(
+          <>
+            <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.black" mx={3}>
+              <TagLeftIcon boxSize="1em" as={Square} />
+              <TagLabel>
+                ByteBlock
+              </TagLabel>
+            </Tag>
+          </>
+        );
+      } else {
+        return(
+          <>
+            <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3}>
+              <TagLeftIcon boxSize="1em" strokeWidth={3} as={ChevronRight} />
+              <TagLabel>
+                OpenMinter
+              </TagLabel>
+            </Tag>
+          </>
+        );
+      }
+    }
+  }
+
+  function ResaleTag() {
+    if (token && token.sale && token.metadata.minter !== token.sale?.seller) {
+      return(
+        <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
+          <TagLeftIcon boxSize="1em" as={RefreshCw} />
+          <TagLabel>
+            Re-Sale
+          </TagLabel> 
+        </Tag>
+      );
+    } else {
+      return(<></>);
     }
   }
   
@@ -677,66 +781,15 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
               ) : null}
             </Flex>
           </Box>
-          <Flex
-            w="100%"
-            my={6}
-            px={8}
-          >
-            {token.title && token.title === "blep" ? (
-              <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
-                <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
-                <TagLabel>
-                  Carbon Offset: &nbsp;
-                  {token.title ? (token.title) : ''}
-                  &nbsp; ꜩ
-                </TagLabel>
-              </Tag>) : <></>}
-              {token.title === "charity" ? (
-                <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
-                <TagLeftIcon boxSize="12px" as={DollarSign} />
-                <TagLabel>
-                  Charity
-                </TagLabel> 
-              </Tag> ) : <></> }
-              
-              {token.metadata.minter && token.metadata.minter?.substr(-5) === "VERIF" ? (
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
-                <TagLeftIcon boxSize="12px" as={UserCheck} />
-                <TagLabel>
-                  Verified
-                </TagLabel> 
-              </Tag>
-              ) : <></> }
-              
-              {token.metadata.symbol ? (
-              <>
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
-                  <TagLabel>
-                    {token.metadata.symbol}
-                  </TagLabel>
-                </Tag>
-              </>
-              ) : (
-              <>
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
-                  <TagLabel>
-                    OpenMinter
-                  </TagLabel>
-                </Tag>
-              </>
-              )}
-
-              {token.sale && token.metadata.minter !== token.sale?.seller ? (
-                <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={RefreshCw} />
-                  <TagLabel>
-                    Re-Sale
-                  </TagLabel> 
-                </Tag>
-              ) : <></> }  
-
+            <Flex
+              w="100%"
+              my={6}
+              px={8}
+            >
+              <CarbonTag/>
+              <CharityTag/>
+              <TokenTag/>
+              <ResaleTag/>
               <VerifiedNFT/>
             </Flex>
           </Flex>
@@ -1015,52 +1068,10 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
             my={6}
             mx={5}
           >
-            {token.title && token.title == "blep" ? (
-              <Tag size="lg" key="md" variant="subtle" color="black" bgColor="brand.green" mx={3}>
-                <TagLeftIcon boxSize="12px" as={ArrowDownCircle} />
-                <TagLabel>
-                  Carbon Offset: &nbsp;
-                  {token.title ? (token.title) : ''}
-                  &nbsp; ꜩ
-                </TagLabel>
-              </Tag>) : <></>}
-              {token.title == "charity" ? (
-                <Tag size="lg" key="md" variant="subtle" color="white" bgColor="brand.red" mx={3}>
-                <TagLeftIcon boxSize="12px" as={DollarSign} />
-                <TagLabel>
-                  Charity
-                </TagLabel> 
-              </Tag> ) : <></> }
-              
-              {token.metadata.symbol ? (
-              <>
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
-                  <TagLabel>
-                    {token.metadata.symbol}
-                  </TagLabel>
-                </Tag>
-              </>
-              ) : (
-              <>
-                <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={Codesandbox} />
-                  <TagLabel>
-                    OpenMinter
-                  </TagLabel>
-                </Tag>
-              </>
-              )}
-
-              {token.sale && token.metadata.minter !== token.sale?.seller ? (
-                <Tag align="left" size="lg" key="md" variant="subtle" color="black" bgColor="brand.yellow" mx={3}>
-                  <TagLeftIcon boxSize="1em" as={RefreshCw} />
-                  <TagLabel>
-                    Re-Sale
-                  </TagLabel> 
-                </Tag>
-              ) : <></> }
-
+              <CarbonTag/>
+              <CharityTag/>
+              <TokenTag/>
+              <ResaleTag/>
               <VerifiedNFT/>
             </Flex>
           </Flex>

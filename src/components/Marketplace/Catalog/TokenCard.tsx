@@ -20,7 +20,7 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon, } from '@chakra-ui/react';
-  import { ArrowDownCircle, Codesandbox, Volume2, RefreshCw } from 'react-feather';
+  import { ArrowDownCircle, Square, ChevronRight, Codesandbox, Volume2, RefreshCw, Tag as TagIcon } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
   import ScamCheck from '../../common/assets/ScamTag.png';
@@ -118,28 +118,54 @@ export default function TokenCard(props: TokenCardProps) {
   }
 
   function TokenType() {
-    if(props.metadata.symbol)  {
-      return (
-        <>
-          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mr="1vh" mt="1vh">
+    if (props.metadata.symbol) {
+      if (props.metadata.symbol == "BATOs") {
+        return(
+          <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3} mt="1vh">
+            <TagLeftIcon boxSize="1em" strokeWidth={2} as={TagIcon} />
+            <TagLabel>
+              BATOs
+            </TagLabel>
+          </Tag>
+          </>
+        );
+      } else {
+        return(
+          <>
+          <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.blue" mx={3} mt="1vh">
             <TagLeftIcon boxSize="1em" as={Codesandbox} />
             <TagLabel>
               {props.metadata.symbol}
             </TagLabel>
           </Tag>
-        </>
+          </>
         );
+      }
     } else {
-      return (
-        <>
-        <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mr="1vh" mt="1vh">
-            <TagLeftIcon boxSize="1em" as={Codesandbox} />
-            <TagLabel>
-              OpenMinter
-            </TagLabel>
-          </Tag>
-        </>
-      );
+      if (props.address == "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+        return(
+          <>
+            <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.black" mx={3} mt="1vh">
+              <TagLeftIcon boxSize="1em" as={Square} />
+              <TagLabel>
+                ByteBlock
+              </TagLabel>
+            </Tag>
+          </>
+        );
+      } else {
+        return(
+          <>
+            <Tag align="left" size="lg" key="md" variant="subtle" color="white" bgColor="brand.green" mx={3} mt="1vh">
+              <TagLeftIcon boxSize="1em" strokeWidth={3} as={ChevronRight} />
+              <TagLabel>
+                OpenMinter
+              </TagLabel>
+            </Tag>
+          </>
+        );
+      }
     }
   }
 
