@@ -40,8 +40,10 @@ import {
   Square, 
   RefreshCw, 
   UserX,
+  Twitter,
   Tag as TagIcon,
-  ChevronRight} from 'react-feather';
+  ChevronRight,
+  Facebook} from 'react-feather';
 import { MinterButton } from '../../common';
 import { TransferTokenModal, BurnTokenModal } from '../../common/modals/TransferToken';
 import { SellTokenButton } from '../../common/modals/SellToken';
@@ -55,6 +57,29 @@ import {
 } from '../../../reducer/async/queries';
 import { NftMetadata } from '../../../lib/nfts/decoders';
 import tz from '../../common/assets/tezos-sym.svg';
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton
+} from "react-share";
+import { RiBarChartHorizontalFill, RiTelegramLine } from 'react-icons/ri';
+import { FaFacebook, FaTelegram, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 
 function NotFound() {
   return (
@@ -263,7 +288,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
     "qfpwN", "E3UNv", "rrGMa", "Yt5su",
     "6BqQU", "6xacQ", "42hxK", "zvTkY",
-    "Q7NfT"   
+    "Q7NfT", "XXdnc"   
   ];
   var verifiedMinterAliases: string[] = [
     "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
@@ -272,7 +297,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
     "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
     "siberelis", "Raw & Roll", "ArtNode", "BullishArt",
     "James Alec Hardy", "a.i.gardening", "Jeremiah Ketner", "KaTZWorld",
-    "Trisant"
+    "Trisant", "Pure Mattness"
   ];
   var verifiedMinterAlias: string = "";
   var verifiedUser: boolean = false;
@@ -582,9 +607,9 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   {token.title}
                 </Heading>
                 <Flex>
-                <Text color="brand.lightGray" fontWeight="bold">
-                  Collection: &nbsp;
-                </Text>
+                  <Text color="brand.lightGray" fontWeight="bold">
+                    Collection: &nbsp;
+                  </Text>
                 <Link
                     href={"https://bazaarnft.xyz/collection/" + collection.address}
                     color="brand.darkGray"
@@ -595,6 +620,32 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
                   </Link>
                 </Flex>
               </Flex>
+              <Flex flexDir="column" align="center">
+                <Text mb={2} fontWeight="bold" color="darkgray">Share this NFT: </Text>
+              <Flex>
+                <TwitterShareButton
+                  url={window.location.href}
+                  title={"Check out this #CleanNFT minted on @BazaarNfts: "+token.title+" - "}>
+                  <Flex mx={2}>
+                    <FaTwitter size="25px" fill="#1DA1F2"/>
+                  </Flex>
+                </TwitterShareButton>
+                <FacebookShareButton
+                  url={window.location.href}
+                  title={"Check out this #CleanNFT minted on Bazaar Market: "+token.title+" - "}>
+                  <Flex mx={2}>
+                    <FaFacebook size="25px" color="#4267B2"/>
+                  </Flex>
+                </FacebookShareButton>
+                <TelegramShareButton
+                  url={window.location.href}
+                  title={"Check out this #CleanNFT minted on Bazaar Market!"}>
+                  <Flex mx={2}>
+                    <FaTelegramPlane size="25px" color="#0088cc"/>
+                  </Flex>
+                </TelegramShareButton>
+                </Flex>
+                </Flex>
             </Flex>
             <Flex
               px={8}

@@ -47,7 +47,7 @@ export default function TokenCard(props: TokenCardProps) {
     "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
     "qfpwN", "E3UNv", "rrGMa", "Yt5su",
     "6BqQU", "6xacQ", "42hxK", "zvTkY",
-    "Q7NfT" 
+    "Q7NfT", "XXdnc"  
   ];
   var verifiedUserAliases: string[] = [
     "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
@@ -56,7 +56,7 @@ export default function TokenCard(props: TokenCardProps) {
     "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
     "siberelis", "Raw & Roll", "ArtNode", "BullishArt",
     "James Alec Hardy", "a.i.gardening", "Jeremiah Ketner", "KaTZWorld",
-    "Trisant"
+    "Trisant", "Pure Mattness"
   ];
   var userName: string;
   var verifiedUserAlias: string = "";

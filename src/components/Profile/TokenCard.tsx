@@ -44,13 +44,18 @@ export default function TokenCard(props: TokenCardProps) {
     "BJNdn", "ost2P", "pcuk6", "mLWfD", 
     "38zd8", "5CXVj", "FTeCe", "M5chq", 
     "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
-    "qfpwN", "E3UNv", "rrGMa", "Yt5su" ];
+    "qfpwN", "E3UNv", "rrGMa", "Yt5su",
+    "6BqQU", "6xacQ", "42hxK", "zvTkY",
+    "Q7NfT", "XXdnc"
+  ];
   var verifiedUserAliases: string[] = [
     "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
     "Blitzkreate", "SegArt", "NFT HUB Cologne", "MoistZombie", 
     "DrDrooth", "Omiod", "THÖR", "Tezonians", 
     "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
-    "siberelis", "Raw & Roll", "ArtNode", "BullishArt"
+    "siberelis", "Raw & Roll", "ArtNode", "BullishArt",
+    "James Alec Hardy", "a.i.gardening", "Jeremiah Ketner", "KaTZWorld",
+    "Trisant", "Pure Mattness"
   ]
   var userName: string;
   var verifiedUserAlias: string = "";

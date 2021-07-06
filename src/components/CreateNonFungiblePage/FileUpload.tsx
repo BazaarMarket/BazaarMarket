@@ -92,7 +92,7 @@ export default function FileUpload() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: 1,
-    maxSize: 30 * 1024 * 1024,
+    maxSize: 150 * 4096 * 2160,
     accept: ['image/*', 'video/*', 'model/gltf-binary', 'model/gltf+json', '.gltf', '.glb']
   });
 
@@ -117,7 +117,7 @@ export default function FileUpload() {
         textAlign="center"
         pb={4}
       >
-        JPG, PNG, GIF, WEBP, SVG, MP4, WebM, Ogg, Gltf, Glb. Max size 20mb
+        JPG, PNG, GIF, WEBP, SVG, MP4, WebM, Ogg, Gltf, Glb. Max size 150mb
       </Text>
       <Flex
         borderStyle="dashed"
@@ -183,7 +183,7 @@ export function CsvFileUpload() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: 1,
-    maxSize: 30 * 1024 * 1024,
+    maxSize: 150 * 4096 * 2160,
     // The type for a csv file is blank in some cases (like in windows chrome)
     // accept: ['text/csv']
   });

@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from '../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../reducer/async/queries';
 import TokenCard from './TokenCard';
 import { VisibilityTrigger } from '../common/VisibilityTrigger';
+import { MarketplaceNftLoadingData } from '../../lib/nfts/queries';
 
 var verifiedUsers: string[] = [ 
   "jSZtK", "2YnvZ", "PENui", "Puqry", 
@@ -25,7 +26,7 @@ var verifiedUsers: string[] = [
   "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
   "qfpwN", "E3UNv", "rrGMa", "Yt5su",
   "6BqQU", "6xacQ", "42hxK", "zvTkY",
-  "Q7NfT"   
+  "Q7NfT", "XXdnc"   
 ];
 var verifiedUserAliases: string[] = [
   "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
@@ -34,7 +35,7 @@ var verifiedUserAliases: string[] = [
   "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
   "siberelis", "Raw & Roll", "ArtNode", "BullishArt",
   "James Alec Hardy", "a.i.gardening", "Jeremiah Ketner", "KaTZWorld",
-  "Trisant"
+  "Trisant", "Pure Mattness"
 ];
 var userName: string;
 var verifiedUserAlias: string = "";
@@ -70,7 +71,10 @@ export default function ProfilePage({
     dispatch(loadMoreMarketplaceNftsQuery({}));
   };
 
-  let tokens = state.marketplace.tokens?.filter(x=>x.token).map(x=>x.token!) ?? [];
+  let tokens = state.marketplace.tokens?.filter(
+    x=>(
+      x.token?.metadata.minter == address
+  )).map(x=>x.token!) ?? [];
 
   function UserName() {
     if (verifiedUserAlias !== "") {
@@ -201,15 +205,13 @@ export default function ProfilePage({
                   <>
                     {
                     tokens.slice(0).map(token => {
-                      if(token.metadata.minter == address) {
-                        return (
+                      return (
                         <TokenCard
                           key={`${token.address}-${token.id}`}
                           config={system.config}
                           {...token}
                         />
-                        );
-                      }
+                      );
                     })}
                     <VisibilityTrigger key={state.marketplace.tokens?.length + ':' + tokens.length} onVisible={loadMore} allowedDistanceToViewport={600}/>
                   </>
