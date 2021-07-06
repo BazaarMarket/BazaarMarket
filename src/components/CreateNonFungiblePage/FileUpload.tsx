@@ -115,10 +115,11 @@ export default function FileUpload() {
         color="brand.blue"
         fontFamily="mono"
         textAlign="center"
-        pb={4}
+        pb={2}
       >
-        JPG, PNG, GIF, WEBP, SVG, MP4, WebM, Ogg, Gltf, Glb. Max size 150mb
+        JPG, PNG, GIF, WEBP, SVG, MP4, WebM, Ogg, Gltf, Glb.
       </Text>
+      <Text color="brand.blue" fontWeight="bold" pb={4}>Max Filesize: 150MB</Text>
       <Flex
         borderStyle="dashed"
         borderWidth="2px"

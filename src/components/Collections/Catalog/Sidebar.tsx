@@ -7,21 +7,10 @@ import {
   Collection
 } from '../../../reducer/slices/collections';
 import { 
-  ChevronLeft, 
-  HelpCircle, 
-  Star, 
-  ArrowDownCircle, 
-  DollarSign, 
-  ExternalLink, 
-  Maximize2, 
-  UserCheck, 
   Codesandbox,
   Square, 
-  RefreshCw, 
-  UserX,
   Tag as TagIcon,
   ChevronRight} from 'react-feather';
-import { custom } from 'joi';
 
 interface CollectionTabProps extends Collection {
   selected: boolean;

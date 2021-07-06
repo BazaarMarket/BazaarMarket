@@ -73,8 +73,8 @@ export default function ProfilePage({
 
   let tokens = state.marketplace.tokens?.filter(
     x=>(
-      x.token?.metadata.minter == address
-  )).map(x=>x.token!) ?? [];
+      x.token?.owner == address && x.token?.metadata.minter !== address 
+    )).map(x=>x.token!) ?? [];
 
   function UserName() {
     if (verifiedUserAlias !== "") {

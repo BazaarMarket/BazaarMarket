@@ -20,11 +20,10 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon, } from '@chakra-ui/react';
-  import { ArrowDownCircle, Square, ChevronRight, Codesandbox, Volume2, RefreshCw, Tag as TagIcon } from 'react-feather';
+  import { Square, ChevronRight, Codesandbox, Volume2, RefreshCw, Tag as TagIcon } from 'react-feather';
 
   import VerificationCheck from '../../common/assets/VerifiedTag.png';
   import ScamCheck from '../../common/assets/ScamTag.png';
-import { isNone } from 'fp-ts/lib/Option';
 
 interface TokenMediaProps extends Token {
   config: IpfsGatewayConfig;

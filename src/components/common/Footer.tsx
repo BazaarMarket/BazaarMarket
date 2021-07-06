@@ -9,11 +9,7 @@ import {
 import footerLogo from './assets/footerLogo.svg';
 import { TezosToolkit, MichelCodecPacker } from "@taquito/taquito";
 import { ReadOnlySigner, findDex, estimateTezInToken } from "@quipuswap/sdk";
-import TezIcon from "../common/assets/tezos-sym.svg";
-import { ChevronDown, Package, Plus, GitHub, Server, ExternalLink, Menu as HamburgerIcon } from 'react-feather';
-import { RiStore2Line, RiDiscordLine, RiTwitterLine, RiTelegramLine, RiGithubLine } from 'react-icons/ri';
-import { MdCollections } from 'react-icons/md';
-import { FaDiscord, FaTelegram } from 'react-icons/fa';
+import { RiDiscordLine, RiTwitterLine, RiTelegramLine, RiGithubLine } from 'react-icons/ri';
 
 interface HeaderLinkProps {
   to: string;

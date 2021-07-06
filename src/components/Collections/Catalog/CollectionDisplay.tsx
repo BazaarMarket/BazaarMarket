@@ -124,9 +124,10 @@ function TokenTile(props: TokenTileProps) {
   var scamUsers: string[] = [ "gdQfK" ];
   var verifiedUser: boolean = false;
   var scamUser: boolean = false;
+  var i: number;
 
   function VerifiedNFT() {
-    for(var i: number = 0; i <= verifiedUsers.length; i++){
+    for(i = 0; i <= verifiedUsers.length; i++){
       if (props.metadata.minter && props.metadata.minter?.substr(-5) === verifiedUsers[i]){
         verifiedUser = true;
       }
@@ -138,7 +139,7 @@ function TokenTile(props: TokenTileProps) {
         </Flex>
       );
     } else {
-      for(var i: number = 0; i <= scamUsers.length; i++){
+      for(i = 0; i <= scamUsers.length; i++){
         if (props.metadata.minter && props.metadata.minter?.substr(-5) === scamUsers[i]){
           scamUser = true;
         }

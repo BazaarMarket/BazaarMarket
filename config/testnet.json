@@ -16,6 +16,6 @@
       }
     }
   },
-  "ipfsApi": "https://minter-api.tqhosted.com",
-  "ipfsGateway": "https://tqtezos.mypinata.cloud"
+  "ipfsApi": "https://bazaarnft.co:3300",
+  "ipfsGateway": "https://bazaar.mypinata.cloud"
 }
