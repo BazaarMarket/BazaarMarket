@@ -16,6 +16,6 @@
       }
     }
   },
-  "ipfsApi": "https://159.89.176.71:3300",
-  "ipfsGateway": "https://bazaar.mypinata.cloud"
+  "ipfsApi": "https://minter-api.tqhosted.com",
+  "ipfsGateway": "https://tqtezos.mypinata.cloud"
 }
