@@ -189,10 +189,11 @@ function TokenImage(props: {
       <video
         loop
         autoPlay
+        muted
         controls
         style={{
-          margin: 'auto', height: props.height || "100%",
-          width: props.width || "auto",
+          margin: 'auto', height: props.height || "auto",
+          width: props.width || "100%",
           maxWidth: props.maxWidth ?? 'unset',
           maxHeight: props.maxHeight ?? '70vh'
         }}
