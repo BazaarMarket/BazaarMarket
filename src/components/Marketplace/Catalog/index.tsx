@@ -18,7 +18,8 @@ import {
   Stack,
   Radio,
   Tooltip,
-  Button } from '@chakra-ui/react';
+  Button, 
+  Switch} from '@chakra-ui/react';
 import { Wind, Search, Filter, ArrowRight, ArrowDown, DollarSign, Sliders } from 'react-feather';
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../../reducer/async/queries';
@@ -41,6 +42,30 @@ export default function Catalog() {
   };
 
   let tokens = state.marketplace.tokens?.filter(x=>x.token).map(x=>x.token!) ?? [];
+
+  var verifiedUsers: string[] = [ 
+    "jSZtK", "2YnvZ", "PENui", "Puqry", 
+    "BJNdn", "ost2P", "pcuk6", "mLWfD", 
+    "38zd8", "5CXVj", "FTeCe", "M5chq", 
+    "wBHtU", "QVcSw", "1PLCP", "XVrBJ",
+    "qfpwN", "E3UNv", "rrGMa", "Yt5su",
+    "6BqQU", "6xacQ", "42hxK", "zvTkY",
+    "Q7NfT", "XXdnc"  
+  ];
+  var verifiedUserAliases: string[] = [
+    "Yoeshi", "Macgeoffrey", "Bazaar Twitter", "Horium", 
+    "Blitzkreate", "SegArt", "NFT HUB Cologne", "MoistZombie", 
+    "DrDrooth", "Omiod", "THÖR", "Tezonians", 
+    "Stu Sontier", "SOMATiC BITS", "Tsirides", "Flygohr",
+    "siberelis", "Raw & Roll", "ArtNode", "BullishArt",
+    "James Alec Hardy", "a.i.gardening", "Jeremiah Ketner", "KaTZWorld",
+    "Trisant", "Pure Mattness"
+  ];
+  var userName: string;
+  var verifiedUserAlias: string = "";
+  var verifiedUser: boolean = false;
+  var scamUsers: string[] = [ "gdQfK" ];
+  var scamUser: boolean = false;
 
   function ShowFilters() {
     
@@ -142,6 +167,9 @@ export default function Catalog() {
   const [tokenValue, setTokenValue] = React.useState("1")
   const handleRadioChange = (value: string) => setTokenValue(value)
 
+  const [checkedItems, setCheckedItems] = React.useState([false, false])
+  const allChecked = checkedItems.every(Boolean)
+
   return (
     <Flex
       w="100%"
@@ -160,9 +188,9 @@ export default function Catalog() {
       </Text>
       <Slider 
         aria-label="slider-ex-4" 
-        defaultValue={100} width="30vw" 
+        defaultValue={100} 
+        width="30vw" 
         onChange={handleSliderChange}
-        valueLabelDisplay="auto"
         min={0}
       >
         <SliderTrack bg="blue.100">
@@ -202,6 +230,14 @@ export default function Catalog() {
             </Radio>
           </Stack>
         </RadioGroup>
+      </Flex>
+
+      {/*------ Verified Filter ------*/}
+      <Flex alignSelf="center" mt={3}>
+        <Text mr={5} fontWeight="bold">
+          Verified:
+        </Text>
+      <Switch isChecked={allChecked} onChange={(e) => setCheckedItems([e.target.checked, e.target.checked])}/>
       </Flex>
 
       <Container maxW="100em">
@@ -246,6 +282,47 @@ export default function Catalog() {
                     {
                     tokens.slice(0).map(token => {
                       if (token && token.sale) {
+                        if (allChecked) {
+                          for(var i: number = 0; i <= verifiedUsers.length; i++){
+                            if (token.metadata.minter && token.metadata.minter?.substr(-5) === verifiedUsers[i]){
+                              if (token.sale.price <= sliderValue*2 || sliderValue == 100 ){
+                                if (tokenValue == "1") {
+                                  return (
+                                    <TokenCard
+                                      key={`${token.address}-${token.id}`}
+                                      config={system.config}
+                                      {...token}
+                                    />
+                                  );
+                                } else if (tokenValue == "2" && token.metadata.symbol == "BATOs") {
+                                  return (
+                                    <TokenCard
+                                      key={`${token.address}-${token.id}`}
+                                      config={system.config}
+                                      {...token}
+                                    />
+                                  );
+                                } else if (tokenValue == "3" && token.address == "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+                                  return (
+                                    <TokenCard
+                                      key={`${token.address}-${token.id}`}
+                                      config={system.config}
+                                      {...token}
+                                    />
+                                  );
+                                } else if (tokenValue == "4" && token.metadata.symbol !== "BATOs" && token.address !== "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+                                  return (
+                                    <TokenCard
+                                      key={`${token.address}-${token.id}`}
+                                      config={system.config}
+                                      {...token}
+                                    />
+                                  );
+                                }
+                              }
+                            }
+                          }
+                        } else {
                           if (token.sale.price <= sliderValue*2 || sliderValue == 100 ){
                             if (tokenValue == "1") {
                               return (
@@ -281,6 +358,7 @@ export default function Catalog() {
                               );
                             }
                           }
+                        }
                       }
                     })}
                     <VisibilityTrigger key={state.marketplace.tokens?.length + ':' + tokens.length} onVisible={loadMore} allowedDistanceToViewport={600}/>
