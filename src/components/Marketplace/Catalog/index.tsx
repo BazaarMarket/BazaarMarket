@@ -10,8 +10,16 @@ import {
   Input, 
   InputRightElement, 
   InputGroup, 
+  Slider,
+  SliderTrack,
+  SliderThumb,
+  SliderFilledTrack,
+  RadioGroup,
+  Stack,
+  Radio,
+  Tooltip,
   Button } from '@chakra-ui/react';
-import { Wind, Search, Filter, ArrowRight, ArrowDown, Sliders } from 'react-feather';
+import { Wind, Search, Filter, ArrowRight, ArrowDown, DollarSign, Sliders } from 'react-feather';
 import { useSelector, useDispatch } from '../../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../../reducer/async/queries';
 import TokenCard from './TokenCard';
@@ -128,6 +136,12 @@ export default function Catalog() {
     );
   }
 
+  const [sliderValue, setSliderValue] = React.useState(100)
+  const handleSliderChange = (value: number) => setSliderValue(value)
+
+  const [tokenValue, setTokenValue] = React.useState("1")
+  const handleRadioChange = (value: string) => setTokenValue(value)
+
   return (
     <Flex
       w="100%"
@@ -138,7 +152,58 @@ export default function Catalog() {
       overflowY="scroll"
       justify="start"
       flexDir="column"
-    >
+    > 
+    {/*------ Price Slider ------*/}
+      <Flex alignSelf="center">
+      <Text mr={5} fontWeight="bold">
+        Price:
+      </Text>
+      <Slider 
+        aria-label="slider-ex-4" 
+        defaultValue={100} width="30vw" 
+        onChange={handleSliderChange}
+        valueLabelDisplay="auto"
+        min={0}
+      >
+        <SliderTrack bg="blue.100">
+          <SliderFilledTrack bg="brand.blue" />
+        </SliderTrack>
+          <SliderThumb 
+            fontSize="sm" 
+            boxSize="32px" 
+            children={
+              sliderValue > 0 ? (
+                sliderValue < 100 ? (
+                  sliderValue*2+"ꜩ"
+                ) : ("∞ꜩ")
+                ) : ("Free")}
+          />
+      </Slider>
+      </Flex>
+
+    {/*------ Token Filter ------*/}
+    <Flex alignSelf="center" mt={2}>
+      <Text mr={5} fontWeight="bold">
+        Tokens:
+      </Text>
+        <RadioGroup defaultValue={"1"}  value={tokenValue} onChange={handleRadioChange}>
+          <Stack direction="row">
+            <Radio colorScheme="blue" value="1">
+              All
+            </Radio>
+            <Radio colorScheme="blue" value="2">
+              Bazaar
+            </Radio>
+            <Radio colorScheme="blue" value="3">
+              ByteBlock
+            </Radio>
+            <Radio colorScheme="blue" value="4">
+              OpenMinter
+            </Radio>
+          </Stack>
+        </RadioGroup>
+      </Flex>
+
       <Container maxW="100em">
         <Flex
           flex="1"
@@ -180,13 +245,43 @@ export default function Catalog() {
                   <>
                     {
                     tokens.slice(0).map(token => {
-                      return (
-                        <TokenCard
-                          key={`${token.address}-${token.id}`}
-                          config={system.config}
-                          {...token}
-                        />
-                      );
+                      if (token && token.sale) {
+                          if (token.sale.price <= sliderValue*2 || sliderValue == 100 ){
+                            if (tokenValue == "1") {
+                              return (
+                                <TokenCard
+                                  key={`${token.address}-${token.id}`}
+                                  config={system.config}
+                                  {...token}
+                                />
+                              );
+                            } else if (tokenValue == "2" && token.metadata.symbol == "BATOs") {
+                              return (
+                                <TokenCard
+                                  key={`${token.address}-${token.id}`}
+                                  config={system.config}
+                                  {...token}
+                                />
+                              );
+                            } else if (tokenValue == "3" && token.address == "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+                              return (
+                                <TokenCard
+                                  key={`${token.address}-${token.id}`}
+                                  config={system.config}
+                                  {...token}
+                                />
+                              );
+                            } else if (tokenValue == "4" && token.metadata.symbol !== "BATOs" && token.address !== "KT1MxGrhSmLPe4W842AutygvuoxUejLJDuWq") {
+                              return (
+                                <TokenCard
+                                  key={`${token.address}-${token.id}`}
+                                  config={system.config}
+                                  {...token}
+                                />
+                              );
+                            }
+                          }
+                      }
                     })}
                     <VisibilityTrigger key={state.marketplace.tokens?.length + ':' + tokens.length} onVisible={loadMore} allowedDistanceToViewport={600}/>
                   </>

@@ -221,7 +221,11 @@ export default function TokenCard(props: TokenCardProps) {
       >
         <Text fontSize="md">Price:</Text>
         <Flex fontSize="md" fontWeight="600" maxH="20px">
-          {props.sale?.price} <img src={tz} alt="" width={10} style={{ display: 'inline-block', paddingLeft: "1px" }} />
+          {props && props.sale && props.sale.price > 0 ? (
+            <>
+              {props.sale?.price} 
+              <img src={tz} alt="" width={10} style={{ display: 'inline-block', paddingLeft: "1px" }}/>
+            </>) : (<><Text>Free</Text></>)}
         </Flex>
       </Flex>
     );
