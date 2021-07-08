@@ -36,6 +36,7 @@
     "io-ts": "2.2.16",
     "joi": "17.3.0",
     "react": "16.13.1",
+    "react-chrono-plus": "1.8.4",
     "react-dom": "16.13.1",
     "react-dropzone": "11.2.4",
     "react-feather": "2.0.9",

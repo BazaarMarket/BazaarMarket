@@ -11,13 +11,16 @@ import {
   TagLabel,
   TagLeftIcon,
   Link,
-  Spinner } from '@chakra-ui/react';
+  Spinner, 
+  Modal,
+  ModalBody} from '@chakra-ui/react';
 import { Wind, Settings, UserCheck, ExternalLink } from 'react-feather';
 import { useSelector, useDispatch } from '../../reducer';
 import { getMarketplaceNftsQuery, loadMoreMarketplaceNftsQuery } from '../../reducer/async/queries';
 import TokenCard from './TokenCard';
 import { VisibilityTrigger } from '../common/VisibilityTrigger';
 import { MarketplaceNftLoadingData } from '../../lib/nfts/queries';
+import { FaDonate } from 'react-icons/fa';
 
 var verifiedUsers: string[] = [ 
   "jSZtK", "2YnvZ", "PENui", "Puqry", 
@@ -111,7 +114,7 @@ export default function ProfilePage({
     }
   }
 
-  function SettingsButton() {
+  function SettingsDonateButton() {
     if (address == system.tzPublicKey){
       return (
         <Flex mt={3}>
@@ -121,7 +124,11 @@ export default function ProfilePage({
         </Flex>
       );
     } else {
-      return(<></>);
+      return(
+      <Flex mt={3}>
+        <FaDonate color="#FACB43" size="3vh"/>
+        <Text fontSize="1.25em" fontWeight="bold" ml={3}>Donate</Text>
+      </Flex>);
     }
     
   }
@@ -153,7 +160,7 @@ export default function ProfilePage({
                 </Flex>
               </Flex>
             </Link>
-            <SettingsButton/>
+            <SettingsDonateButton/>
           </Flex>
         </Flex>
       </Flex>

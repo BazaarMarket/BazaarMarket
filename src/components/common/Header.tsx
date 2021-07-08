@@ -98,7 +98,8 @@ function WalletInfo(props: { tzPublicKey: string }) {
   return (
     <>
       <Box borderRadius="100%" width="5.5vh" height="5.5vh" bg="white">
-        <Image borderRadius="100%"
+        <Image 
+          borderRadius="100%"
           src={`https://services.tzkt.io/v1/avatars2/${props.tzPublicKey}`}
         />
       </Box>

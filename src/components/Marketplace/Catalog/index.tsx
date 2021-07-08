@@ -18,6 +18,11 @@ import {
   Stack,
   Radio,
   Tooltip,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   Button, 
   Switch} from '@chakra-ui/react';
 import { Wind, Search, Filter, ArrowRight, ArrowDown, DollarSign, Sliders } from 'react-feather';
@@ -161,8 +166,9 @@ export default function Catalog() {
     );
   }
 
-  const [sliderValue, setSliderValue] = React.useState(100)
+  const [sliderValue, setSliderValue] = React.useState(200)
   const handleSliderChange = (value: number) => setSliderValue(value)
+  const handleNumberChange = (value: string) => setSliderValue(Number(value))
 
   const [tokenValue, setTokenValue] = React.useState("1")
   const handleRadioChange = (value: string) => setTokenValue(value)
@@ -183,15 +189,17 @@ export default function Catalog() {
     > 
     {/*------ Price Slider ------*/}
       <Flex alignSelf="center">
-      <Text mr={5} fontWeight="bold">
+      <Text mr={5} mt={1} fontWeight="bold">
         Price:
       </Text>
       <Slider 
-        aria-label="slider-ex-4" 
-        defaultValue={100} 
-        width="30vw" 
+        aria-label="slider-ex-4"
+        defaultValue={200}
+        width="30vw"
         onChange={handleSliderChange}
         min={0}
+        max={200}
+        step={10}
       >
         <SliderTrack bg="blue.100">
           <SliderFilledTrack bg="brand.blue" />
@@ -201,12 +209,19 @@ export default function Catalog() {
             boxSize="32px" 
             children={
               sliderValue > 0 ? (
-                sliderValue < 100 ? (
-                  sliderValue*2+"ꜩ"
+                sliderValue < 200 ? (
+                  sliderValue+"ꜩ"
                 ) : ("∞ꜩ")
                 ) : ("Free")}
           />
       </Slider>
+      <NumberInput maxW="100px" ml="2rem" value={sliderValue} onChange={handleNumberChange}>
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
       </Flex>
 
     {/*------ Token Filter ------*/}
@@ -285,7 +300,7 @@ export default function Catalog() {
                         if (allChecked) {
                           for(var i: number = 0; i <= verifiedUsers.length; i++){
                             if (token.metadata.minter && token.metadata.minter?.substr(-5) === verifiedUsers[i]){
-                              if (token.sale.price <= sliderValue*2 || sliderValue == 100 ){
+                              if (token.sale.price <= sliderValue || sliderValue == 100 ){
                                 if (tokenValue == "1") {
                                   return (
                                     <TokenCard
@@ -323,7 +338,7 @@ export default function Catalog() {
                             }
                           }
                         } else {
-                          if (token.sale.price <= sliderValue*2 || sliderValue == 100 ){
+                          if (token.sale.price <= sliderValue || sliderValue == 100 ){
                             if (tokenValue == "1") {
                               return (
                                 <TokenCard
