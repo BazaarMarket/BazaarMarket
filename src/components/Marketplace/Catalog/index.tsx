@@ -231,16 +231,16 @@ export default function Catalog() {
       </Text>
         <RadioGroup defaultValue={"1"}  value={tokenValue} onChange={handleRadioChange}>
           <Stack direction="row">
-            <Radio colorScheme="blue" value="1">
+            <Radio colorScheme="blue" value="1" cursor="pointer">
               All
             </Radio>
-            <Radio colorScheme="blue" value="2">
+            <Radio colorScheme="blue" value="2" cursor="pointer">
               Bazaar
             </Radio>
-            <Radio colorScheme="blue" value="3">
+            <Radio colorScheme="blue" value="3" cursor="pointer">
               ByteBlock
             </Radio>
-            <Radio colorScheme="blue" value="4">
+            <Radio colorScheme="blue" value="4" cursor="pointer">
               OpenMinter
             </Radio>
           </Stack>
