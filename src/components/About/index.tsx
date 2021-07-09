@@ -33,8 +33,6 @@ import GregoryRocco from '../common/assets/GregoryRocco.png';
 import Sebuh from '../common/assets/Sebuh.png';
 import Manticor from '../common/assets/Manticor.png';
 import Primate from '../common/assets/Primate.png';
-import Blangs from '../common/assets/Blangs.png';
-import David_99 from '../common/assets/David_99.png';
 import BlankProfile from '../common/assets/BlankProfile.png';
 
 import TQTezos from '../common/assets/TQTezos.png';

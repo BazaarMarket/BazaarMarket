@@ -8,6 +8,7 @@ export enum ErrorKind {
   ListTokenFailed,
   CancelTokenSaleFailed,
   BuyTokenFailed,
+  DonateTezFailed,
   GetNftAssetContractFailed,
   GetContractNftsFailed,
   GetWalletNftAssetContractsFailed,

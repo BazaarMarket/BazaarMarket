@@ -6,7 +6,8 @@ import {
   listTokenAction,
   cancelTokenSaleAction,
   buyTokenAction,
-  mintCsvTokensAction
+  mintCsvTokensAction,
+  donateTezAction
 } from '../async/actions';
 import {
   getContractNftsQuery,
@@ -33,6 +34,7 @@ export interface StatusState {
   listToken: Status;
   cancelTokenSale: Status;
   buyToken: Status;
+  donateTez: Status;
   getContractNfts: Status;
   getNftAssetContract: Status;
   getWalletAssetContracts: Status;
@@ -50,6 +52,7 @@ const initialState: StatusState = {
   listToken: defaultStatus,
   cancelTokenSale: defaultStatus,
   buyToken: defaultStatus,
+  donateTez: defaultStatus,
   getContractNfts: defaultStatus,
   getNftAssetContract: defaultStatus,
   getWalletAssetContracts: defaultStatus
@@ -82,6 +85,7 @@ const slice = createSlice({
       methodMap('listToken', listTokenAction),
       methodMap('cancelTokenSale', cancelTokenSaleAction),
       methodMap('buyToken', buyTokenAction),
+      methodMap('donateTez', donateTezAction),
       methodMap('getContractNfts', getContractNftsQuery),
       methodMap('getNftAssetContract', getNftAssetContractQuery),
       methodMap('getWalletAssetContracts', getWalletAssetContractsQuery)

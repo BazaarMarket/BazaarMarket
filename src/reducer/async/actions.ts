@@ -542,3 +542,33 @@ export const buyTokenAction = createAsyncThunk<
     });
   }
 });
+
+export const donateTezAction = createAsyncThunk<
+  { artistAddress: string; donationAmount: number },
+  { artistAddress: string; donationAmount: number },
+  Options
+>('action/donateTez', async (args, api) => {
+  const { getState, rejectWithValue, dispatch, requestId } = api;
+  const { artistAddress, donationAmount } = args;
+  const { system } = getState();
+  if (system.status !== 'WalletConnected') {
+    return rejectWithValue({
+      kind: ErrorKind.WalletNotConnected,
+      message: 'Could not donate tez: no wallet connected'
+    });
+  }
+  try {
+    let op;
+    op = await system.toolkit.wallet.transfer({ to: artistAddress, amount: donationAmount }).send();
+    dispatch(notifyPending(requestId, `Donating ${donationAmount}tez to ${artistAddress}`));
+    await op.confirmation(2);
+
+    dispatch(notifyFulfilled(requestId, `Donated ${donationAmount}tez to ${artistAddress}`));
+    return args;
+  } catch (e) {
+    return rejectWithValue({
+      kind: ErrorKind.DonateTezFailed,
+      message: 'Donation failed'
+    });
+  }
+});
