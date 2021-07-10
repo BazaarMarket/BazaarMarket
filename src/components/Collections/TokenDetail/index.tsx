@@ -446,7 +446,7 @@ function TokenDetail({ contractAddress, tokenId }: TokenDetailProps) {
   }
 
   return (
-    <Flex flex="1" minHeight="auto">
+    <Flex flex="1" minHeight="auto" margin={10}>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
