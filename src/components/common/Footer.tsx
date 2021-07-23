@@ -172,6 +172,12 @@ export function Footer() {
               <RiGithubLine size="2em"/>
             </Link>
             </Flex>
+            <Link href="/tos" textAlign="right" fontSize="12px" pt={6}>
+              Terms of Service
+            </Link>
+            <Link href="/privacy" textAlign="right" fontSize="12px">
+              Privacy Policy
+            </Link>
           </Flex>
     </Flex>
     <Flex flexDir="row" justify="space-between" width="100%">
@@ -182,7 +188,7 @@ export function Footer() {
         align="center"
       />
       <Text>
-        Bazaar Market © 2021
+        Bazaar Market © 2021 McIntyre Industries LLC
       </Text>
     </Flex>
     </Flex>

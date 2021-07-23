@@ -8,6 +8,7 @@ import CollectionsCatalog from '../Collections/Catalog';
 import CollectionDisplay from '../Collections/Catalog/CollectionDisplay';
 import CollectionsTokenDetail from '../Collections/TokenDetail';
 import MarketplaceCatalog from '../Marketplace/Catalog';
+import TermsOfService from '../TermsOfService';
 import DropsPage from '../Drops';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
@@ -18,6 +19,7 @@ import { reconnectWallet } from '../../reducer/async/wallet';
 import { getMarketplaceNftsQuery } from '../../reducer/async/queries';
 import WertPage from '../Wert';
 import ProfilePage from '../Profile';
+import PrivacyPolicy from '../PrivacyPolicy';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -67,6 +69,12 @@ export default function App() {
           </Route>
           <Route path="/wert">
             <WertPage />
+          </Route>
+          <Route path="/tos">
+            <TermsOfService />
+          </Route>
+          <Route path="/privacy">
+            <PrivacyPolicy />
           </Route>
           <Route path="/collection/:contractAddress">
             {({ contractAddress }) => (
