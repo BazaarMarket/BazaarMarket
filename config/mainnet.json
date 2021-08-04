@@ -1,0 +1,27 @@
+{
+  "rpc": "https://rpc.tzbeta.net",
+  "network": "mainnet",
+  "bcd": {
+    "api": "https://api.better-call.dev",
+    "gui": "https://better-call.dev"
+  },
+  "tzkt": {
+    "api": "https://api.mainnet.tzkt.io"
+  },
+  "tzProf":{
+    "api": "https://api.tzprofiles.com"
+  },
+  "contracts": {
+    "nftFaucet": "KT1PKvHNWuWDNVDtqjDha4AostLrGDu4G1jy",
+    "marketplace": {
+      "fixedPrice": {
+        "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
+      },
+      "englishAuction": {
+        "tez": "KT1E8Qzgx3C5AAE4iGuXvqSQjdd21LK2aXAk"
+      }
+    }
+  },
+  "ipfsApi": "https://bazaarnft.co:3300",
+  "ipfsGateway": "https://bazaar.mypinata.cloud"
+}
