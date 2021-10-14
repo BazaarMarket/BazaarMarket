@@ -4,7 +4,7 @@ import { Config } from '../system';
 /**
  * Get User claims from their tzprofile
  */
- const GetUserClaims = async (walletAddr) => {
+ const GetUserClaims = async (walletAddr: string) => {
   return await axios.post('https://indexer.tzprofiles.com/v1/graphql', {
     query: `query MyQuery { tzprofiles_by_pk(account: \"${walletAddr}\") { valid_claims } }`,
     variables: null,
@@ -12,15 +12,22 @@ import { Config } from '../system';
   })
 }
 
+
+type TZPInterface = {
+  twitter?: string
+  alias?: string
+  tzprofile?: any
+}
 /**
  * Get User Metadata
  */
-export const GetUserMetadata = async (walletAddr) => {
+export const GetUserMetadata = async (walletAddr: string) => {
   let tzktData = await axios.get(
     `https://api.tzkt.io/v1/accounts/${walletAddr}/metadata`
   )
 
-  let tzpData = {}
+  let tzpData: TZPInterface = {
+  }
   try {
     let claims = await GetUserClaims(walletAddr)
     if (claims.data.data.tzprofiles_by_pk !== null)
@@ -36,7 +43,7 @@ export const GetUserMetadata = async (walletAddr) => {
           tzpData['tzprofile'] = walletAddr
         }
       }
-  } catch (e) {
+  } catch (e: any) {
     console.error(e, e.stack);
   }
 

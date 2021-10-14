@@ -139,7 +139,7 @@ export default function ProfilePage({
     
   }
 
-  async function GetProfileData(){
+  async function GetProfileData(address: string){
     await GetUserMetadata(address).then((data) => {
       const {
         alias,
